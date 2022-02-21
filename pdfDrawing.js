@@ -9,9 +9,11 @@ import LoansInfoDrawing from "./builder/loansInfoDrawing.js";
 import OccupationInfoDrawing from "./builder/occupationInfoDrawing.js";
 
 export default class PdfDrawing {
-  constructor() {}
-  async init() {
-    this.tempalte = "/Users/lap14184/Desktop/projects/tat/pdfmodify/mirae.pdf";
+  constructor(leadInfo) {
+    this.leadInfoMation = leadInfo;
+  }
+  async init(templateDir) {
+    this.tempalte = templateDir;
     let existingPdfBytes = fs.readFileSync(this.tempalte);
     this.pdfDoc = await PDFDocument.load(existingPdfBytes);
 
@@ -30,7 +32,7 @@ export default class PdfDrawing {
     };
   }
 
-  jumpPage(){
+  jumpPage() {
     this.config.page = this.pages[1];
   }
 
@@ -43,46 +45,61 @@ export default class PdfDrawing {
   }
 
   drawHeaderSection() {
-    let headerSectionDrawing = new HeaderSectionDrawing(this.config);
+    let headerSectionDrawing = new HeaderSectionDrawing(
+      this.config,
+      this.leadInfoMation
+    );
     headerSectionDrawing.drawNumberContract();
   }
 
-  drawCustomerInfo(){
-      let customerInfoDrawing = new CustomerInfoDrawing(this.config);
-      customerInfoDrawing.drawName();
-      customerInfoDrawing.drawGender();
-      customerInfoDrawing.drawDob();
-      customerInfoDrawing.drawCmnd();
-      customerInfoDrawing.drawIssueDateCmnd();
-      customerInfoDrawing.drawIssuePlaceCmnd();
-      customerInfoDrawing.drawOldCmnd();
-      customerInfoDrawing.drawMaritalStatus();
-      customerInfoDrawing.drawEducationStatus();
-      customerInfoDrawing.drawPhone();
-      customerInfoDrawing.drawEmail();
-      customerInfoDrawing.drawDependencePeople();
+  drawCustomerInfo() {
+    let customerInfoDrawing = new CustomerInfoDrawing(
+      this.config,
+      this.leadInfoMation
+    );
+    customerInfoDrawing.drawName();
+    customerInfoDrawing.drawGender();
+    customerInfoDrawing.drawDob();
+    customerInfoDrawing.drawCmnd();
+    customerInfoDrawing.drawIssueDateCmnd();
+    customerInfoDrawing.drawIssuePlaceCmnd();
+    customerInfoDrawing.drawOldCmnd();
+    customerInfoDrawing.drawMaritalStatus();
+    customerInfoDrawing.drawEducationStatus();
+    customerInfoDrawing.drawPhone();
+    customerInfoDrawing.drawEmail();
+    customerInfoDrawing.drawDependencePeople();
   }
 
-  drawResidenceInfo(){
-    let residenceInfoDrawing = new ResidenceInfoDrawing(this.config);
+  drawResidenceInfo() {
+    let residenceInfoDrawing = new ResidenceInfoDrawing(
+      this.config,
+      this.leadInfoMation
+    );
     residenceInfoDrawing.drawCurrentAddress();
     residenceInfoDrawing.drawLivingInfo();
     residenceInfoDrawing.drawingStatusProperty();
     residenceInfoDrawing.drawingRentedHouse();
     residenceInfoDrawing.drawingResidenceAddress();
   }
- 
-  drawLoansInfo(){
-    let loanInfoDrawing = new LoansInfoDrawing(this.config);
+
+  drawLoansInfo() {
+    let loanInfoDrawing = new LoansInfoDrawing(
+      this.config,
+      this.leadInfoMation
+    );
     loanInfoDrawing.drawLoanPurpose();
     loanInfoDrawing.drawSpVay();
     this.jumpPage();
-    loanInfoDrawing = new LoansInfoDrawing(this.config);
+    loanInfoDrawing = new LoansInfoDrawing(this.config, this.leadInfoMation);
     loanInfoDrawing.drawMoneyLoan();
   }
 
-  drawOccupationInfo(){
-    let occupationInfoDrawing = new OccupationInfoDrawing(this.config);
+  drawOccupationInfo() {
+    let occupationInfoDrawing = new OccupationInfoDrawing(
+      this.config,
+      this.leadInfoMation
+    );
     occupationInfoDrawing.drawSourceIncome();
     occupationInfoDrawing.drawThongTinThuNhap();
     occupationInfoDrawing.drawSpouseInfo();
@@ -92,15 +109,16 @@ export default class PdfDrawing {
     occupationInfoDrawing.drawNote();
   }
 
-  async exportToDir(
-    filePath = "/Users/lap14184/Desktop/projects/tat/pdfmodify/demo_create_pdf.pdf"
-  ) {
+  async exportToDir(filePath) {
+    console.log(filePath);
     const pdfBytes = await this.pdfDoc.save();
     fs.writeFile(filePath, pdfBytes, (err) => {
       if (err) {
         console.error(err);
         return;
       }
+      console.log("File Created");
+      process.exit(1);
     });
   }
 }

@@ -1,9 +1,11 @@
 import Builder from "./Builder.js";
-
+import { city } from "../utils/redis_cache.js";
 export default class CustomerInfoDrawing extends Builder {
-  constructor(config) {
+  constructor(config, loanInfo) {
     const { page, font, fontSize, color } = config;
     super(page, font, fontSize, color);
+    this.loanInfo = loanInfo;
+    this.leadInfo = loanInfo["customer"];
   }
   // move 1 row + 28
   namePosition() {
@@ -15,7 +17,7 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawName() {
     let { x, y } = this.namePosition();
-    this.draw("Huỳnh Thanh Danh", x, y);
+    this.draw(this.leadInfo["name"], x, y);
   }
 
   genderPosition() {
@@ -27,7 +29,11 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawGender() {
     let { x, y } = this.genderPosition();
-    this.draw("X", x, y);
+    if (this.leadInfo["gender"] == "Male") {
+      this.draw("X", x, y);
+    } else {
+      this.draw("X", x + 30, y);
+    }
   }
 
   dateOfBirthPosition() {
@@ -39,9 +45,10 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawDob() {
     let { x, y } = this.dateOfBirthPosition();
-    this.draw("27", x, y);
-    this.draw("09", x + 30, y);
-    this.draw("1996", x + 60, y);
+    let arrDob = this.leadInfo["date_of_birth"].split("/");
+    this.draw(arrDob[0], x, y);
+    this.draw(arrDob[1], x + 30, y);
+    this.draw(arrDob[2], x + 60, y);
   }
 
   cmndPosition() {
@@ -53,7 +60,7 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawCmnd() {
     let { x, y } = this.cmndPosition();
-    this.draw("301558045", x, y);
+    this.draw(this.leadInfo["cccd"], x, y);
   }
 
   issueDateCmndPos() {
@@ -65,9 +72,10 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawIssueDateCmnd() {
     let { x, y } = this.issueDateCmndPos();
-    this.draw("27", x, y);
-    this.draw("09", x + 30, y);
-    this.draw("1996", x + 60, y);
+    let arrDate = this.leadInfo["date_of_birth"].split("/");
+    this.draw(arrDate[0], x, y);
+    this.draw(arrDate[1], x + 30, y);
+    this.draw(arrDate[2], x + 60, y);
   }
 
   issuePlaceCmndPos() {
@@ -79,7 +87,7 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawIssuePlaceCmnd() {
     let { x, y } = this.issuePlaceCmndPos();
-    this.draw("Long An", x, y);
+    city(this.leadInfo["place_issue_cmnd"]).then((val) => this.draw(val, x, y));
   }
 
   oldCmndPosition() {
@@ -91,7 +99,7 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawOldCmnd() {
     let { x, y } = this.oldCmndPosition();
-    this.draw("301558045", x, y);
+    this.draw(this.leadInfo["old_cmnd"] || "", x, y);
   }
 
   maritalStatusPos() {
@@ -103,10 +111,23 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawMaritalStatus() {
     let { x, y } = this.maritalStatusPos();
-    this.draw("X", x, y);
-    this.draw("X", x + 94, y);
-    this.draw("X", x + 94 * 2, y);
-    this.draw("X", x + 94 * 3, y);
+    switch (this.leadInfo["marital_status"]) {
+      case "Độc thân":
+        this.draw("X", x, y);
+        break;
+      case "Lập gia đình":
+        this.draw("X", x + 94, y);
+        break;
+      case "Góa bụa":
+        this.draw("X", x + 94 * 2, y);
+        break;
+      case "Li dị":
+        this.draw("X", x + 94 * 3, y);
+        break;
+
+      default:
+        break;
+    }
   }
 
   educationStatusPos() {
@@ -118,17 +139,42 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawEducationStatus() {
     let { x, y } = this.educationStatusPos();
-    let temp = 94;
-    this.draw("X", x, y);
-    this.draw("X", x + 94, y);
-    this.draw("X", x + 94 * 2, y);
-    this.draw("X", x + 94 * 3, y);
+    switch (this.leadInfo["education_status"]) {
+      case "Tiểu học":
+        this.draw("X", x, y);
+        break;
+      case "THCS":
+        this.draw("X", x + 94, y);
+        break;
+      case "THPT":
+        this.draw("X", x + 94 * 2, y);
+        break;
+      case "Trung cấp":
+        this.draw("X", x + 94 * 3, y);
+        break;
+
+      default:
+        break;
+    }
     //next row
     let y2 = y - 25;
-    this.draw("X", x, y2);
-    this.draw("X", x + 94, y2);
-    this.draw("X", x + 94 * 2, y2);
-    this.draw("X", x + 94 * 3, y2);
+    switch (this.leadInfo["education_status"]) {
+      case "Cao đẳng":
+        this.draw("X", x, y2);
+        break;
+      case "Đại học":
+        this.draw("X", x + 94, y2);
+        break;
+      case "Sau đại học":
+        this.draw("X", x + 94 * 2, y2);
+        break;
+      case "Khác":
+        this.draw("X", x + 94 * 3, y2);
+        break;
+
+      default:
+        break;
+    }
   }
 
   phonePosition() {
@@ -140,9 +186,9 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawPhone() {
     let { x, y } = this.phonePosition();
-    this.draw("0969228201", x, y);
+    this.draw(this.leadInfo["phone"], x, y);
   }
-  
+
   emailPosition() {
     return {
       x: 305,
@@ -152,9 +198,9 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawEmail() {
     let { x, y } = this.emailPosition();
-    this.draw("danhhuynh2709@gmail.com", x, y);
+    this.draw(this.leadInfo["email"] || "", x, y);
   }
-  
+
   dependencePeoplePosition() {
     return {
       x: 655,
@@ -164,6 +210,6 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawDependencePeople() {
     let { x, y } = this.dependencePeoplePosition();
-    this.draw("5", x, y);
+    this.draw(this.leadInfo["people_dependent"], x, y);
   }
 }

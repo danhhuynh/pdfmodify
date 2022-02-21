@@ -1,9 +1,10 @@
 import Builder from "./Builder.js";
 
 export default class HeaderSectionDrawing extends Builder {
-  constructor(config) {
-    const {page, font, fontSize, color} = config;
+  constructor(config, leadInfo) {
+    const { page, font, fontSize, color } = config;
     super(page, font, fontSize, color);
+    this.leadInfo = leadInfo;
   }
 
   numberContractPosition() {

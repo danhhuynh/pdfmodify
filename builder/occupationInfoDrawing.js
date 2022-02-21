@@ -1,12 +1,22 @@
 import Builder from "./Builder.js";
+import {
+  city,
+  district,
+  ward,
+  bank_name,
+  getCityDistrictWard,
+} from "../utils/redis_cache.js";
+
 let heso = 0.74;
 export default class OccupationInfoDrawing extends Builder {
-  constructor(config) {
+  constructor(config, loanInfo) {
     const { page, font, fontSize, color } = config;
     super(page, font, fontSize, color);
+    this.loanInfo = loanInfo;
+    this.leadInfo = loanInfo["customer"];
   }
 
-  drawCustom(message, x, y, size=12) {
+  drawCustom(message, x, y, size = 12) {
     x *= heso;
     y = this.height - y * heso;
     this.draw(message, x, y, size);
@@ -21,69 +31,119 @@ export default class OccupationInfoDrawing extends Builder {
 
   drawSourceIncome() {
     let { x, y } = this.sourceIncomePos();
-    this.drawCustom("X", x, y);
-    this.drawCustom("X", x + 161, y);
+    switch (this.leadInfo["source_income"]) {
+      case "Từ lương":
+        this.drawCustom("X", x, y);
+        break;
+      case "Từ kinh doanh":
+        this.drawCustom("X", x + 161, y);
+        break;
 
-    this.drawCustom("sadf askdhf adjksfhs dfda", x - 60, y + 38);
-    this.drawCustom("sadf askdhf adjksfhs dfda", x -75, y + 76);
+      default:
+        break;
+    }
 
-    this.drawCustom("X", 67, 397);
-    this.drawCustom("X", 215, 397);
-    this.drawCustom("123456789", 602, 400);
-    this.drawCustom("123456789", 848, 400);
+    this.drawCustom(this.leadInfo["company_name"], x - 60, y + 38);
+    getCityDistrictWard(
+      this.leadInfo["work_city"],
+      this.leadInfo["work_district"],
+      this.leadInfo["work_ward"]
+    ).then((val) =>
+      this.drawCustom(
+        this.leadInfo["company_address"] +
+          " " +
+          val[0] +
+          " " +
+          val[1] +
+          " " +
+          val[2],
+        x - 75,
+        y + 76
+      )
+    );
 
-    this.drawCustom("4", 210, 437);
-    this.drawCustom("5", 295, 437);
-    this.drawCustom("Developer", 498, 437);
+    switch (this.leadInfo["type_company_address"]) {
+      case "Trụ sở chính":
+        this.drawCustom("X", 67, 397);
+        break;
+      case "Trụ sở chính":
+        this.drawCustom("X", 215, 397);
+        break;
+
+      default:
+        break;
+    }
+
+    this.drawCustom(this.leadInfo["tax_code"], 602, 400);
+    this.drawCustom(this.leadInfo["landline_company"], 848, 400);
+
+    this.drawCustom(this.leadInfo["years_working"], 210, 437);
+    this.drawCustom(this.leadInfo["months_working"], 295, 437);
+    this.drawCustom(this.leadInfo["job_title"], 498, 437);
   }
-  
 
   drawThongTinThuNhap() {
-    this.drawCustom("TU Luong", 195, 520);
+    this.drawCustom(this.leadInfo["main_income"], 195, 520);
+    this.drawCustom(this.leadInfo["other_income"], 680, 520, 14);
 
-    this.drawCustom("X", 237, 600);
-    this.drawCustom("X", 372, 600);
-    this.drawCustom("24", 700, 600, 14);
+    switch (this.leadInfo["get_salary_from"]) {
+      case "TK ngân hàng":
+        this.drawCustom("X", 237, 600);
+        break;
+      case "Tiền mặt":
+        this.drawCustom("X", 372, 600);
+        break;
+
+      default:
+        break;
+    }
+    this.drawCustom(this.leadInfo["date_get_salary"], 700, 600, 14);
   }
 
-  drawSpouseInfo(){
-    this.drawCustom("Nguyen Van A", 133, 696);
-    this.drawCustom("0987654321", 461, 696);
-    this.drawCustom("0987654321", 755, 696);
+  drawSpouseInfo() {
+    this.drawCustom(this.leadInfo["spouse_name"], 133, 696);
+    this.drawCustom(this.leadInfo["spouse_cmnd"], 461, 696);
+    this.drawCustom(this.leadInfo["spouse_phone"], 755, 696);
 
-    this.drawCustom("sdf sad fas fsda", 152, 735);
-    this.drawCustom("sdf sad fas fsda", 510, 735);
+    this.drawCustom(this.leadInfo["spouse_company"], 152, 735);
+    this.drawCustom(this.leadInfo["spouse_company_address"], 510, 735);
   }
 
-  drawReferenceInfo(){
-    this.drawCustom("Nguyen Van A", 147, 816);
-    this.drawCustom("0987654321", 483, 816);
-    this.drawCustom("Boss", 867, 816);
+  drawReferenceInfo() {
+    this.drawCustom(this.leadInfo["ref_1_name"], 147, 816);
+    this.drawCustom(this.leadInfo["ref_1_phone"], 483, 816);
+    this.drawCustom(this.leadInfo["ref_1_type"], 867, 816);
 
-    this.drawCustom("Nguyen Van A", 147, 856);
-    this.drawCustom("0987654321", 483, 856);
-    this.drawCustom("Boss", 867, 856);
+    this.drawCustom(this.leadInfo["ref_2_name"], 147, 856);
+    this.drawCustom(this.leadInfo["ref_2_phone"], 483, 856);
+    this.drawCustom(this.leadInfo["ref_2_type"], 867, 856);
   }
 
-  drawDebtInfo(){
-    this.drawCustom("Nguyen Van A", 217, 946);
-    this.drawCustom("23", 580, 946, 14);
-    this.drawCustom("27", 844, 946, 14);
+  drawDebtInfo() {
+    this.drawCustom(this.leadInfo["host_debt"], 217, 946);
+    this.drawCustom(this.leadInfo["debt_due_date"], 580, 946, 14);
+    this.drawCustom(this.leadInfo["debt_start_date"], 844, 946, 14);
 
-    this.drawCustom("1000000", 176, 981, 14);
-    this.drawCustom("2000000", 663, 981, 14);
+    this.drawCustom(this.leadInfo["current_debt_left"], 176, 981, 14);
+    this.drawCustom(this.leadInfo["montly_payment_debt"], 663, 981, 14);
   }
 
-  drawBankInfo(){
-    this.drawCustom("Vietcombank", 164, 1080);
-    this.drawCustom("QUan 1", 479, 1080);
-    this.drawCustom("1234567890", 725, 1080);
+  drawBankInfo() {
+    bank_name(this.leadInfo["bank_name"]).then((res) =>
+      this.drawCustom(res, 164, 1080)
+    );
+
+    this.drawCustom(this.leadInfo["bank_branch"], 479, 1080);
+    this.drawCustom(this.leadInfo["bank_no"], 725, 1080);
   }
 
-  drawNote(){
-    this.drawCustom("X", 286, 1179);
-    this.drawCustom("X", 440, 1179);
+  drawNote() {
+    if (this.leadInfo["secure_info_with" == "Người thân"]) {
+      this.drawCustom("X", 286, 1179);
+    } else {
+      this.drawCustom("X", 440, 1179);
+    }
 
-    this.drawCustom("X asddf  sa fasd fasds f fsd sad", 75, 1240);
+    this.drawCustom(this.leadInfo["detail_note"], 75, 1240);
   }
 }

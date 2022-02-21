@@ -1,9 +1,11 @@
 import Builder from "./Builder.js";
 
 export default class LoansInfoDrawing extends Builder {
-  constructor(config) {
+  constructor(config, loanInfo) {
     const { page, font, fontSize, color } = config;
     super(page, font, fontSize, color);
+    this.loanInfo = loanInfo;
+    this.leadInfo = loanInfo["customer"];
   }
 
   loanPurposePos() {
@@ -15,14 +17,26 @@ export default class LoansInfoDrawing extends Builder {
 
   drawLoanPurpose() {
     let { x, y } = this.loanPurposePos();
-    this.draw("X", x, y);
-    this.draw("X", x +94, y);
-    this.draw("X", x + 91 * 2, y);
-    this.draw("X", x + 92 * 3, y);
+    switch (this.loanInfo["loan_purpose"]) {
+      case "Mua hàng":
+        this.draw("X", x, y);
+        break;
+      case "Sửa nhà":
+        this.draw("X", x + 94, y);
+        break;
+      case "Chi phí y tế":
+        this.draw("X", x + 91 * 2, y);
+        break;
 
-    this.draw("27", x +80, y - 26, 14);
+      default:
+        break;
+    }
+
+    // this.draw("X", x + 92 * 3, y);
+
+    this.draw(this.loanInfo["due_date"], x + 80, y - 26, 14);
   }
-  
+
   spVayPos() {
     return {
       x: 50,
@@ -32,44 +46,91 @@ export default class LoansInfoDrawing extends Builder {
 
   drawSpVay() {
     let { x, y } = this.spVayPos();
-    this.draw("X", x, y);
-    this.draw("X", x +232, y);
-    this.draw("X", x + 446, y);
 
-    this.draw("X", x, y - 24);
-    this.draw("X", x +232, y-24);
-    this.draw("X", x + 446, y-24);
+    switch (this.loanInfo["scheme"]) {
+      case "Employee Cash Loan":
+        this.draw("X", x, y);
+        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        break;
+      case "Self-Employee":
+        this.draw("X", x + 232, y);
+        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        break;
+      case "Fast Loan":
+        this.draw("X", x + 446, y);
+        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        break;
 
-    y -= 24;
-    
-    this.draw("X", x, y -24);
-    this.draw("X", x +232, y -24);
-    this.draw("X", x + 446, y -24);
-    
-    y -= 24;
-    this.draw("X", x, y -24);
-    
-    y -= 24;
-    this.draw("X", x, y -24);
-    this.draw("X", x + 232, y -24);
-  }
-
-  moneyLoanPos(){
-    return {
-      x: 178,
-      y: this.height-76
+      default:
+        break;
     }
+
+    switch (this.loanInfo["scheme"]) {
+      case "UCCC":
+        this.draw("X", x, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        break;
+      case "EVN":
+        this.draw("X", x + 232, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        break;
+      case "UBS":
+        this.draw("X", x + 446, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        break;
+
+      default:
+        break;
+    }
+    y -= 24;
+
+    switch (this.loanInfo["scheme"]) {
+      case "Water CL":
+        this.draw("X", x, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        break;
+      case "Post-Paid CL":
+        this.draw("X", x + 232, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        break;
+      case "CC":
+        this.draw("X", x + 446, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        break;
+
+      default:
+        break;
+    }
+    y -= 24;
+    if (this.loanInfo["scheme"] == "Life-Insurance") {
+      this.draw("X", x, y - 24);
+      this.draw(this.loanInfo["scheme_detail"], x + 88, y - 24, 8);
+    }
+    this.draw(this.loanInfo["period_payment"], x + 370, y - 24);
+    this.draw(this.loanInfo["money_pay_each_period"], x + 550, y - 24);
+    y -= 24;
+    if (this.loanInfo["scheme"] == "BAS") {
+      this.draw("X", x, y - 24);
+      this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+    }
+
+    // this.draw("X", x + 232, y - 24);
   }
 
-  drawMoneyLoan(){
-    let {x, y} = this.moneyLoanPos();
-    this.draw("1000000", x, y, 14);
-    this.draw("Một Tỷ đồng", x + 173, y);
-    this.draw("24", x + 294 + 173, y);
-
-    this.draw("turruishdfhsd gfdkjshg fdhgk ersfdg ff", x -74, y - 46);
-    this.draw("100000000", x + 185, y - 72, 14);
+  moneyLoanPos() {
+    return {
+      x: 180,
+      y: this.height - 76,
+    };
   }
-  
 
+  drawMoneyLoan() {
+    let { x, y } = this.moneyLoanPos();
+    this.draw(this.loanInfo["consumer_loan"], x, y, 14);
+    this.draw(this.loanInfo["consumer_loan_by_word"], x + 173, y);
+    this.draw(this.loanInfo["how_long"], x + 294 + 173, y);
+
+    this.draw(this.loanInfo["no_insurance_borrower"], x - 74, y - 46);
+    this.draw(this.loanInfo["total_loan"], x + 185, y - 72, 14);
+  }
 }
