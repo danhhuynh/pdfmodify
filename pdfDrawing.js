@@ -118,7 +118,6 @@ export default class PdfDrawing {
         return;
       }
       console.log("File Created");
-      process.exit(1);
     });
   }
 }

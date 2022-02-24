@@ -1,9 +1,11 @@
 import PdfDrawing from "./pdfDrawing.js";
 import { createRequire } from "module";
+import { STATUS } from "./config/constant.js";
 const require = createRequire(import.meta.url);
 require("dotenv").config();
 
 import LeadMafc from "./models/leadMafc.js";
+import DocLeadMafc from "./models/documentMafc.js";
 import { systemFields } from "./constant/system_fields.js";
 
 var mongoose = require("mongoose");
@@ -11,7 +13,7 @@ mongoose.connect(process.env.MONGODB_URI);
 
 const getLeadMAFC = new Promise((resolve, reject) => {
   LeadMafc.aggregate([
-    { $match: { _id: mongoose.Types.ObjectId("61f668ba65802bcb185d6d0c") } },
+    { $match: { status: STATUS["RENDER_ACCA"] } },
     { $addFields: { customer_obj_id: { $toObjectId: "$customer_id" } } },
     {
       $lookup: {
@@ -49,5 +51,15 @@ async function drawPdf(document) {
   await pdfDrawing.init(template);
   pdfDrawing.startDraw();
   await delay(2000);
-  await pdfDrawing.exportToDir(dir + "demo_create_pdf.pdf");
+  let file_name = "DN_demo_create_pdf.pdf";
+  let pathFile = dir + document["_id"] + "/" + file_name;
+  await pdfDrawing.exportToDir(pathFile);
+  DocLeadMafc.updateOne(
+    { lead_id: document["_id"], code: "DN" },
+    { file_path: [file_name] },
+    (err, writeOpResult) => {
+      console.log(writeOpResult);
+      process.exit(1);
+    }
+  );
 }
