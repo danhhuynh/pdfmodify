@@ -20,4 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Sync Source
-        run: ls
+        run: |
+          \cp -r /home/actions-runner/source_code/pdfmodify/pdfmodify /home/source_code/
+          cd /home/source_code/pdfmodify
+          npm i
