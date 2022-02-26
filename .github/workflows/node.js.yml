@@ -21,6 +21,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Sync Source
         run: |
-          \cp -r /home/actions-runner/source_code/pdfmodify/pdfmodify /home/source_code/
+          \cp -r /home/actions-runner/source_code/pdfmodify /home/source_code/
           cd /home/source_code/pdfmodify
           npm i
