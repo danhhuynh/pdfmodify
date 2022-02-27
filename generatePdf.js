@@ -2,6 +2,7 @@ import PdfDrawing from "./pdfDrawing.js";
 import { createRequire } from "module";
 import { STATUS } from "./config/constant.js";
 const require = createRequire(import.meta.url);
+var fs = require("fs");
 require("dotenv").config();
 
 import LeadMafc from "./models/leadMafc.js";
@@ -48,11 +49,16 @@ async function drawPdf(document) {
   let dir = process.env.STORAGE_PATH;
   let template = process.env.TEMPLATE_PATH;
   let pdfDrawing = new PdfDrawing(document);
+
   await pdfDrawing.init(template);
   pdfDrawing.startDraw();
   await delay(2000);
   let file_name = "DN_demo_create_pdf.pdf";
   let pathFile = dir + document["_id"] + "/" + file_name;
+
+  if (!fs.existsSync(dir + document["_id"])) {
+    fs.mkdirSync(dir + document["_id"]);
+  }
   await pdfDrawing.exportToDir(pathFile);
   DocLeadMafc.updateOne(
     { lead_id: document["_id"], code: "DN" },
