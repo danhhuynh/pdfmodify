@@ -9,6 +9,7 @@ var DocumentMafc = new Schema(
     require: Boolean,
     file_path: [String],
     updated_by: String,
+    pdf_path: String,
   },
   {
     timestamps: { updatedAt: "updated_at" },

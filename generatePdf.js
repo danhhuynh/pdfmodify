@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGODB_URI);
 
 const getLeadMAFC = new Promise((resolve, reject) => {
   LeadMafc.aggregate([
-    { $match: { status: STATUS["RENDER_ACCA"] } },
+    { $match: { status_render: STATUS["RENDER_ACCA"] } },
     { $addFields: { customer_obj_id: { $toObjectId: "$customer_id" } } },
     {
       $lookup: {
@@ -65,7 +65,19 @@ async function drawPdf(document) {
     { file_path: [file_name] },
     (err, writeOpResult) => {
       console.log(writeOpResult);
-      process.exit(1);
+      LeadMafc.updateOne(
+        { _id: document["_id"] },
+        { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
+        (err, writeOpResult) => {
+          if (err) {
+            res.send(err);
+            return;
+          }
+          console.log(writeOpResult);
+          console.log({ message: "Successfully Updated" });
+          process.exit(1);
+        }
+      );
     }
   );
 }
