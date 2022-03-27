@@ -50,15 +50,15 @@ export default class LoansInfoDrawing extends Builder {
     switch (this.loanInfo["scheme"]) {
       case "Employee Cash Loan":
         this.draw("X", x, y);
-        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
         break;
       case "Self-Employee":
         this.draw("X", x + 232, y);
-        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
         break;
       case "Fast Loan":
         this.draw("X", x + 446, y);
-        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
         break;
 
       default:
@@ -68,15 +68,15 @@ export default class LoansInfoDrawing extends Builder {
     switch (this.loanInfo["scheme"]) {
       case "UCCC":
         this.draw("X", x, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
         break;
       case "EVN":
         this.draw("X", x + 232, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
         break;
       case "UBS":
         this.draw("X", x + 446, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
         break;
 
       default:
@@ -87,15 +87,15 @@ export default class LoansInfoDrawing extends Builder {
     switch (this.loanInfo["scheme"]) {
       case "Water CL":
         this.draw("X", x, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
         break;
       case "Post-Paid CL":
         this.draw("X", x + 232, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
         break;
       case "CC":
         this.draw("X", x + 446, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
         break;
 
       default:

@@ -29,8 +29,6 @@ let pushCityToRedis = () => {
     });
   });
 };
-// city(1).then((val) => console.log(val));
-// pushCityToRedis();
 
 let pushDistrictToRedis = () => {
   districtModel.find(function (err, district) {
@@ -48,8 +46,6 @@ let pushDistrictToRedis = () => {
     });
   });
 };
-// pushDistrictToRedis();
-// district(1, 482).then((res) => console.log(res));
 
 let pushWardToRedis = () => {
   wardModel.find(function (err, ward) {
@@ -63,8 +59,7 @@ let pushWardToRedis = () => {
     });
   });
 };
-// ward(1014715).then((res) => console.log(res));
-// pushWardToRedis();
+
 let pushBankToRedis = () => {
   bankModel.find(function (err, bank) {
     if (err) {
@@ -72,12 +67,21 @@ let pushBankToRedis = () => {
       return;
     }
     bank.forEach((val) => {
-      let key = process.env.BANK_PREFIX + val["bankid"];
-      setKeyValRedis(key, val["bankdesc"]).then((res) => console.log(res));
+      let key = process.env.BANK_PREFIX + val["bankdesc"];
+      setKeyValRedis(key, val["bankid"]).then((res) => console.log(res));
     });
   });
 };
-// pushBankToRedis();
-// bank_name(49204001).then((res) => console.log(res));
 
-getCityDistrictWard(1, 482, 1014715).then((val) => console.log(val));
+pushCityToRedis();
+pushDistrictToRedis();
+
+pushWardToRedis();
+// pushBankToRedis();
+// city(1).then((val) => console.log(val));
+// district(1, 482).then((res) => console.log(res));
+// ward(1014715).then((res) => console.log(res));
+bank_name("Ngan hang TMCP NN&PTNT Viet Nam - CN Cho Con").then((res) =>
+  console.log(res)
+);
+// getCityDistrictWard(1, 482, 1014715).then((val) => console.log(val));

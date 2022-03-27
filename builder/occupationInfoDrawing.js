@@ -129,9 +129,12 @@ export default class OccupationInfoDrawing extends Builder {
   }
 
   drawBankInfo() {
-    bank_name(this.leadInfo["bank_name"]).then((res) =>
-      this.drawCustom(res, 164, 1080)
-    );
+    let key_find_bank =
+      this.leadInfo["bank_name"] +
+      (this.leadInfo["bank_branch"]
+        ? " - " + this.leadInfo["bank_branch"]
+        : "");
+    bank_name(key_find_bank).then((res) => this.drawCustom(res, 164, 1080));
 
     this.drawCustom(this.leadInfo["bank_branch"], 479, 1080);
     this.drawCustom(this.leadInfo["bank_no"], 725, 1080);

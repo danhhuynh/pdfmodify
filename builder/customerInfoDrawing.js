@@ -45,7 +45,9 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawDob() {
     let { x, y } = this.dateOfBirthPosition();
-    let arrDob = this.leadInfo["date_of_birth"].split("/");
+    let arrDob = this.leadInfo["date_of_birth"]
+      ? this.leadInfo["date_of_birth"].split("/")
+      : "";
     this.draw(arrDob[0], x, y);
     this.draw(arrDob[1], x + 30, y);
     this.draw(arrDob[2], x + 60, y);
@@ -72,7 +74,9 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawIssueDateCmnd() {
     let { x, y } = this.issueDateCmndPos();
-    let arrDate = this.leadInfo["date_of_birth"].split("/");
+    let arrDate = this.leadInfo["date_issue_cmnd"]
+      ? this.leadInfo["date_issue_cmnd"].split("/")
+      : "";
     this.draw(arrDate[0], x, y);
     this.draw(arrDate[1], x + 30, y);
     this.draw(arrDate[2], x + 60, y);

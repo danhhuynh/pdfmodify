@@ -49,7 +49,7 @@ export default class PdfDrawing {
       this.config,
       this.leadInfoMation
     );
-    headerSectionDrawing.drawNumberContract();
+    headerSectionDrawing.drawSaleCode();
   }
 
   drawCustomerInfo() {

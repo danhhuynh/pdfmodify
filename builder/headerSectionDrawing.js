@@ -7,16 +7,16 @@ export default class HeaderSectionDrawing extends Builder {
     this.leadInfo = leadInfo;
   }
 
-  numberContractPosition() {
+  saleCodePos() {
     const { width, height } = this.page.getSize();
     return {
       x: 360,
-      y: height - 66,
+      y: height - 91,
     };
   }
 
-  drawNumberContract() {
-    let { x, y } = this.numberContractPosition();
-    this.draw("ISO123456789", x, y);
+  drawSaleCode() {
+    let { x, y } = this.saleCodePos();
+    this.draw(this.leadInfo["tsa_code"], x, y);
   }
 }

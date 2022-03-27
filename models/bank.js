@@ -6,4 +6,4 @@ var Bank = new Schema({
   bankdesc: String,
 });
 
-export default mongoose.model("Bank", Bank);
+export default mongoose.model("BankStoreId", Bank);
