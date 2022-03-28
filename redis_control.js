@@ -8,11 +8,13 @@ import {
   ward,
   bank_name,
   getCityDistrictWard,
+  scheme_name,
 } from "./utils/redis_cache.js";
 import cityModel from "./models/city.js";
 import districtModel from "./models/district.js";
 import wardModel from "./models/ward.js";
 import bankModel from "./models/bank.js";
+import schemeModel from "./models/scheme.js";
 import { getValKeyRedis, setKeyValRedis } from "./utils/redisHandle.js";
 
 mongoose.connect(process.env.MONGODB_URI);
@@ -73,15 +75,29 @@ let pushBankToRedis = () => {
   });
 };
 
-pushCityToRedis();
-pushDistrictToRedis();
+let pushSchemeToRedis = () => {
+  schemeModel.find(function (err, scheme) {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    scheme.forEach((val) => {
+      let key = process.env.SCHEME_PREFIX + val["schemename"];
+      setKeyValRedis(key, val["schemeid"]).then((res) => console.log(res));
+    });
+  });
+};
 
-pushWardToRedis();
+// pushCityToRedis();
+// pushDistrictToRedis();
+// pushWardToRedis();
 // pushBankToRedis();
+// pushSchemeToRedis();
+scheme_name("WHC CIVIL 433 GOOD - MT - AT").then((res) => console.log(res));
 // city(1).then((val) => console.log(val));
 // district(1, 482).then((res) => console.log(res));
 // ward(1014715).then((res) => console.log(res));
-bank_name("Ngan hang TMCP NN&PTNT Viet Nam - CN Cho Con").then((res) =>
-  console.log(res)
-);
+// bank_name("Ngan hang TMCP NN&PTNT Viet Nam - CN Cho Con").then((res) =>
+//   console.log(res)
+// );
 // getCityDistrictWard(1, 482, 1014715).then((val) => console.log(val));

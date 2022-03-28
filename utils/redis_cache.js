@@ -23,6 +23,11 @@ export const bank_name = (bankid) => {
   return getValKeyRedis(key);
 };
 
+export const scheme_name = (schemename) => {
+  let key = process.env.SCHEME_PREFIX + schemename;
+  return getValKeyRedis(key);
+};
+
 export const getCityDistrictWard = (cityId, districtId, wardId) => {
   let promiseCity = new Promise((resolve) => {
     city(cityId).then((val) => resolve(val));

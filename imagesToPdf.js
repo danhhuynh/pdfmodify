@@ -28,11 +28,20 @@ const getLeadMAFC = new Promise((resolve, reject) => {
               code: { $ne: "DN" },
             },
           },
-          { $project: systemFields },
+          {
+            $project: systemFields,
+          },
         ],
       },
     },
-    { $project: systemFields },
+    {
+      $project: {
+        ...systemFields,
+        submitS37_result: 0,
+        result_checking_customer: 0,
+        pollingS37_result: 0,
+      },
+    },
   ]).exec((err, lead) => {
     if (err) {
       console.log(err);
@@ -45,7 +54,6 @@ const getLeadMAFC = new Promise((resolve, reject) => {
 getLeadMAFC.then(
   (leads) => {
     leads.forEach((lead) => {
-      console.log(lead);
       let documents = lead["documents"];
       let lead_id = lead["_id"].toString();
       let path = process.env.STORAGE_PATH + lead_id;
@@ -54,6 +62,7 @@ getLeadMAFC.then(
       documents.forEach((ele) => {
         let file_out = path + "/" + ele["code"] + "_" + lead["app_id"] + ".pdf";
         const doc = new PDFDocument();
+        console.log(file_out);
         writeStream = fs.createWriteStream(file_out);
         doc.pipe(writeStream);
         ele["file_path"].forEach((file) => {
@@ -63,7 +72,9 @@ getLeadMAFC.then(
             align: "center",
             valign: "center",
           });
-          doc.addPage();
+          if (file !== ele["file_path"][ele["file_path"].length - 1]) {
+            doc.addPage();
+          }
         });
         doc.end();
         DocLeadMafc.updateOne(
@@ -87,10 +98,6 @@ getLeadMAFC.then(
             return;
           }
           console.log({ message: "Successfully Updated" });
-          writeStream.on("finish", function () {
-            console.log("Gen Pdf Complete");
-            process.exit(1);
-          });
         }
       );
     });
