@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGODB_URI);
 let pushCityToRedis = () => {
   cityModel.find(function (err, city) {
     if (err) {
-      res.status(500).send(err);
+      console.log(err);
       return;
     }
     city.forEach((val) => {
@@ -35,7 +35,7 @@ let pushCityToRedis = () => {
 let pushDistrictToRedis = () => {
   districtModel.find(function (err, district) {
     if (err) {
-      res.status(500).send(err);
+      console.log(err);
       return;
     }
     district.forEach((val) => {
@@ -50,22 +50,28 @@ let pushDistrictToRedis = () => {
 };
 
 let pushWardToRedis = () => {
-  wardModel.find(function (err, ward) {
-    if (err) {
-      res.status(500).send(err);
-      return;
-    }
-    ward.forEach((val) => {
-      let key = process.env.WARD_PREFIX + val["zipcode"];
-      setKeyValRedis(key, val["zipdesc"]).then((res) => console.log(res));
+  wardModel
+    .find(function (err, ward) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      ward.forEach((val) => {
+        let key = process.env.WARD_PREFIX + val["zipcode"];
+        setKeyValRedis(key, val["zipdesc"]).then((res) => console.log(res));
+      });
+    })
+    .skip(0)
+    .limit(1000)
+    .sort({
+      _id: "asc",
     });
-  });
 };
 
 let pushBankToRedis = () => {
   bankModel.find(function (err, bank) {
     if (err) {
-      res.status(500).send(err);
+      console.log(err);
       return;
     }
     bank.forEach((val) => {
@@ -78,7 +84,7 @@ let pushBankToRedis = () => {
 let pushSchemeToRedis = () => {
   schemeModel.find(function (err, scheme) {
     if (err) {
-      res.status(500).send(err);
+      console.log(err);
       return;
     }
     scheme.forEach((val) => {
