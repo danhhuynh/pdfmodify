@@ -6,15 +6,24 @@ require("dotenv").config();
 
 export const hello = async () => "Hello";
 export const city = async (cityId) => {
+  if (!cityId) {
+    return "";
+  }
   let key = process.env.CITY_PREFIX + cityId;
   return getValKeyRedis(key);
 };
 export const district = (cityId, districtId) => {
+  if (!cityId || !districtId) {
+    return "";
+  }
   let key =
     process.env.CITY_PREFIX + cityId + process.env.DISTRICT_PREFIX + districtId;
   return getValKeyRedis(key);
 };
 export const ward = (wardId) => {
+  if (!wardId) {
+    return "";
+  }
   let key = process.env.WARD_PREFIX + wardId;
   return getValKeyRedis(key);
 };
