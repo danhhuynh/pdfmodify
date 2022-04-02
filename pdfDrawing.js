@@ -109,7 +109,7 @@ export default class PdfDrawing {
     occupationInfoDrawing.drawNote();
   }
 
-  async exportToDir(filePath) {
+  async exportToDir(filePath, callBack, params) {
     console.log(filePath);
     const pdfBytes = await this.pdfDoc.save();
     fs.writeFile(filePath, pdfBytes, (err) => {
@@ -118,6 +118,7 @@ export default class PdfDrawing {
         return;
       }
       console.log("File Created");
+      callBack(params);
     });
   }
 }

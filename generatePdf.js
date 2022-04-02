@@ -73,24 +73,31 @@ async function drawPdf(lead) {
     if (!fs.existsSync(dir + lead["_id"])) {
       fs.mkdirSync(dir + lead["_id"]);
     }
-    await pdfDrawing.exportToDir(pathFile);
-    DocLeadMafc.updateOne(
-      { lead_id: lead["_id"], code: "DN", version: version },
-      { file_path: [file_name] },
-      (err, writeOpResult) => {
-        LeadMafc.updateOne(
-          { _id: lead["_id"] },
-          { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
-          (err, writeOpResult) => {
-            if (err) {
-              res.send(err);
-              return;
-            }
-            console.log(writeOpResult);
-            console.log({ message: "Successfully Updated" });
-          }
-        );
-      }
-    );
+    pdfDrawing.exportToDir(pathFile, updateLead, {
+      version,
+      file_name,
+      _id: lead["_id"],
+    });
   });
+}
+
+function updateLead({ version, file_name, _id }) {
+  DocLeadMafc.updateOne(
+    { lead_id: _id, code: "DN", version: version },
+    { file_path: [file_name] },
+    (err, writeOpResult) => {
+      LeadMafc.updateOne(
+        { _id: _id },
+        { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
+        (err, writeOpResult) => {
+          if (err) {
+            res.send(err);
+            return;
+          }
+          console.log(writeOpResult);
+          console.log({ message: "Successfully Updated" });
+        }
+      );
+    }
+  );
 }
