@@ -96,6 +96,7 @@ function updateLead({ version, file_name, _id }) {
           }
           console.log(writeOpResult);
           console.log({ message: "Successfully Updated" });
+          process.exit();
         }
       );
     }

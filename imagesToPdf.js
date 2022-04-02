@@ -8,6 +8,7 @@ import { STATUS } from "./config/constant.js";
 import { systemFields } from "./constant/system_fields.js";
 import LeadMafc from "./models/leadMafc.js";
 import DocLeadMafc from "./models/documentMafc.js";
+import promise from "bluebird/js/release/promise";
 
 mongoose.connect(process.env.MONGODB_URI);
 const getLeadMAFC = new Promise((resolve, reject) => {
@@ -42,6 +43,7 @@ const getLeadMAFC = new Promise((resolve, reject) => {
         pollingS37_result: 0,
       },
     },
+    { $limit: 1 },
   ]).exec((err, lead) => {
     if (err) {
       console.log(err);
@@ -53,30 +55,32 @@ const getLeadMAFC = new Promise((resolve, reject) => {
 
 getLeadMAFC.then(
   (leads) => {
-    leads.forEach((lead) => {
-      let documents = lead["documents"];
-      let lead_id = lead["_id"].toString();
-      let path = process.env.STORAGE_PATH + lead_id;
-      let writeStream = "";
-      //documents of lead
-      documents.forEach((ele) => {
-        let file_out = path + "/" + ele["code"] + "_" + lead["app_id"] + ".pdf";
-        const doc = new PDFDocument();
-        console.log(file_out);
-        writeStream = fs.createWriteStream(file_out);
-        doc.pipe(writeStream);
-        ele["file_path"].forEach((file) => {
-          let filePath = path + "/" + file;
-          doc.image(filePath, {
-            fit: [500, 500],
-            align: "center",
-            valign: "center",
-          });
-          if (file !== ele["file_path"][ele["file_path"].length - 1]) {
-            doc.addPage();
-          }
+    let lead = leads[0];
+    let promiseStore = [];
+    let documents = lead["documents"];
+    let lead_id = lead["_id"].toString();
+    let path = process.env.STORAGE_PATH + lead_id;
+    let writeStream = "";
+    //documents of lead
+    documents.forEach((ele) => {
+      let file_out = path + "/" + ele["code"] + "_" + lead["app_id"] + ".pdf";
+      const doc = new PDFDocument();
+      console.log(file_out);
+      writeStream = fs.createWriteStream(file_out);
+      doc.pipe(writeStream);
+      ele["file_path"].forEach((file) => {
+        let filePath = path + "/" + file;
+        doc.image(filePath, {
+          fit: [500, 500],
+          align: "center",
+          valign: "center",
         });
-        doc.end();
+        if (file !== ele["file_path"][ele["file_path"].length - 1]) {
+          doc.addPage();
+        }
+      });
+      doc.end();
+      let mypromise = new Promise((resovle) => {
         DocLeadMafc.updateOne(
           { _id: ele["_id"] },
           { pdf_path: file_out },
@@ -84,11 +88,16 @@ getLeadMAFC.then(
             if (err) {
               console.log(err);
             }
-            console.log(writeOpResult);
+            resovle(file_out + "Done");
           }
         );
       });
-      //end documents of lead
+      promiseStore.push(mypromise);
+    });
+    //end documents of lead
+
+    Promise.all(promiseStore).then((values) => {
+      console.log(values);
       LeadMafc.updateOne(
         { _id: lead_id },
         { status_convert: STATUS["CONVERT_IMG_PDF_COMPLETE"] },
@@ -98,11 +107,10 @@ getLeadMAFC.then(
             return;
           }
           console.log({ message: "Successfully Updated" });
+          process.exit(1);
         }
       );
     });
   },
   (err) => {}
 );
-
-// process.exit(1);
