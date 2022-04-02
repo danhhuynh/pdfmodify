@@ -23,24 +23,28 @@ export default class ResidenceInfoDrawing extends Builder {
 
   drawCurrentAddress() {
     let { x, y } = this.currentAddressPosition();
-    getCityDistrictWard(
-      this.leadInfo["current_city"],
-      this.leadInfo["current_district"],
-      this.leadInfo["current_ward"]
-    ).then((val) => {
-      console.log(val);
-      this.draw(
-        this.leadInfo["detail_current_address"] +
-          "  " +
-          val[2] +
-          " " +
-          val[1] +
-          " " +
-          val[0],
-        x,
-        y
-      );
+    let mypromise = new Promise((resolve) => {
+      getCityDistrictWard(
+        this.leadInfo["current_city"],
+        this.leadInfo["current_district"],
+        this.leadInfo["current_ward"]
+      ).then((val) => {
+        console.log(val);
+        this.draw(
+          this.leadInfo["detail_current_address"] +
+            "  " +
+            val[2] +
+            " " +
+            val[1] +
+            " " +
+            val[0],
+          x,
+          y
+        );
+        resolve("drawCurrentAddress Done");
+      });
     });
+    global.promiseStore.push(mypromise);
   }
 
   livingPosition() {
@@ -119,11 +123,18 @@ export default class ResidenceInfoDrawing extends Builder {
     } else {
       this.draw("X", x + 189, y);
     }
-    getCityDistrictWard(
-      this.leadInfo["residence_city"],
-      this.leadInfo["residence_district"],
-      this.leadInfo["residence_ward"]
-    ).then((val) => this.draw(val[2] + " " + val[1] + " " + val[0], x, y - 25));
+
+    let mypromise = new Promise((resolve) => {
+      getCityDistrictWard(
+        this.leadInfo["residence_city"],
+        this.leadInfo["residence_district"],
+        this.leadInfo["residence_ward"]
+      ).then((val) => {
+        this.draw(val[2] + " " + val[1] + " " + val[0], x, y - 25);
+        resolve("drawingResidenceAddress Done");
+      });
+    });
+    global.promiseStore.push(mypromise);
 
     this.draw(this.leadInfo["house_hold_book_no"], x, y - 50);
     this.draw(this.leadInfo["landline_residence"], x + 270, y - 50);

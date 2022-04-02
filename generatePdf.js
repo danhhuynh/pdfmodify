@@ -35,7 +35,6 @@ const getLeadMAFC = new Promise((resolve, reject) => {
       console.log(err);
       return;
     }
-    console.log(lead);
     resolve(lead);
   });
 });
@@ -56,6 +55,7 @@ try {
 }
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+global.promiseStore = [];
 async function drawPdf(lead) {
   let dir = process.env.STORAGE_PATH;
   let template = process.env.TEMPLATE_PATH;
@@ -66,29 +66,31 @@ async function drawPdf(lead) {
 
   await pdfDrawing.init(template);
   pdfDrawing.startDraw();
-  await delay(2000);
-
-  if (!fs.existsSync(dir + lead["_id"])) {
-    fs.mkdirSync(dir + lead["_id"]);
-  }
-  await pdfDrawing.exportToDir(pathFile);
-  DocLeadMafc.updateOne(
-    { lead_id: lead["_id"], code: "DN", version: version },
-    { file_path: [file_name] },
-    (err, writeOpResult) => {
-      console.log(writeOpResult);
-      LeadMafc.updateOne(
-        { _id: lead["_id"] },
-        { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
-        (err, writeOpResult) => {
-          if (err) {
-            res.send(err);
-            return;
-          }
-          console.log(writeOpResult);
-          console.log({ message: "Successfully Updated" });
-        }
-      );
+  await delay(1000);
+  console.log(global.promiseStore);
+  Promise.all(global.promiseStore).then((values) => {
+    console.log(values);
+    if (!fs.existsSync(dir + lead["_id"])) {
+      fs.mkdirSync(dir + lead["_id"]);
     }
-  );
+    await pdfDrawing.exportToDir(pathFile);
+    DocLeadMafc.updateOne(
+      { lead_id: lead["_id"], code: "DN", version: version },
+      { file_path: [file_name] },
+      (err, writeOpResult) => {
+        LeadMafc.updateOne(
+          { _id: lead["_id"] },
+          { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
+          (err, writeOpResult) => {
+            if (err) {
+              res.send(err);
+              return;
+            }
+            console.log(writeOpResult);
+            console.log({ message: "Successfully Updated" });
+          }
+        );
+      }
+    );
+  });
 }

@@ -45,17 +45,21 @@ export default class OccupationInfoDrawing extends Builder {
 
     this.drawCustom(this.leadInfo["company_name"], x - 60, y + 38);
     let company_address = this.leadInfo["company_address"] || "";
-    getCityDistrictWard(
-      this.leadInfo["work_ward"],
-      this.leadInfo["work_district"],
-      this.leadInfo["work_city"]
-    ).then((val) =>
-      this.drawCustom(
-        company_address + " " + val[0] + " " + val[1] + " " + val[2],
-        x - 75,
-        y + 76
-      )
-    );
+    let mypromise = new Promise((resolve) => {
+      getCityDistrictWard(
+        this.leadInfo["work_ward"],
+        this.leadInfo["work_district"],
+        this.leadInfo["work_city"]
+      ).then((val) => {
+        this.drawCustom(
+          company_address + " " + val[0] + " " + val[1] + " " + val[2],
+          x - 75,
+          y + 76
+        );
+        resolve("drawSourceIncome Done");
+      });
+    });
+    global.promiseStore.push(mypromise);
 
     switch (this.leadInfo["type_company_address"]) {
       case "Trụ sở chính":
