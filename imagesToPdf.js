@@ -8,7 +8,6 @@ import { STATUS } from "./config/constant.js";
 import { systemFields } from "./constant/system_fields.js";
 import LeadMafc from "./models/leadMafc.js";
 import DocLeadMafc from "./models/documentMafc.js";
-import promise from "bluebird/js/release/promise";
 
 mongoose.connect(process.env.MONGODB_URI);
 const getLeadMAFC = new Promise((resolve, reject) => {
@@ -63,7 +62,7 @@ getLeadMAFC.then(
     let writeStream = "";
     //documents of lead
     documents.forEach((ele) => {
-      let file_out = path + "/" + ele["code"] + "_" + lead["app_id"] + ".pdf";
+      let file_out = path + "/" + ele["code"] + "_" + lead["_id"].toString() + ".pdf";
       const doc = new PDFDocument();
       console.log(file_out);
       writeStream = fs.createWriteStream(file_out);
