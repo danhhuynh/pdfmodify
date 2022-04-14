@@ -16,7 +16,7 @@ const getLeadMAFC = new Promise((resolve, reject) => {
     {
       $match: {
         status_render: STATUS["RENDER_ACCA"],
-        // updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 2) },
+        updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 2) },
       },
     },
     { $addFields: { customer_obj_id: { $toObjectId: "$customer_id" } } },
