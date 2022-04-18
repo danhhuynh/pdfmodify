@@ -41,6 +41,10 @@ const getLeadMAFC = new Promise((resolve, reject) => {
 try {
   getLeadMAFC.then(
     (leads) => {
+      if (!leads || leads.length === 0) {
+        console.log("Empty Data");
+        return;
+      }
       leads.forEach((lead) => {
         lead["customer"] = lead["customer"][0];
         drawPdf(lead);
