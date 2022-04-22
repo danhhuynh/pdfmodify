@@ -44,23 +44,22 @@ export default class OccupationInfoDrawing extends Builder {
     }
 
     this.drawCustom(this.leadInfo["company_name"], x - 60, y + 38);
-    getCityDistrictWard(
-      this.leadInfo["work_city"],
-      this.leadInfo["work_district"],
-      this.leadInfo["work_ward"]
-    ).then((val) =>
-      this.drawCustom(
-        this.leadInfo["company_address"] +
-          " " +
-          val[0] +
-          " " +
-          val[1] +
-          " " +
-          val[2],
-        x - 75,
-        y + 76
-      )
-    );
+    let company_address = this.leadInfo["company_address"] || "";
+    let mypromise = new Promise((resolve) => {
+      getCityDistrictWard(
+        this.leadInfo["work_city"],
+        this.leadInfo["work_district"],
+        this.leadInfo["work_ward"]
+      ).then((val) => {
+        this.drawCustom(
+          company_address + " " + val[2] + " " + val[1] + " " + val[0],
+          x - 75,
+          y + 76
+        );
+        resolve("drawSourceIncome Done");
+      });
+    });
+    global.promiseStore.push(mypromise);
 
     switch (this.leadInfo["type_company_address"]) {
       case "Trụ sở chính":
@@ -129,13 +128,14 @@ export default class OccupationInfoDrawing extends Builder {
   }
 
   drawBankInfo() {
-    let key_find_bank =
-      this.leadInfo["bank_name"] +
-      (this.leadInfo["bank_branch"]
-        ? " - " + this.leadInfo["bank_branch"]
-        : "");
-    bank_name(key_find_bank).then((res) => this.drawCustom(res, 164, 1080));
+    // let key_find_bank =
+    //   this.leadInfo["bank_name"] +
+    //   (this.leadInfo["bank_branch"]
+    //     ? " - " + this.leadInfo["bank_branch"]
+    //     : "");
+    // bank_name(key_find_bank).then((res) => this.drawCustom(res, 164, 1080));
 
+    this.drawCustom(this.leadInfo["bank_name"], 164, 1080);
     this.drawCustom(this.leadInfo["bank_branch"], 479, 1080);
     this.drawCustom(this.leadInfo["bank_no"], 725, 1080);
   }

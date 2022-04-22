@@ -28,7 +28,6 @@ export default class ResidenceInfoDrawing extends Builder {
       this.leadInfo["current_district"],
       this.leadInfo["current_ward"]
     ).then((val) => {
-      console.log(val);
       this.draw(
         this.leadInfo["detail_current_address"] +
           "  " +
@@ -121,8 +120,8 @@ export default class ResidenceInfoDrawing extends Builder {
     }
     getCityDistrictWard(
       this.leadInfo["residence_city"],
-      this.leadInfo["residence_district"],
-      this.leadInfo["residence_ward"]
+      this.leadInfo["residence_district"] || this.leadInfo["current_district"],
+      this.leadInfo["residence_ward"] || this.leadInfo["current_ward"],
     ).then((val) => this.draw(val[2] + " " + val[1] + " " + val[0], x, y - 25));
 
     this.draw(this.leadInfo["house_hold_book_no"], x, y - 50);

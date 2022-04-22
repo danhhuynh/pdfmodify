@@ -49,3 +49,11 @@ export const getCityDistrictWard = (cityId, districtId, wardId) => {
   });
   return Promise.all([promiseCity, promiseDistrict, promiseWard]);
 };
+
+export const tsaCode = async (tsacode) => {
+  if (!tsacode) {
+    return "";
+  }
+  let key = process.env.TSACODE_PREFIX + tsacode;
+  return getValKeyRedis(key);
+};
