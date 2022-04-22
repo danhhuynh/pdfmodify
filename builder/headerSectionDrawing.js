@@ -17,8 +17,12 @@ export default class HeaderSectionDrawing extends Builder {
 
   drawSaleCode() {
     let { x, y } = this.saleCodePos();
-    tsaCode(this.leadInfo["tsa_code"]).then((val) => {
-      this.draw(val, x, y);
+    let mypromise = new Promise((resolve) => {
+      tsaCode(this.leadInfo["tsa_code"]).then((val) => {
+        this.draw(val, x, y);
+        resolve("drawSaleCode Done");
+      });
     });
+    global.promiseStore.push(mypromise);
   }
 }

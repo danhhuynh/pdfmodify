@@ -117,7 +117,8 @@ export default class ResidenceInfoDrawing extends Builder {
   drawingResidenceAddress() {
     let { x, y } = this.residenceAddressPos();
     if (
-      this.leadInfo["type_of_residence_address"] == "Giống với nơi ở hiện tại"
+      this.leadInfo["type_of_residence_address"] ==
+      "Giống với địa chỉ nơi ở hiện tại"
     ) {
       this.draw("X", x, y);
     } else {
