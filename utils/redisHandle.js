@@ -5,6 +5,7 @@ import districtModel from "../models/district.js";
 import wardModel from "../models/ward.js";
 import bankModel from "../models/bank.js";
 import schemeModel from "../models/scheme.js";
+import tsaMafc from "../models/tsaMafc.js";
 
 export async function getValKeyRedis(key) {
   const client = createClient(redisConfig);
@@ -79,52 +80,33 @@ export async function getValKeyRedis(key) {
         return "Not Found";
       }
     }
+    if (key.includes(process.env.TSACODE_PREFIX)) {
+      let keyTsa = key.split("::")[1];
+      let tsaCode = await tsaMafc.find({
+        inspectorid: keyTsa,
+      });
+      if (tsaCode.length !== 0) {
+        let data = tsaCode[0]["inspectorname"];
+        setKeyValRedis(keyTsa, data);
+        return data;
+      } else {
+        return "Not Found";
+      }
+    }
   }
-  let key = process.env.CITY_PREFIX + cityId;
-  return getValKeyRedis(key);
-};
-export const district = (cityId, districtId) => {
-  if (!cityId || !districtId) {
-    return new Promise((resolve) => "");
-  }
-  let key =
-    process.env.CITY_PREFIX + cityId + process.env.DISTRICT_PREFIX + districtId;
-  return getValKeyRedis(key);
-};
-export const ward = (wardId) => {
-  if (!wardId) {
-    return new Promise((resolve) => "");
-  }
-  let key = process.env.WARD_PREFIX + wardId;
-  return getValKeyRedis(key);
-};
-export const bank_name = (bankid) => {
-  let key = process.env.BANK_PREFIX + bankid;
-  return getValKeyRedis(key);
-};
+  return value;
+}
 
-export const scheme_name = (schemename) => {
-  let key = process.env.SCHEME_PREFIX + schemename;
-  return getValKeyRedis(key);
-};
+export async function setKeyValRedis(key, value) {
+  const client = createClient(redisConfig);
 
-export const getCityDistrictWard = (cityId, districtId, wardId) => {
-  let promiseCity = new Promise((resolve) => {
-    city(cityId).then((val) => resolve(val));
-  });
-  let promiseDistrict = new Promise((resolve) => {
-    district(cityId, districtId).then((val) => resolve(val));
-  });
-  let promiseWard = new Promise((resolve) => {
-    ward(wardId).then((val) => resolve(val));
-  });
-  return Promise.all([promiseCity, promiseDistrict, promiseWard]);
-};
+  client.on("error", (err) => console.log("Redis Client Error", err));
 
-export const tsaCode = async (tsacode) => {
-  if (!tsacode) {
-    return "";
-  }
-  let key = process.env.TSACODE_PREFIX + tsacode;
-  return getValKeyRedis(key);
-};
+  await client.connect();
+  console.log(key, value);
+  let result = await client.set(key, value, function (err, reply) {
+    return reply;
+  });
+
+  return result;
+}

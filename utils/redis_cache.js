@@ -1,19 +1,20 @@
 import { getValKeyRedis } from "./redisHandle.js";
 import { createRequire } from "module";
+import { resolve } from "path";
 const require = createRequire(import.meta.url);
 require("dotenv").config();
 
 export const hello = async () => "Hello";
 export const city = async (cityId) => {
   if (!cityId) {
-    return "";
+    return new Promise((resolve) => "");
   }
   let key = process.env.CITY_PREFIX + cityId;
   return getValKeyRedis(key);
 };
 export const district = (cityId, districtId) => {
   if (!cityId || !districtId) {
-    return "";
+    return new Promise((resolve) => "");
   }
   let key =
     process.env.CITY_PREFIX + cityId + process.env.DISTRICT_PREFIX + districtId;
@@ -21,7 +22,7 @@ export const district = (cityId, districtId) => {
 };
 export const ward = (wardId) => {
   if (!wardId) {
-    return "";
+    return new Promise((resolve) => "");
   }
   let key = process.env.WARD_PREFIX + wardId;
   return getValKeyRedis(key);
