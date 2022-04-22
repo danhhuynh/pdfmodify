@@ -131,6 +131,6 @@ export default class LoansInfoDrawing extends Builder {
     this.draw(this.loanInfo["how_long"], x + 294 + 173, y);
 
     this.draw(this.loanInfo["no_insurance_borrower"], x - 74, y - 46);
-    this.draw(this.loanInfo["total_loan"], x + 185, y - 72, 14);
+    this.draw(this.loanInfo["total_loan"].toString(), x + 185, y - 72, 14);
   }
 }

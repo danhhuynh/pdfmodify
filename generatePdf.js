@@ -6,7 +6,7 @@ var fs = require("fs");
 require("dotenv").config();
 
 import LeadMafc from "./models/leadMafc.js";
-import DocumentMafc from "./models/documentMafc.js";
+import DocLeadMafc from "./models/documentMafc.js";
 import { systemFields } from "./constant/system_fields.js";
 
 var mongoose = require("mongoose");
@@ -38,13 +38,12 @@ const getLeadMAFC = new Promise((resolve, reject) => {
     resolve(lead);
   });
 });
-
 try {
   getLeadMAFC.then(
     (leads) => {
-      if (leads.length === 0) {
-        console.log("No Record");
-        return;
+      if (!leads || leads.length === 0) {
+        console.log("Empty Data");
+        process.exit();
       }
       leads.forEach((lead) => {
         lead["customer"] = lead["customer"][0];
@@ -87,17 +86,10 @@ async function drawPdf(lead) {
 }
 
 function updateLead({ version, file_name, _id }) {
-  console.log({
-    lead_id: _id.toString(),
-    code: "DN",
-    version: version,
-    file_name,
-  });
-  DocumentMafc.updateOne(
-    { lead_id: _id.toString(), code: "DN", version: version },
+  DocLeadMafc.updateOne(
+    { lead_id: _id, code: "DN", version: version },
     { file_path: [file_name] },
     (err, writeOpResult) => {
-      console.log(writeOpResult);
       LeadMafc.updateOne(
         { _id: _id },
         { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
