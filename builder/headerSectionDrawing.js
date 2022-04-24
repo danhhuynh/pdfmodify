@@ -1,5 +1,5 @@
 import Builder from "./Builder.js";
-
+import { tsaCode } from "../utils/redis_cache.js";
 export default class HeaderSectionDrawing extends Builder {
   constructor(config, leadInfo) {
     const { page, font, fontSize, color } = config;
@@ -17,6 +17,12 @@ export default class HeaderSectionDrawing extends Builder {
 
   drawSaleCode() {
     let { x, y } = this.saleCodePos();
-    this.draw(this.leadInfo["tsa_code"], x, y);
+    let mypromise = new Promise((resolve) => {
+      tsaCode(this.leadInfo["tsa_code"]).then((val) => {
+        this.draw(val, x, y);
+        resolve("drawSaleCode Done");
+      });
+    });
+    global.promiseStore.push(mypromise);
   }
 }

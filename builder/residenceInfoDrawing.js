@@ -117,24 +117,37 @@ export default class ResidenceInfoDrawing extends Builder {
   drawingResidenceAddress() {
     let { x, y } = this.residenceAddressPos();
     if (
-      this.leadInfo["type_of_residence_address"] == "Giống với nơi ở hiện tại"
+      this.leadInfo["type_of_residence_address"] ==
+      "Giống với địa chỉ nơi ở hiện tại"
     ) {
       this.draw("X", x, y);
+      let mypromise = new Promise((resolve) => {
+        getCityDistrictWard(
+          this.leadInfo["current_city"],
+          this.leadInfo["current_district"],
+          this.leadInfo["current_ward"]
+        ).then((val) => {
+          this.draw(val[2] + " " + val[1] + " " + val[0], x, y - 25);
+          resolve("drawingResidenceAddress Done");
+        });
+      });
+      global.promiseStore.push(mypromise);
     } else {
       this.draw("X", x + 189, y);
+      let mypromise = new Promise((resolve) => {
+        getCityDistrictWard(
+          this.leadInfo["residence_city"],
+          this.leadInfo["residence_district"],
+          this.leadInfo["residence_ward"]
+        ).then((val) => {
+          this.draw(val[2] + " " + val[1] + " " + val[0], x, y - 25);
+          resolve("drawingResidenceAddress Done");
+        });
+      });
+      global.promiseStore.push(mypromise);
     }
 
-    let mypromise = new Promise((resolve) => {
-      getCityDistrictWard(
-        this.leadInfo["residence_city"],
-        this.leadInfo["residence_district"],
-        this.leadInfo["residence_ward"]
-      ).then((val) => {
-        this.draw(val[2] + " " + val[1] + " " + val[0], x, y - 25);
-        resolve("drawingResidenceAddress Done");
-      });
-    });
-    global.promiseStore.push(mypromise);
+    
 
     this.draw(this.leadInfo["house_hold_book_no"], x, y - 50);
     this.draw(this.leadInfo["landline_residence"], x + 270, y - 50);

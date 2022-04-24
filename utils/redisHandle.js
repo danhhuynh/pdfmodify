@@ -5,6 +5,7 @@ import districtModel from "../models/district.js";
 import wardModel from "../models/ward.js";
 import bankModel from "../models/bank.js";
 import schemeModel from "../models/scheme.js";
+import tsaMafc from "../models/tsaMafc.js";
 
 export async function getValKeyRedis(key) {
   const client = createClient(redisConfig);
@@ -74,6 +75,19 @@ export async function getValKeyRedis(key) {
       if (schemeId.length !== 0) {
         let data = schemeId[0]["schemeid"];
         setKeyValRedis(key, data);
+        return data;
+      } else {
+        return "Not Found";
+      }
+    }
+    if (key.includes(process.env.TSACODE_PREFIX)) {
+      let keyTsa = key.split("::")[1];
+      let tsaCode = await tsaMafc.find({
+        inspectorid: keyTsa,
+      });
+      if (tsaCode.length !== 0) {
+        let data = tsaCode[0]["inspectorname"];
+        setKeyValRedis(keyTsa, data);
         return data;
       } else {
         return "Not Found";

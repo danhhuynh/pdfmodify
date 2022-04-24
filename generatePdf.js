@@ -43,7 +43,7 @@ try {
     (leads) => {
       if (!leads || leads.length === 0) {
         console.log("Empty Data");
-        return;
+        process.exit();
       }
       leads.forEach((lead) => {
         lead["customer"] = lead["customer"][0];

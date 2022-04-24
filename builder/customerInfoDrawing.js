@@ -80,7 +80,7 @@ export default class CustomerInfoDrawing extends Builder {
     this.draw(arrDate[0], x, y);
     this.draw(arrDate[1], x + 30, y);
     this.draw(arrDate[2], x + 60, y);
-  }
+  } 
 
   issuePlaceCmndPos() {
     return {

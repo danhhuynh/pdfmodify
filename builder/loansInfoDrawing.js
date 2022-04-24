@@ -54,67 +54,52 @@ export default class LoansInfoDrawing extends Builder {
         break;
       case "Self-Employee":
         this.draw("X", x + 232, y);
-        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 232 + 57, y - 24);
         break;
       case "Fast Loan":
         this.draw("X", x + 446, y);
-        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 446 + 57, y - 24);
         break;
-
-      default:
-        break;
-    }
-
-    switch (this.loanInfo["scheme"]) {
       case "UCCC":
         this.draw("X", x, y - 24);
         this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
         break;
       case "EVN":
         this.draw("X", x + 232, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 232 + 57, y - 24);
         break;
       case "UBS":
         this.draw("X", x + 446, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
+        this.draw(this.loanInfo["scheme_detail"], x + 446 + 57, y - 24);
         break;
-
-      default:
-        break;
-    }
-    y -= 24;
-
-    switch (this.loanInfo["scheme"]) {
       case "Water CL":
-        this.draw("X", x, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
+        this.draw("X", x, y - 48);
+        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 48);
         break;
       case "Post-Paid CL":
-        this.draw("X", x + 232, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
+        this.draw("X", x + 232, y - 48);
+        this.draw(this.loanInfo["scheme_detail"], x + 232 + 57, y - 48);
         break;
       case "CC":
-        this.draw("X", x + 446, y - 24);
-        this.draw(this.loanInfo["scheme_detail"], x + 57, y - 24);
+        this.draw("X", x + 446, y - 48);
+        this.draw(this.loanInfo["scheme_detail"], x + 446 + 57, y - 48);
+        break;
+      case "Life-Insurance":
+        this.draw("X", x, y - 72);
+        this.draw(this.loanInfo["scheme_detail"], x + 88, y - 72, 8);
+        this.draw(this.loanInfo["period_payment"], x + 370, y - 24);
+        this.draw(this.loanInfo["money_pay_each_period"], x + 550, y - 24);
+        break;
+      case "BAS":
+        this.draw("X", x, y - 96);
+        this.draw(this.loanInfo["scheme_detail"], x + 90, y - 96);
         break;
 
       default:
+        this.draw("X", x + 232, y - 96);
+        this.draw(this.loanInfo["scheme_detail"], x + 232 + 50, y - 96);
         break;
     }
-    y -= 24;
-    if (this.loanInfo["scheme"] == "Life-Insurance") {
-      this.draw("X", x, y - 24);
-      this.draw(this.loanInfo["scheme_detail"], x + 88, y - 24, 8);
-    }
-    this.draw(this.loanInfo["period_payment"], x + 370, y - 24);
-    this.draw(this.loanInfo["money_pay_each_period"], x + 550, y - 24);
-    y -= 24;
-    if (this.loanInfo["scheme"] == "BAS") {
-      this.draw("X", x, y - 24);
-      this.draw(this.loanInfo["scheme_detail"], x + 90, y - 24);
-    }
-
-    // this.draw("X", x + 232, y - 24);
   }
 
   moneyLoanPos() {
@@ -131,6 +116,6 @@ export default class LoansInfoDrawing extends Builder {
     this.draw(this.loanInfo["how_long"], x + 294 + 173, y);
 
     this.draw(this.loanInfo["no_insurance_borrower"], x - 74, y - 46);
-    this.draw(this.loanInfo["total_loan"], x + 185, y - 72, 14);
+    this.draw(this.loanInfo["total_loan"].toString(), x + 185, y - 72, 14);
   }
 }

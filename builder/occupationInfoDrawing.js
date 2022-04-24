@@ -47,12 +47,12 @@ export default class OccupationInfoDrawing extends Builder {
     let company_address = this.leadInfo["company_address"] || "";
     let mypromise = new Promise((resolve) => {
       getCityDistrictWard(
-        this.leadInfo["work_ward"],
+        this.leadInfo["work_city"],
         this.leadInfo["work_district"],
-        this.leadInfo["work_city"]
+        this.leadInfo["work_ward"]
       ).then((val) => {
         this.drawCustom(
-          company_address + " " + val[0] + " " + val[1] + " " + val[2],
+          company_address + " " + val[2] + " " + val[1] + " " + val[0],
           x - 75,
           y + 76
         );
