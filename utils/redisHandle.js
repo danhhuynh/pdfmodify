@@ -29,7 +29,7 @@ export async function getValKeyRedis(key) {
     }
     if (key.includes(process.env.CITY_PREFIX)) {
       let val_of_key = key.split("::")[1];
-      let cityName = await districtModel.find({ stateid: val_of_key });
+      let cityName = await cityModel.find({ stateid: val_of_key });
       if (cityName.length !== 0) {
         let data = cityName[0]["statedesc"];
         setKeyValRedis(key, data);
@@ -41,7 +41,7 @@ export async function getValKeyRedis(key) {
     if (key.includes(process.env.DISTRICT_PREFIX)) {
       let key_city = key.split("::")[1];
       let key_district = key.split("::")[3];
-      let districtName = await cityModel.find({
+      let districtName = await districtModel.find({
         city_id: key_city,
         district_id: key_district,
       });
