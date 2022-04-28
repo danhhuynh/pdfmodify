@@ -134,16 +134,16 @@ export default class OccupationInfoDrawing extends Builder {
     //     ? " - " + this.leadInfo["bank_branch"]
     //     : "");
     // bank_name(key_find_bank).then((res) => this.drawCustom(res, 164, 1080));
-    let myfont = this.leadInfo["bank_name"]. length < 35 ? 10 : 7;
+    let myfont = this.leadInfo["bank_name"].length < 35 ? 10 : 7;
     this.drawCustom(this.leadInfo["bank_name"], 162, 1080, myfont);
     this.drawCustom(this.leadInfo["bank_branch"], 479, 1080);
     this.drawCustom(this.leadInfo["bank_no"], 725, 1080);
   }
 
   drawNote() {
-    if (this.leadInfo["secure_info_with" == "Người thân"]) {
+    if (this.leadInfo["secure_info_with"] == "Người thân") {
       this.drawCustom("X", 286, 1180);
-    } else {
+    } else if (this.leadInfo["secure_info_with"] == "Vợ/Chồng") {
       this.drawCustom("X", 439, 1180);
     }
 
