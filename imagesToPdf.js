@@ -54,15 +54,21 @@ const getLeadMAFC = new Promise((resolve, reject) => {
 
 getLeadMAFC.then(
   (leads) => {
+    if (leads.length === 0) {
+      console.log("No Data");
+      process.exit();
+    }
     let lead = leads[0];
     let promiseStore = [];
+    console.log(lead);
     let documents = lead["documents"];
     let lead_id = lead["_id"].toString();
     let path = process.env.STORAGE_PATH + lead_id;
     let writeStream = "";
     //documents of lead
     documents.forEach((ele) => {
-      let file_out = path + "/" + ele["code"] + "_" + lead["_id"].toString() + ".pdf";
+      let file_out =
+        path + "/" + ele["code"] + "_" + lead["_id"].toString() + ".pdf";
       const doc = new PDFDocument();
       console.log(file_out);
       writeStream = fs.createWriteStream(file_out);
