@@ -120,11 +120,11 @@ export default class OccupationInfoDrawing extends Builder {
 
   drawDebtInfo() {
     this.drawCustom(this.leadInfo["host_debt"], 217, 946);
-    this.drawCustom(this.leadInfo["debt_due_date"], 580, 946, 14);
-    this.drawCustom(this.leadInfo["debt_start_date"], 844, 946, 14);
+    this.drawCustom(this.leadInfo["debt_due_date"], 580, 946);
+    this.drawCustom(this.leadInfo["debt_start_date"], 844, 946);
 
-    this.drawCustom(this.leadInfo["current_debt_left"], 176, 981, 14);
-    this.drawCustom(this.leadInfo["montly_payment_debt"], 663, 981, 14);
+    this.drawCustom(this.leadInfo["current_debt_left"], 176, 981);
+    this.drawCustom(this.leadInfo["montly_payment_debt"], 663, 981);
   }
 
   drawBankInfo() {
