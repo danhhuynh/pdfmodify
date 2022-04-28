@@ -34,7 +34,7 @@ export default class LoansInfoDrawing extends Builder {
 
     // this.draw("X", x + 92 * 3, y);
 
-    this.draw(this.loanInfo["due_date"], x + 80, y - 26, 14);
+    this.draw(this.loanInfo["due_date"], x + 80, y - 26);
   }
 
   spVayPos() {
