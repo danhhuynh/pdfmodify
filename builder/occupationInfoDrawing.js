@@ -135,7 +135,7 @@ export default class OccupationInfoDrawing extends Builder {
     //     : "");
     // bank_name(key_find_bank).then((res) => this.drawCustom(res, 164, 1080));
     let myfont = this.leadInfo["bank_name"]. length < 35 ? 10 : 7;
-    this.drawCustom(this.leadInfo["bank_name"], 164, 1080, myfont);
+    this.drawCustom(this.leadInfo["bank_name"], 162, 1080, myfont);
     this.drawCustom(this.leadInfo["bank_branch"], 479, 1080);
     this.drawCustom(this.leadInfo["bank_no"], 725, 1080);
   }
