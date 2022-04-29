@@ -99,7 +99,7 @@ export default class ResidenceInfoDrawing extends Builder {
     this.draw(this.leadInfo["host_name"], x, y);
     if (this.leadInfo["type_of_renting"] == "Thuê nguyên căn") {
       this.draw("X", x + 192, y + 1);
-    } else {
+    } else if (this.leadInfo["type_of_renting"] == "Thuê phòng trọ") {
       this.draw("X", x + 307, y + 1);
     }
     this.draw(this.leadInfo["room_no"], x + 455, y);
@@ -146,8 +146,6 @@ export default class ResidenceInfoDrawing extends Builder {
       });
       global.promiseStore.push(mypromise);
     }
-
-    
 
     this.draw(this.leadInfo["house_hold_book_no"], x, y - 50);
     this.draw(this.leadInfo["landline_residence"], x + 270, y - 50);

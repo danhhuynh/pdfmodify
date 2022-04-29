@@ -16,7 +16,7 @@ export default class OccupationInfoDrawing extends Builder {
     this.leadInfo = loanInfo["customer"];
   }
 
-  drawCustom(message, x, y, size = 12) {
+  drawCustom(message, x, y, size = 11) {
     x *= heso;
     y = this.height - y * heso;
     this.draw(message, x, y, size);
@@ -120,11 +120,11 @@ export default class OccupationInfoDrawing extends Builder {
 
   drawDebtInfo() {
     this.drawCustom(this.leadInfo["host_debt"], 217, 946);
-    this.drawCustom(this.leadInfo["debt_due_date"], 580, 946, 14);
-    this.drawCustom(this.leadInfo["debt_start_date"], 844, 946, 14);
+    this.drawCustom(this.leadInfo["debt_due_date"], 580, 946);
+    this.drawCustom(this.leadInfo["debt_start_date"], 844, 946);
 
-    this.drawCustom(this.leadInfo["current_debt_left"], 176, 981, 14);
-    this.drawCustom(this.leadInfo["montly_payment_debt"], 663, 981, 14);
+    this.drawCustom(this.leadInfo["current_debt_left"], 176, 981);
+    this.drawCustom(this.leadInfo["montly_payment_debt"], 663, 981);
   }
 
   drawBankInfo() {
@@ -134,17 +134,17 @@ export default class OccupationInfoDrawing extends Builder {
     //     ? " - " + this.leadInfo["bank_branch"]
     //     : "");
     // bank_name(key_find_bank).then((res) => this.drawCustom(res, 164, 1080));
-
-    this.drawCustom(this.leadInfo["bank_name"], 164, 1080);
+    let myfont = this.leadInfo["bank_name"].length < 35 ? 10 : 7;
+    this.drawCustom(this.leadInfo["bank_name"], 162, 1080, myfont);
     this.drawCustom(this.leadInfo["bank_branch"], 479, 1080);
     this.drawCustom(this.leadInfo["bank_no"], 725, 1080);
   }
 
   drawNote() {
-    if (this.leadInfo["secure_info_with" == "Người thân"]) {
-      this.drawCustom("X", 286, 1179);
-    } else {
-      this.drawCustom("X", 440, 1179);
+    if (this.leadInfo["secure_info_with"] == "Người thân") {
+      this.drawCustom("X", 286, 1180);
+    } else if (this.leadInfo["secure_info_with"] == "Vợ/Chồng") {
+      this.drawCustom("X", 439, 1180);
     }
 
     this.drawCustom(this.leadInfo["detail_note"], 75, 1240);

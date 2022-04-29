@@ -34,7 +34,7 @@ export default class LoansInfoDrawing extends Builder {
 
     // this.draw("X", x + 92 * 3, y);
 
-    this.draw(this.loanInfo["due_date"], x + 80, y - 26, 14);
+    this.draw(this.loanInfo["due_date"], x + 80, y - 26);
   }
 
   spVayPos() {
@@ -111,11 +111,11 @@ export default class LoansInfoDrawing extends Builder {
 
   drawMoneyLoan() {
     let { x, y } = this.moneyLoanPos();
-    this.draw(this.loanInfo["consumer_loan"], x, y, 14);
+    this.draw(this.loanInfo["consumer_loan"], x, y);
     this.draw(this.loanInfo["consumer_loan_by_word"], x + 173, y);
     this.draw(this.loanInfo["how_long"], x + 294 + 173, y);
 
     this.draw(this.loanInfo["no_insurance_borrower"], x - 74, y - 46);
-    this.draw(this.loanInfo["total_loan"].toString(), x + 185, y - 72, 14);
+    this.draw(this.loanInfo["total_loan"].toString(), x + 185, y - 72);
   }
 }

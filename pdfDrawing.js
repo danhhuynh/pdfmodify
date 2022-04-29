@@ -17,10 +17,13 @@ export default class PdfDrawing {
     let existingPdfBytes = fs.readFileSync(this.tempalte);
     this.pdfDoc = await PDFDocument.load(existingPdfBytes);
 
-    let fontBytes = fs.readFileSync("./alegreya-sans/AlegreyaSans-Regular.otf");
+    // let fontBytes = fs.readFileSync("./alegreya-sans/AlegreyaSans-Regular.otf");
+    let fontBytes = fs.readFileSync(
+      "./Be_Vietnam_Pro/BeVietnamPro-Regular.ttf"
+    );
     this.pdfDoc.registerFontkit(fontkit);
     this.myFont = await this.pdfDoc.embedFont(fontBytes);
-    this.size = 12;
+    this.size = 11;
     this.color = rgb(0, 0, 0);
 
     this.pages = this.pdfDoc.getPages();

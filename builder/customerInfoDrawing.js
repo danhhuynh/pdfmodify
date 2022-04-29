@@ -23,7 +23,7 @@ export default class CustomerInfoDrawing extends Builder {
   genderPosition() {
     return {
       x: 107,
-      y: this.height - 258,
+      y: this.height - 259,
     };
   }
 
@@ -32,7 +32,7 @@ export default class CustomerInfoDrawing extends Builder {
     if (this.leadInfo["gender"] == "Male") {
       this.draw("X", x, y);
     } else {
-      this.draw("X", x + 30, y);
+      this.draw("X", x + 46, y);
     }
   }
 
@@ -80,7 +80,7 @@ export default class CustomerInfoDrawing extends Builder {
     this.draw(arrDate[0], x, y);
     this.draw(arrDate[1], x + 30, y);
     this.draw(arrDate[2], x + 60, y);
-  } 
+  }
 
   issuePlaceCmndPos() {
     return {
