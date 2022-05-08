@@ -91,13 +91,7 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawIssuePlaceCmnd() {
     let { x, y } = this.issuePlaceCmndPos();
-    let mypromise = new Promise((resolve) => {
-      city(this.leadInfo["place_issue_cmnd"]).then((val) => {
-        this.draw(val, x, y);
-        resolve("drawIssuePlaceCmnd Done");
-      });
-    });
-    global.promiseStore.push(mypromise);
+    this.draw(this.leadInfo["place_issue_cmnd"], x, y);
   }
 
   oldCmndPosition() {
