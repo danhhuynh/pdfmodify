@@ -65,7 +65,7 @@ export default class OccupationInfoDrawing extends Builder {
       case "Trụ sở chính":
         this.drawCustom("X", 67, 397);
         break;
-      case "Trụ sở chính":
+      case "Chi nhánh":
         this.drawCustom("X", 215, 397);
         break;
 
