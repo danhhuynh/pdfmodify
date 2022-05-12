@@ -50,7 +50,7 @@ export default class LoansInfoDrawing extends Builder {
     switch (this.loanInfo["scheme"]) {
       case "Employee Cash Loan":
         this.draw("X", x, y);
-        this.draw(this.loanInfo["scheme_detail"], x + 57, y, 12);
+        this.draw(this.loanInfo["scheme_detail"], x + 130, y, 7);
         break;
       case "Self-Employee":
         this.draw("X", x + 232, y);
