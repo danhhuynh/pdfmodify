@@ -107,6 +107,6 @@ export async function setKeyValRedis(key, value) {
   let result = await client.set(key, value, function (err, reply) {
     return reply;
   });
-
+  client.quit();
   return result;
 }
