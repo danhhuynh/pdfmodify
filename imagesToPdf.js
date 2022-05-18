@@ -93,14 +93,13 @@ getLeadMAFC.then(
             if (err) {
               console.log(err);
             }
-            resovle(file_out + "Done");
+            resovle(file_out + "-Done");
           }
         );
       });
       promiseStore.push(mypromise);
     });
     //end documents of lead
-
     Promise.all(promiseStore).then((values) => {
       console.log(values);
       LeadMafc.updateOne(
@@ -112,7 +111,10 @@ getLeadMAFC.then(
             return;
           }
           console.log({ message: "Successfully Updated" });
-          process.exit(1);
+          function endProcess() {
+            process.exit(1);
+          }
+          setTimeout(endProcess, 3000);
         }
       );
     });
