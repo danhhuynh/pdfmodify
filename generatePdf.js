@@ -75,7 +75,7 @@ async function drawPdf(lead) {
   Promise.all(global.promiseStore).then((values) => {
     console.log(values);
     if (!fs.existsSync(dir + lead["_id"])) {
-      fs.mkdirSync(dir + lead["_id"]);
+      fs.mkdirSync(dir + lead["_id"], { recursive: true });
     }
     pdfDrawing.exportToDir(pathFile, updateLead, {
       version,
