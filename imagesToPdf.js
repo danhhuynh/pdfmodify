@@ -67,6 +67,11 @@ getLeadMAFC.then(
     let writeStream = "";
     //documents of lead
     documents.forEach((ele) => {
+      if (lead["defer_info"] && lead["defer_info"]["version"]) {
+        if (ele.version !== lead["defer_info"]["version"]) {
+          return;
+        }
+      }
       let file_out =
         path + "/" + ele["code"] + "_" + lead["_id"].toString() + ".pdf";
       const doc = new PDFDocument();
@@ -76,7 +81,7 @@ getLeadMAFC.then(
       ele["file_path"].forEach((file) => {
         let filePath = path + "/" + file;
         doc.image(filePath, {
-          fit: [500, 500],
+          fit: [600, 600],
           align: "center",
           valign: "center",
         });
@@ -93,14 +98,13 @@ getLeadMAFC.then(
             if (err) {
               console.log(err);
             }
-            resovle(file_out + "Done");
+            resovle(file_out + "-Done");
           }
         );
       });
       promiseStore.push(mypromise);
     });
     //end documents of lead
-
     Promise.all(promiseStore).then((values) => {
       console.log(values);
       LeadMafc.updateOne(
@@ -112,7 +116,10 @@ getLeadMAFC.then(
             return;
           }
           console.log({ message: "Successfully Updated" });
-          process.exit(1);
+          function endProcess() {
+            process.exit(1);
+          }
+          setTimeout(endProcess, 3000);
         }
       );
     });
