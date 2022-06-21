@@ -1,127 +1,220 @@
-import { degrees, PDFDocument, rgb } from "pdf-lib";
-import fs from "fs";
-import fontkit from "@pdf-lib/fontkit";
-
-import HeaderSectionDrawing from "./builder/headerSectionDrawing.js";
-import CustomerInfoDrawing from "./builder/customerInfoDrawing.js";
-import ResidenceInfoDrawing from "./builder/residenceInfoDrawing.js";
-import LoansInfoDrawing from "./builder/loansInfoDrawing.js";
-import OccupationInfoDrawing from "./builder/occupationInfoDrawing.js";
-
-export default class PdfDrawing {
-  constructor(leadInfo) {
-    this.leadInfoMation = leadInfo;
+import Builder from "./Builder.js";
+import { city } from "../utils/redis_cache.js";
+export default class CustomerInfoDrawing extends Builder {
+  constructor(config, loanInfo) {
+    const { page, font, fontSize, color } = config;
+    super(page, font, fontSize, color);
+    this.loanInfo = loanInfo;
+    this.leadInfo = loanInfo["customer"];
   }
-  async init(templateDir) {
-    this.tempalte = templateDir;
-    let existingPdfBytes = fs.readFileSync(this.tempalte);
-    this.pdfDoc = await PDFDocument.load(existingPdfBytes);
-
-    // let fontBytes = fs.readFileSync("./alegreya-sans/AlegreyaSans-Regular.otf");
-    let fontBytes = fs.readFileSync(
-      "./Be_Vietnam_Pro/BeVietnamPro-Regular.ttf"
-    );
-    this.pdfDoc.registerFontkit(fontkit);
-    this.myFont = await this.pdfDoc.embedFont(fontBytes);
-    this.size = 11;
-    this.color = rgb(0, 0, 0);
-
-    this.pages = this.pdfDoc.getPages();
-    this.config = {
-      page: this.pages[0],
-      font: this.myFont,
-      fontSize: this.size,
-      color: this.color,
+  // move 1 row + 28
+  namePosition() {
+    return {
+      x: 100,
+      y: this.height - 230,
     };
   }
 
-  jumpPage() {
-    this.config.page = this.pages[1];
+  drawName() {
+    let { x, y } = this.namePosition();
+    this.draw(this.leadInfo["name"], x, y);
   }
 
-  startDraw() {
-    this.drawHeaderSection();
-    this.drawCustomerInfo();
-    this.drawResidenceInfo();
-    this.drawLoansInfo();
-    this.drawOccupationInfo();
+  genderPosition() {
+    return {
+      x: 107,
+      y: this.height - 259,
+    };
   }
 
-  drawHeaderSection() {
-    let headerSectionDrawing = new HeaderSectionDrawing(
-      this.config,
-      this.leadInfoMation
-    );
-    headerSectionDrawing.drawSaleCode();
+  drawGender() {
+    let { x, y } = this.genderPosition();
+    if (this.leadInfo["gender"] == "Male") {
+      this.draw("X", x, y);
+    } else {
+      this.draw("X", x + 46, y);
+    }
   }
 
-  drawCustomerInfo() {
-    let customerInfoDrawing = new CustomerInfoDrawing(
-      this.config,
-      this.leadInfoMation
-    );
-    customerInfoDrawing.drawName();
-    customerInfoDrawing.drawGender();
-    customerInfoDrawing.drawDob();
-    customerInfoDrawing.drawCmnd();
-    customerInfoDrawing.drawIssueDateCmnd();
-    customerInfoDrawing.drawIssuePlaceCmnd();
-    customerInfoDrawing.drawOldCmnd();
-    customerInfoDrawing.drawMaritalStatus();
-    customerInfoDrawing.drawEducationStatus();
-    customerInfoDrawing.drawPhone();
-    customerInfoDrawing.drawEmail();
-    customerInfoDrawing.drawDependencePeople();
+  dateOfBirthPosition() {
+    return {
+      x: this.width / 2 + 55,
+      y: this.height - 258,
+    };
   }
 
-  drawResidenceInfo() {
-    let residenceInfoDrawing = new ResidenceInfoDrawing(
-      this.config,
-      this.leadInfoMation
-    );
-    residenceInfoDrawing.drawCurrentAddress();
-    residenceInfoDrawing.drawLivingInfo();
-    residenceInfoDrawing.drawingStatusProperty();
-    residenceInfoDrawing.drawingRentedHouse();
-    residenceInfoDrawing.drawingResidenceAddress();
+  drawDob() {
+    let { x, y } = this.dateOfBirthPosition();
+    let arrDob = this.leadInfo["date_of_birth"]
+      ? this.leadInfo["date_of_birth"].split("/")
+      : "";
+    this.draw(arrDob[0], x, y);
+    this.draw(arrDob[1], x + 30, y);
+    this.draw(arrDob[2], x + 60, y);
   }
 
-  drawLoansInfo() {
-    let loanInfoDrawing = new LoansInfoDrawing(
-      this.config,
-      this.leadInfoMation
-    );
-    loanInfoDrawing.drawLoanPurpose();
-    loanInfoDrawing.drawSpVay();
-    this.jumpPage();
-    loanInfoDrawing = new LoansInfoDrawing(this.config, this.leadInfoMation);
-    loanInfoDrawing.drawMoneyLoan();
+  cmndPosition() {
+    return {
+      x: 147,
+      y: this.height - 285,
+    };
   }
 
-  drawOccupationInfo() {
-    let occupationInfoDrawing = new OccupationInfoDrawing(
-      this.config,
-      this.leadInfoMation
-    );
-    occupationInfoDrawing.drawSourceIncome();
-    occupationInfoDrawing.drawThongTinThuNhap();
-    occupationInfoDrawing.drawSpouseInfo();
-    occupationInfoDrawing.drawReferenceInfo();
-    occupationInfoDrawing.drawDebtInfo();
-    occupationInfoDrawing.drawBankInfo();
-    occupationInfoDrawing.drawNote();
+  drawCmnd() {
+    let { x, y } = this.cmndPosition();
+    this.draw(this.leadInfo["cccd"], x, y);
   }
 
-  async exportToDir(filePath, callBack, params) {
-    console.log(filePath);
-    const pdfBytes = await this.pdfDoc.save();
-    fs.writeFile(filePath, pdfBytes, (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      console.log("File Created");
-      callBack(params);
-    });
+  issueDateCmndPos() {
+    return {
+      x: this.width / 2 + 55,
+      y: this.height - 285,
+    };
+  }
+
+  drawIssueDateCmnd() {
+    let { x, y } = this.issueDateCmndPos();
+    let arrDate = this.leadInfo["date_issue_cmnd"]
+      ? this.leadInfo["date_issue_cmnd"].split("/")
+      : "";
+    this.draw(arrDate[0], x, y);
+    this.draw(arrDate[1], x + 30, y);
+    this.draw(arrDate[2], x + 60, y);
+  }
+
+  issuePlaceCmndPos() {
+    return {
+      x: this.width / 2 + 215,
+      y: this.height - 284,
+    };
+  }
+
+  drawIssuePlaceCmnd() {
+    let { x, y } = this.issuePlaceCmndPos();
+    let fontSize = this.leadInfo["place_issue_cmnd"].length < 20 ? 11 : 6;
+    this.draw(this.leadInfo["place_issue_cmnd"], x, y, fontSize);
+  }
+
+  oldCmndPosition() {
+    return {
+      x: 155,
+      y: this.height - 309,
+    };
+  }
+
+  drawOldCmnd() {
+    let { x, y } = this.oldCmndPosition();
+    this.draw(this.leadInfo["old_cmnd"] || "", x, y);
+  }
+
+  maritalStatusPos() {
+    return {
+      x: 167,
+      y: this.height - 338,
+    };
+  }
+
+  drawMaritalStatus() {
+    let { x, y } = this.maritalStatusPos();
+    switch (this.leadInfo["marital_status"]) {
+      case "Độc thân":
+        this.draw("X", x, y);
+        break;
+      case "Lập gia đình":
+        this.draw("X", x + 94, y);
+        break;
+      case "Góa bụa":
+        this.draw("X", x + 94 * 2, y);
+        break;
+      case "Li dị":
+        this.draw("X", x + 94 * 3, y);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  educationStatusPos() {
+    return {
+      x: 167,
+      y: this.height - 364,
+    };
+  }
+
+  drawEducationStatus() {
+    let { x, y } = this.educationStatusPos();
+    switch (this.leadInfo["education_status"]) {
+      case "Tiểu học":
+        this.draw("X", x, y);
+        break;
+      case "THCS":
+        this.draw("X", x + 94, y);
+        break;
+      case "THPT":
+        this.draw("X", x + 94 * 2, y);
+        break;
+      case "Trung cấp":
+        this.draw("X", x + 94 * 3, y);
+        break;
+
+      default:
+        break;
+    }
+    //next row
+    let y2 = y - 25;
+    switch (this.leadInfo["education_status"]) {
+      case "Cao đẳng":
+        this.draw("X", x, y2);
+        break;
+      case "Đại học":
+        this.draw("X", x + 94, y2);
+        break;
+      case "Sau đại học":
+        this.draw("X", x + 94 * 2, y2);
+        break;
+      case "Khác":
+        this.draw("X", x + 94 * 3, y2);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  phonePosition() {
+    return {
+      x: 100,
+      y: this.height - 417,
+    };
+  }
+
+  drawPhone() {
+    let { x, y } = this.phonePosition();
+    this.draw(this.leadInfo["phone"], x, y);
+  }
+
+  emailPosition() {
+    return {
+      x: 305,
+      y: this.height - 417,
+    };
+  }
+
+  drawEmail() {
+    let { x, y } = this.emailPosition();
+    this.draw(this.leadInfo["email"] || "", x, y);
+  }
+
+  dependencePeoplePosition() {
+    return {
+      x: 655,
+      y: this.height - 417,
+    };
+  }
+
+  drawDependencePeople() {
+    let { x, y } = this.dependencePeoplePosition();
+    this.draw(this.leadInfo["people_dependent"], x, y);
   }
 }
