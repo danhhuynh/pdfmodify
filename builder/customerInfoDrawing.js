@@ -91,7 +91,11 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawIssuePlaceCmnd() {
     let { x, y } = this.issuePlaceCmndPos();
-    this.draw(this.leadInfo["place_issue_cmnd"], x, y);
+    if (this.leadInfo["place_issue_cmnd"] === undefined) {
+      this.leadInfo["place_issue_cmnd"] = "";
+    }
+    let fontSize = this.leadInfo["place_issue_cmnd"].length < 20 ? 11 : 6;
+    this.draw(this.leadInfo["place_issue_cmnd"], x, y, fontSize);
   }
 
   oldCmndPosition() {
