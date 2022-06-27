@@ -80,6 +80,9 @@ getLeadMAFC.then(
       doc.pipe(writeStream);
       ele["file_path"].forEach((file) => {
         let filePath = path + "/" + file;
+        if (!fs.existsSync(filePath)) {
+          return;
+        }
         doc.image(filePath, {
           fit: [600, 600],
           align: "center",
