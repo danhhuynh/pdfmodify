@@ -74,7 +74,9 @@ getLeadMAFC.then(
       }
       let file_out =
         path + "/" + ele["code"] + "_" + lead["_id"].toString() + ".pdf";
-      const doc = new PDFDocument();
+      const doc = new PDFDocument({
+        margin: 5,
+      });
       console.log(file_out);
       writeStream = fs.createWriteStream(file_out);
       doc.pipe(writeStream);
