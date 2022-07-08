@@ -11,12 +11,13 @@ import { systemFields } from "./constant/system_fields.js";
 
 var mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI);
+console.log(LeadMafc);
 const getLeadMAFC = new Promise((resolve, reject) => {
   LeadMafc.aggregate([
     {
       $match: {
         status_render: STATUS["RENDER_ACCA"],
-        updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 2) },
+        // updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 2) },
       },
     },
     { $addFields: { customer_obj_id: { $toObjectId: "$customer_id" } } },
@@ -38,9 +39,12 @@ const getLeadMAFC = new Promise((resolve, reject) => {
     resolve(lead);
   });
 });
+
 try {
   getLeadMAFC.then(
+   
     (leads) => {
+      console.log(leads);
       if (!leads || leads.length === 0) {
         console.log("Empty Data");
         process.exit();
