@@ -1,4 +1,4 @@
-import PdfDrawing from "./pdfDrawing.js";
+// import PdfDrawing from "./pdfDrawing.js";
 import { createRequire } from "module";
 import { STATUS } from "./config/constant.js";
 const require = createRequire(import.meta.url);
@@ -47,12 +47,13 @@ try {
       console.log(leads);
       if (!leads || leads.length === 0) {
         console.log("Empty Data");
-        process.exit();
+        //process.exit();
       }
-      leads.forEach((lead) => {
-        lead["customer"] = lead["customer"][0];
-        drawPdf(lead);
-      });
+      drawPdf();
+      // leads.forEach((lead) => {
+      //   lead["customer"] = lead["customer"][0];
+        
+      // });
     },
     (err) => {
       throw err;
@@ -64,49 +65,50 @@ try {
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 global.promiseStore = [];
-async function drawPdf(lead) {
+async function drawPdf() {
   let dir = process.env.STORAGE_PATH;
   let template = process.env.TEMPLATE_PATH;
-  let pdfDrawing = new PdfDrawing(lead);
-  let file_name = "DN_" + lead["customer"]["cccd"] + ".pdf";
-  let pathFile = dir + lead["_id"] + "/" + file_name;
-  let version = lead["defer_info"] ? lead["defer_info"]["version"] : null;
-
+  let pdfDrawing = new PdfDrawing();
+  let file_name = "DN_" + "test" + ".pdf";
+  let pathFile = dir + "test" + "/" + file_name;
+  //let version = lead["defer_info"] ? lead["defer_info"]["version"] : null;
+  // lead["customer"]["cccd"]
+  // lead["_id"]
   await pdfDrawing.init(template);
   pdfDrawing.startDraw();
   await delay(1000);
   console.log(global.promiseStore);
   Promise.all(global.promiseStore).then((values) => {
     console.log(values);
-    if (!fs.existsSync(dir + lead["_id"])) {
-      fs.mkdirSync(dir + lead["_id"], { recursive: true });
+    if (!fs.existsSync(dir )) {
+      fs.mkdirSync(dir, { recursive: true });
     }
-    pdfDrawing.exportToDir(pathFile, updateLead, {
-      version,
+    pdfDrawing.exportToDir(pathFile, {
+      //version,
       file_name,
-      _id: lead["_id"],
+      // _id: lead["_id"],
     });
   });
 }
 
-function updateLead({ version, file_name, _id }) {
-  DocLeadMafc.updateOne(
-    { lead_id: _id, code: "DN", version: version },
-    { file_path: [file_name] },
-    (err, writeOpResult) => {
-      LeadMafc.updateOne(
-        { _id: _id },
-        { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
-        (err, writeOpResult) => {
-          if (err) {
-            res.send(err);
-            return;
-          }
-          console.log(writeOpResult);
-          console.log({ message: "Successfully Updated" });
-          process.exit();
-        }
-      );
-    }
-  );
-}
+// function updateLead({ version, file_name, _id }) {
+//   DocLeadMafc.updateOne(
+//     { lead_id: _id, code: "DN", version: version },
+//     { file_path: [file_name] },
+//     (err, writeOpResult) => {
+//       LeadMafc.updateOne(
+//         { _id: _id },
+//         { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
+//         (err, writeOpResult) => {
+//           if (err) {
+//             res.send(err);
+//             return;
+//           }
+//           console.log(writeOpResult);
+//           console.log({ message: "Successfully Updated" });
+//           process.exit();
+//         }
+//       );
+//     }
+//   );
+// }

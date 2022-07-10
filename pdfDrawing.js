@@ -1,7 +1,9 @@
 import Builder from "./builder/Builder.js";
 import { city } from "./utils/redis_cache.js";
 export default class CustomerInfoDrawing extends Builder {
+  
   constructor(config, loanInfo) {
+    
     const { page, font, fontSize, color } = config;
     super(page, font, fontSize, color);
     this.loanInfo = loanInfo;

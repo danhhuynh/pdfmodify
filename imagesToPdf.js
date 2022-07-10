@@ -54,10 +54,10 @@ const getLeadMAFC = new Promise((resolve, reject) => {
 
 getLeadMAFC.then(
   (leads) => {
-    if (leads.length === 0) {
-      console.log("No Data");
-      process.exit();
-    }
+    // if (leads.length === 0) {
+    //   console.log("No Data");
+    //   process.exit();
+    // }
     let lead = leads[0];
     let promiseStore = [];
     console.log(lead);
