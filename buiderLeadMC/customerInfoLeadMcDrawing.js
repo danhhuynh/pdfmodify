@@ -1,5 +1,5 @@
 import Builder from "./Builder.js";
-import { city } from "../utils/redis_cache.js";
+import { city,getCityDistrictWard } from "../utils/redis_cache.js";
 export default class customerInfoLeadMcDrawing extends Builder {
   constructor(config, loanInfo) {
     const { page, font, fontSize, color } = config;
@@ -11,7 +11,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   namePosition() {
     return {
       x: 120,
-      y: 113,
+      y: this.height - 115,
     };
   }
 
@@ -23,7 +23,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   genderPosition() {
     return {
       x: 395,
-      y: 128,
+      y: this.height - 131,
     };
   }
 
@@ -32,14 +32,14 @@ export default class customerInfoLeadMcDrawing extends Builder {
     if (this.leadInfo["gender"] == "Male") {
       this.draw("X", x, y);
     } else {
-      this.draw("X", x + 60, y);
+      this.draw("X", 447, y);
     }
   }
 
   dateOfBirthPosition() {
     return {
       x: 120,
-      y: 128,
+      y: this.height - 131,
     };
   }
 
@@ -52,7 +52,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   maritalStatusPos() {
     return {
       x: 189,
-      y: 145,
+      y: this.height - 145,
     };
   }
 
@@ -82,7 +82,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   educationStatusPos() {
     return {
       x: 127,
-      y: 160,
+      y:this.height - 159,
     };
   }
 
@@ -112,7 +112,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   cmndPosition() {
     return {
       x: 189,
-      y: 175,
+      y:this.height - 174,
     };
   }
 
@@ -124,7 +124,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   phonePosition() {
     return {
       x: 135,
-      y: 189,
+      y:this.height - 188,
     };
   }
 
@@ -136,7 +136,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   emailPosition() {
     return {
       x: 360,
-      y: 189,
+      y:this.height - 188,
     };
   }
 
@@ -148,7 +148,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   currentAddressPosition() {
     return {
       x: 185,
-      y: 206,
+      y:this.height - 206,
     };
   }
 
@@ -181,7 +181,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   residenceAddressPos() {
     return {
       x: 163,
-      y: 236,
+      y:this.height - 236,
     };
   }
 
@@ -206,7 +206,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
               " " +
               val[0],
             71,
-            251
+            this.height - 250
           );
           resolve("drawingResidenceAddress Done");
         });
@@ -229,7 +229,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
               " " +
               val[0],
               71,
-              251
+              this.height - 252
           );
           resolve("drawingResidenceAddress Done");
         });
@@ -241,12 +241,12 @@ export default class customerInfoLeadMcDrawing extends Builder {
   timeLivingPos() {
     return {
       x: 248,
-      y: 266,
+      y:this.height - 267,
     };
   }
 
   drawTimeLiving() {
-    let { x, y } = this.LivingPos();
+    let { x, y } = this.timeLivingPos();
     this.draw(this.leadInfo["year_living"] , x, y);
     this.draw(this.leadInfo["month_living"] , x + 48, y);
   }

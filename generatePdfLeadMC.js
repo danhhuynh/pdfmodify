@@ -1,4 +1,4 @@
-import PdfDrawing from "./pdfDrawing.js";
+import PdfDrawingLeadMC from "./PdfDrawingLeadMC.js";
 import { createRequire } from "module";
 import { STATUS } from "./config/constant.js";
 const require = createRequire(import.meta.url);
@@ -63,13 +63,13 @@ global.promiseStore = [];
 async function drawPdf(lead) {
   let dir = process.env.STORAGE_PATH;
   let template = process.env.TEMPLATE_PATH;
-  let pdfDrawing = new PdfDrawing(lead);
+  let PdfDrawingLead = new PdfDrawingLeadMC(lead);
   let file_name = "DN_" + lead["customer"]["cccd"] + ".pdf";
   let pathFile = dir + lead["_id"] + "/" + file_name;
   let version = lead["defer_info"] ? lead["defer_info"]["version"] : null;
 
-  await pdfDrawing.init(template);
-  pdfDrawing.startDraw();
+  await PdfDrawingLead.init(template);
+  PdfDrawingLead.startDraw();
   await delay(1000);
   console.log(global.promiseStore);
   Promise.all(global.promiseStore).then((values) => {
@@ -77,7 +77,7 @@ async function drawPdf(lead) {
     if (!fs.existsSync(dir + lead["_id"])) {
       fs.mkdirSync(dir + lead["_id"], { recursive: true });
     }
-    pdfDrawing.exportToDir(pathFile, updateLead, {
+    PdfDrawingLead.exportToDir(pathFile, updateLead, {
       version,
       file_name,
       _id: lead["_id"],

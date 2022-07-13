@@ -94,16 +94,16 @@ let pushSchemeToRedis = () => {
   });
 };
 
-// pushCityToRedis();
-// pushDistrictToRedis();
-// pushWardToRedis();
-// pushBankToRedis();
-// pushSchemeToRedis();
+pushCityToRedis();
+pushDistrictToRedis();
+pushWardToRedis();
+pushBankToRedis();
+pushSchemeToRedis();
 scheme_name("WHC CIVIL 433 GOOD - MT - AT").then((res) => console.log(res));
-// city(1).then((val) => console.log(val));
-// district(1, 482).then((res) => console.log(res));
-// ward(1014715).then((res) => console.log(res));
-// bank_name("Ngan hang TMCP NN&PTNT Viet Nam - CN Cho Con").then((res) =>
-//   console.log(res)
-// );
-// getCityDistrictWard(1, 482, 1014715).then((val) => console.log(val));
+city(1).then((val) => console.log(val));
+district(1, 482).then((res) => console.log(res));
+ward(1014715).then((res) => console.log(res));
+bank_name("Ngan hang TMCP NN&PTNT Viet Nam - CN Cho Con").then((res) =>
+  console.log(res)
+);
+getCityDistrictWard(1, 482, 1014715).then((val) => console.log(val));
