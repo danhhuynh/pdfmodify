@@ -3,8 +3,9 @@ import fs from "fs";
 import fontkit from "@pdf-lib/fontkit";
 
 import customerInfoLeadMcDrawing from "./buiderLeadMC/customerInfoLeadMcDrawing.js";
-// import ResidenceInfoDrawing from "./builder/residenceInfoDrawing.js";
-// import LoansInfoDrawing from "./builder/loansInfoDrawing.js";
+import loansInfoLeadMcDrawing from "./buiderLeadMC/loansInfoLeadMcDrawing.js"
+ import personalIncomeLeadMcDrawing from "./buiderLeadMC/personalIncomeLeadMcDrawing.js";
+ import familyInfoLeadMcDrawing from "./buiderLeadMC/familyInfoLeadMcDrawing.js";
 // import OccupationInfoDrawing from "./builder/occupationInfoDrawing.js";
 
 export default class PdfDrawingLeadMC {
@@ -22,7 +23,7 @@ export default class PdfDrawingLeadMC {
     );
     this.pdfDoc.registerFontkit(fontkit);
     this.myFont = await this.pdfDoc.embedFont(fontBytes);
-    this.size = 11;
+    this.size = 9;
     this.color = rgb(0, 0, 0);
 
     this.pages = this.pdfDoc.getPages();
@@ -41,8 +42,9 @@ export default class PdfDrawingLeadMC {
   startDraw() {
     //this.drawHeaderSection();
     this.customerInfoLeadMcDrawing();
-    // this.drawResidenceInfo();
-    // this.drawLoansInfo();
+    this.loansInfoLeadMcDrawing();
+    this.personalIncomeLeadMcDrawing();
+     this.familyInfoLeadMcDrawing();
     // this.drawOccupationInfo();
   }
 
@@ -60,44 +62,68 @@ export default class PdfDrawingLeadMC {
     customerInfoDrawing.drawingResidenceAddress();
     customerInfoDrawing.drawTimeLiving();
     customerInfoDrawing.drawAccommodationStatus();
+    customerInfoDrawing.drawEmail();
+    customerInfoDrawing.drawPhone();
+    customerInfoDrawing.drawCmnd();
   }
 
-//   drawResidenceInfo() {
-//     let residenceInfoDrawing = new ResidenceInfoDrawing(
-//       this.config,
-//       this.leadInfoMation
-//     );
-//     residenceInfoDrawing.drawCurrentAddress();
-//     residenceInfoDrawing.drawLivingInfo();
-//     residenceInfoDrawing.drawingStatusProperty();
-//     residenceInfoDrawing.drawingRentedHouse();
-//     residenceInfoDrawing.drawingResidenceAddress();
-//   }
+loansInfoLeadMcDrawing() {
+    let loanInfoDrawing = new loansInfoLeadMcDrawing(
+      this.config,
+      this.leadInfoMation
+    );
+    loanInfoDrawing.drawLoanPurpose();
+    loanInfoDrawing.drawLoanAmount();
+    loanInfoDrawing.drawSpVay();
+    loanInfoDrawing.drawInsuranceCreditCard();
+    loanInfoDrawing.drawMoneyLoan();
+    loanInfoDrawing.drawInsuranceCompany();
+    loanInfoDrawing.drawInsuranceFeeCharge();
+    loanInfoDrawing.drawInsurancePeriodCharge();
+    loanInfoDrawing.drawUtilityBill();
+    loanInfoDrawing.drawAverageAccountBalance();
+    loanInfoDrawing.drawCsmBike();
+    loanInfoDrawing.drawContractId();
+    loanInfoDrawing.drawContractCreditDateEnd();
+    loanInfoDrawing.drawContractCreditPeriodPass();
+    loanInfoDrawing.drawContractCreditAmountPeriod();
+  }
 
-//   drawLoansInfo() {
-//     let loanInfoDrawing = new LoansInfoDrawing(
-//       this.config,
-//       this.leadInfoMation
-//     );
-//     loanInfoDrawing.drawLoanPurpose();
-//     loanInfoDrawing.drawSpVay();
-//     this.jumpPage();
-//     loanInfoDrawing = new LoansInfoDrawing(this.config, this.leadInfoMation);
-//     loanInfoDrawing.drawMoneyLoan();
-//   }
-// drawOccupationInfo() {
-//     let occupationInfoDrawing = new OccupationInfoDrawing(
-//       this.config,
-//       this.leadInfoMation
-//     );
-//     occupationInfoDrawing.drawSourceIncome();
-//     occupationInfoDrawing.drawThongTinThuNhap();
-//     occupationInfoDrawing.drawSpouseInfo();
-//     occupationInfoDrawing.drawReferenceInfo();
-//     occupationInfoDrawing.drawDebtInfo();
-//     occupationInfoDrawing.drawBankInfo();
-//     occupationInfoDrawing.drawNote();
-//   }
+  personalIncomeLeadMcDrawing() {
+    let personalIncomeDrawing = new personalIncomeLeadMcDrawing(
+      this.config,
+      this.leadInfoMation
+    );
+    personalIncomeDrawing.drawJobTitle();
+    personalIncomeDrawing.drawjobPosition();
+    personalIncomeDrawing.drawTypeCompanyName();
+    personalIncomeDrawing.drawCompanyAddress();
+    personalIncomeDrawing.drawCompanyPhone();
+    personalIncomeDrawing.drawCompanyTax();
+    personalIncomeDrawing.drawTimeWorking();
+    personalIncomeDrawing.drawMainIncome();
+    personalIncomeDrawing.drawlabourContract();
+    personalIncomeDrawing.drawgetSalaryFrom();
+    
+  }
+  familyInfoLeadMcDrawing(){
+    let familyInfoDrawing = new familyInfoLeadMcDrawing(
+      this.config,
+      this.leadInfoMation
+    );
+    familyInfoDrawing.drawRelationshipWithBorrower();
+    this.jumpPage();
+    familyInfoDrawing = new familyInfoLeadMcDrawing(
+      this.config,
+      this.leadInfoMation
+    );
+    familyInfoDrawing.drawSpouseName();
+    familyInfoDrawing.drawSpouseDob();
+    familyInfoDrawing.drawspouseCmnd();
+    familyInfoDrawing.drawSpousePhone();
+    familyInfoDrawing.drawSpouseAddress();
+  }
+
 
   async exportToDir(filePath, callBack, params) {
     console.log(filePath);

@@ -22,18 +22,20 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   genderPosition() {
     return {
-      x: 395,
-      y: this.height - 131,
+      x: 391,
+      y: this.height - 132,
     };
   }
 
   drawGender() {
     let { x, y } = this.genderPosition();
-    if (this.leadInfo["gender"] == "Male") {
-      this.draw("X", x, y);
-    } else {
-      this.draw("X", 447, y);
-    }
+    this.draw("X", x, y);
+    this.draw("X", 449, y);
+    // if (this.leadInfo["gender"] == "Male") {
+    //   this.draw("X", x, y);
+    // } else {
+    //   this.draw("X", 447, y);
+    // }
   }
 
   dateOfBirthPosition() {
@@ -51,104 +53,117 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   maritalStatusPos() {
     return {
-      x: 189,
-      y: this.height - 145,
+      x: 186,
+      y: this.height - 147,
     };
   }
 
   drawMaritalStatus() {
     let { x, y } = this.maritalStatusPos();
-    switch (this.leadInfo["marital_status"]) {
-      case "Độc thân":
-        this.draw("X", x, y);
-        break;
-      case "Đã kết hôn":
-        this.draw("X", x + 97, y);
-        break;
-      case "Ly thân":
-        this.draw("X", x + 91 + 97, y);
-        break;
-      case "Li hôn":
-        this.draw("X", x + 91 + 97 + 36, y);
-        break;
-        case "Góa":
-          this.draw("X", x + 91 + 97 + 36 + 64, y);
-          break;
-      default:
-        break;
-    }
+    this.draw("X", x, y);
+    this.draw("X", 265, y);
+    this.draw("X", 356, y);
+    this.draw("X", 428, y);
+    this.draw("X", 491, y);
+    // switch (this.leadInfo["marital_status"]) {
+    //   case "Độc thân":
+    //     this.draw("X", x, y);
+    //     break;
+    //   case "Đã kết hôn":
+    //     this.draw("X", x + 97, y);
+    //     break;
+    //   case "Ly thân":
+    //     this.draw("X", x + 91 + 97, y);
+    //     break;
+    //   case "Li hôn":
+    //     this.draw("X", x + 91 + 97 + 36, y);
+    //     break;
+    //     case "Góa":
+    //       this.draw("X", x + 91 + 97 + 36 + 64, y);
+    //       break;
+    //   default:
+    //     break;
+    // }
   }
 
   educationStatusPos() {
     return {
-      x: 127,
-      y:this.height - 159,
+      x: 124,
+      y:this.height - 162,
     };
   }
 
   drawEducationStatus() {
     let { x, y } = this.educationStatusPos();
-    switch (this.leadInfo["education_status"]) {
-      case "Phổ thông":
-        this.draw("X", x, y);
-        break;
-      case "Trung cấp":
-        this.draw("X", x + 80, y);
-        break;
-      case "Cao đẳng":
-        this.draw("X", x + 80 + 73, y);
-        break;
-      case "Đại học":
-        this.draw("X", x + 80 * 2 + 73, y);
-        break;
-      case "Sau đại học":
-        this.draw("X", x + 94 * 2 + 73 *2, y);
-        break;
-      default:
-        break;
-    }
+    this.draw("X", x, y);
+    this.draw("X", 203, y);
+    this.draw("X", 276, y);
+    this.draw("X", 356 , y);
+    this.draw("X", 429 , y);
+    // switch (this.leadInfo["education_status"]) {
+    //   case "Phổ thông":
+    //     this.draw("X", x, y);
+    //     break;
+    //   case "Trung cấp":
+    //     this.draw("X", x + 80, y);
+    //     break;
+    //   case "Cao đẳng":
+    //     this.draw("X", x + 80 + 73, y);
+    //     break;
+    //   case "Đại học":
+    //     this.draw("X", x + 80 + 73, y);
+    //     break;
+    //   case "Sau đại học":
+    //     this.draw("X", x + 94 * 2 + 73 *2, y);
+    //     break;
+    //   default:
+    //     break;
+    //}
   }
 
   cmndPosition() {
     return {
       x: 189,
-      y:this.height - 174,
+      y:this.height - 175,
     };
   }
 
   drawCmnd() {
     let { x, y } = this.cmndPosition();
-    this.draw(this.leadInfo["cccd"], x, y);
+    // this.draw(this.leadInfo["cccd"], x, y);
+    this.draw("0582068462165", x, y);
   }
 
   phonePosition() {
     return {
       x: 135,
-      y:this.height - 188,
+      y:this.height - 190,
     };
   }
 
   drawPhone() {
     let { x, y } = this.phonePosition();
-    this.draw(this.leadInfo["phone"], x, y);
+    // this.draw(this.leadInfo["phone"], x, y);
+    this.draw("0903876240", x, y);
   }
 
   emailPosition() {
     return {
       x: 360,
-      y:this.height - 188,
+      y:this.height - 190,
     };
   }
 
   drawEmail() {
     let { x, y } = this.emailPosition();
-    this.draw(this.leadInfo["email"] || "", x, y);
+    //this.draw(this.leadInfo["email"] || "", x, y);
+    this.draw("hoangthien@gmail.com", x, y);
   }
 
   currentAddressPosition() {
     return {
       x: 185,
-      y:this.height - 206,
+      y:this.height - 204,
     };
   }
 
@@ -180,13 +195,15 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   residenceAddressPos() {
     return {
-      x: 163,
-      y:this.height - 236,
+      x: 159,
+      y:this.height - 238,
     };
   }
 
   drawingResidenceAddress() {
     let { x, y } = this.residenceAddressPos();
+    this.draw("X", x, y);
+    this.draw("X", x + 146, y);
     if (
       this.leadInfo["type_of_residence_address"] ==
       "Giống với địa chỉ nơi ở hiện tại"
@@ -206,7 +223,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
               " " +
               val[0],
             71,
-            this.height - 250
+            this.height - 251
           );
           resolve("drawingResidenceAddress Done");
         });
@@ -253,32 +270,37 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   accommodationStatusPos() {
     return {
-      x: this.width / 2 + 55,
+      x: 162,
       y: this.height - 285,
     };
   }
 
   drawAccommodationStatus() {
     let { x, y } = this.accommodationStatusPos();
-    switch (this.leadInfo["type_of_living"]) {
-      case "Sở hữu":
-        this.draw("X", x, y);
-        break;
-      case "Thuê":
-        this.draw("X", x + 80, y);
-        break;
-      case "Ở nhờ":
-        this.draw("X", x + 80 + 73, y);
-        break;
-      case "Sống với bố mẹ":
-        this.draw("X", x + 80 * 2 + 73, y);
-        break;
-      case "Tại đơn vị đóng quân":
-        this.draw("X", x + 94 * 2 + 73 *2, y);
-        break;
-      default:
-        break;
-    }
+    this.draw("X", x, y);
+    this.draw("X", 230, y);
+    this.draw("X", 278, y);
+    this.draw("X", 335, y);
+    this.draw("X", 433, y);
+    // switch (this.leadInfo["type_of_living"]) {
+    //   case "Sở hữu":
+    //     this.draw("X", x, y);
+    //     break;
+    //   case "Thuê":
+    //     this.draw("X", x + 80, y);
+    //     break;
+    //   case "Ở nhờ":
+    //     this.draw("X", x + 80 + 73, y);
+    //     break;
+    //   case "Sống với bố mẹ":
+    //     this.draw("X", x + 80 * 2 + 73, y);
+    //     break;
+    //   case "Tại đơn vị đóng quân":
+    //     this.draw("X", x + 94 * 2 + 73 *2, y);
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 
 
