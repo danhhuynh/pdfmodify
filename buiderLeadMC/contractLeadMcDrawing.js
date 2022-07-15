@@ -10,47 +10,51 @@ export default class contractLeadMcDrawing extends Builder {
 
   disburmentFormPos() {
     return {
-      x: 198,
-      y: 366,
+      x: 195,
+      y:this.height - 369,
     };
   }
 
   drawDisburmentForm() {
     let { x, y } = this.disburmentFormPos();
-    switch (this.loanInfo["disburment_form"]) {
-      case "Nhận tiền mặt tại đại lý chi hộ":
-        this.draw("X", x, y);
-        break;
-      case "Chuyển khoản vào số tài khoản sau":
-        this.draw("X", x , 380);
-        break;
-      default:
-        break;
-    }
+    this.draw("X", x, y);
+    this.draw("X", x ,this.height - 383);
+    // switch (this.loanInfo["disburment_form"]) {
+    //   case "Nhận tiền mặt tại đại lý chi hộ":
+    //     this.draw("X", x, y);
+    //     break;
+    //   case "Chuyển khoản vào số tài khoản sau":
+    //     this.draw("X", x , 380);
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 
   disburmentFormBankPos() {
     return {
       x: 158,
-      y: 393,
+      y:this.height - 395,
     };
   }
 
   drawdisburmentFormBank() {
     let { x, y } = this.disburmentFormBankPos();
-    this.draw(this.loanInfo["disburment_form_bank"], x, y);
+    // this.draw(this.loanInfo["disburment_form_bank"], x, y);
+    this.draw("sdfsdf", x, y);
   }
 
   disburmentFormBankBranchPos() {
     return {
       x: 403,
-      y: 393,
+      y:this.height - 395,
     };
   }
 
   drawDisburmentFormBankBranch() {
     let { x, y } = this.disburmentFormBankBranchPos();
-    this.draw(this.loanInfo["disburment_form_bank_branch"], x, y);
+    // this.draw(this.loanInfo["disburment_form_bank_branch"], x, y);
+    this.draw("asdsaih", x, y);
   }
   
   

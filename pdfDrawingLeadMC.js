@@ -4,9 +4,11 @@ import fontkit from "@pdf-lib/fontkit";
 
 import customerInfoLeadMcDrawing from "./buiderLeadMC/customerInfoLeadMcDrawing.js";
 import loansInfoLeadMcDrawing from "./buiderLeadMC/loansInfoLeadMcDrawing.js"
- import personalIncomeLeadMcDrawing from "./buiderLeadMC/personalIncomeLeadMcDrawing.js";
- import familyInfoLeadMcDrawing from "./buiderLeadMC/familyInfoLeadMcDrawing.js";
-// import OccupationInfoDrawing from "./builder/occupationInfoDrawing.js";
+import personalIncomeLeadMcDrawing from "./buiderLeadMC/personalIncomeLeadMcDrawing.js";
+import familyInfoLeadMcDrawing from "./buiderLeadMC/familyInfoLeadMcDrawing.js";
+import refPersonInfoLeadMcDrawing from "./buiderLeadMC/refPersonInfoLeadMcDrawing.js";
+import contractLeadMcDrawing from "./buiderLeadMC/contractLeadMcDrawing.js";
+import AgentInfoLeadMcDrawing from "./buiderLeadMC/AgentInfoLeadMcDrawing.js";
 
 export default class PdfDrawingLeadMC {
   constructor(leadInfo) {
@@ -39,13 +41,18 @@ export default class PdfDrawingLeadMC {
     this.config.page = this.pages[1];
   }
 
+  jumpPage_2() {
+    this.config.page = this.pages[2];
+  }
+
   startDraw() {
-    //this.drawHeaderSection();
     this.customerInfoLeadMcDrawing();
     this.loansInfoLeadMcDrawing();
     this.personalIncomeLeadMcDrawing();
-     this.familyInfoLeadMcDrawing();
-    // this.drawOccupationInfo();
+    this.familyInfoLeadMcDrawing();
+    this.refPersonInfoLeadMcDrawing();
+    this.contractLeadMcDrawing();
+    this.AgentInfoLeadMcDrawing();
   }
 
   customerInfoLeadMcDrawing() {
@@ -124,6 +131,52 @@ loansInfoLeadMcDrawing() {
     familyInfoDrawing.drawSpouseAddress();
   }
 
+  refPersonInfoLeadMcDrawing(){
+    let refPersonInfoDrawing = new refPersonInfoLeadMcDrawing(
+      this.config,
+      this.leadInfoMation
+    );
+    refPersonInfoDrawing.drawRef1Name();
+    refPersonInfoDrawing.drawRef1Type();
+    refPersonInfoDrawing.drawRef1Phone();
+    refPersonInfoDrawing.drawRef2Name();
+    refPersonInfoDrawing.drawRef2Type();
+    refPersonInfoDrawing.drawRef2Phone();
+  }
+
+  contractLeadMcDrawing(){
+    let contractDrawing = new contractLeadMcDrawing(
+      this.config,
+      this.leadInfoMation
+    );
+    contractDrawing.drawDisburmentForm();
+    contractDrawing.drawdisburmentFormBank();
+    contractDrawing.drawDisburmentFormBankBranch();
+  }
+
+  AgentInfoLeadMcDrawing(){
+    let AgentInfoDrawing = new AgentInfoLeadMcDrawing(
+      this.config,
+      this.leadInfoMation
+    );
+    AgentInfoDrawing.drawSaleName();
+    AgentInfoDrawing.drawSaleCode();
+    AgentInfoDrawing.drawSalePhone();
+    AgentInfoDrawing.drawLineOfCredit();
+    AgentInfoDrawing.drawlineOfCreditByWord();
+    AgentInfoDrawing.drawCreditReceiveMethod();
+    this.jumpPage_2();
+    AgentInfoDrawing = new AgentInfoLeadMcDrawing(
+      this.config,
+      this.leadInfoMation
+    );
+    AgentInfoDrawing.drawSecureQuestion();
+    AgentInfoDrawing.drawInternetExchangeSignup();
+    AgentInfoDrawing.drawInsuranceCreditCard();
+    AgentInfoDrawing.drawCardReleaseFee();
+    AgentInfoDrawing.drawAnualFee()
+
+  }
 
   async exportToDir(filePath, callBack, params) {
     console.log(filePath);
