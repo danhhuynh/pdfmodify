@@ -17,8 +17,7 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawSaleName() {
     let { x, y } = this.saleNamePos();
-    //this.draw(this.loanInfo["salename"], x, y);
-    this.draw("asdhaos", x, y);
+    this.draw(this.loanInfo["salename"], x, y);
   }
 
   saleCodePos() {
@@ -30,8 +29,7 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawSaleCode() {
     let { x, y } = this.saleCodePos();
-    // this.draw(this.loanInfo["salecode"], x, y);
-    this.draw("018498", x, y);
+    this.draw(this.loanInfo["salecode"], x, y);
   }
 
   salePhonePos() {
@@ -43,8 +41,7 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawSalePhone() {
     let { x, y } = this.salePhonePos();
-    // this.draw(this.loanInfo["salephone"], x, y);
-    this.draw("asdk", x, y);
+    this.draw(this.loanInfo["salephone"], x, y);
   }
   
   lineOfCreditPos() {
@@ -56,8 +53,8 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawLineOfCredit() {
     let { x, y } = this.lineOfCreditPos();
-    // this.draw(this.loanInfo["line_of_credit"], x, y);
-    this.draw("asdhka", x, y);
+    this.draw(this.loanInfo["line_of_credit"], x, y);
+    
   }
 
   lineOfCreditByWordPos() {
@@ -69,8 +66,8 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawlineOfCreditByWord() {
     let { x, y } = this.lineOfCreditByWordPos();
-    // this.draw(this.loanInfo["line_of_credit_by_word"], x, y);
-    this.draw("asdhak", x, y);
+    this.draw(this.loanInfo["line_of_credit_by_word"], x, y);
+
   }
 
   creditReceiveMethodPos() {
@@ -82,22 +79,19 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawCreditReceiveMethod() {
     let { x, y } = this.creditReceiveMethodPos();
-    this.draw("X", x, y);
-    this.draw("X", 149 , y);
-    this.draw("X", 252 , y);
-    // switch (this.loanInfo["credit_receive_method"]) {
-    //   case "Địa chỉ thường trú":
-    //     this.draw("X", x, y);
-    //     break;
-    //   case "Địa chỉ tạm trú":
-    //     this.draw("X", 152 , y);
-    //     break;
-    //   case "Địa chỉ công ty":
-    //     this.draw("X", 256 , y);
-    //     break;
-    //   default:
-    //     break;
-    // }
+    switch (this.loanInfo["credit_receive_method"]) {
+      case "Địa chỉ thường trú":
+        this.draw("X", x, y);
+        break;
+      case "Địa chỉ tạm trú":
+        this.draw("X", 149 , y);
+        break;
+      case "Địa chỉ công ty":
+        this.draw("X", 252 , y);
+        break;
+      default:
+        break;
+    }
   }
 
   secureQuestionPos() {
@@ -109,22 +103,19 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawSecureQuestion() {
     let { x, y } = this.secureQuestionPos();
-    this.draw("X", x, y);
-    this.draw("X", 110 , y);
-    this.draw("X", 248 , y);
-    // switch (this.loanInfo["secure_question"]) {
-    //   case "Họ tên mẹ":
-    //     this.draw("X", x, y);
-    //     break;
-    //   case "Tên trường tiểu học đầu tiên":
-    //     this.draw("X", 113 , y);
-    //     break;
-    //   case "Tên vật nuôi":
-    //     this.draw("X", 251 , y);
-    //     break;
-    //   default:
-    //     break;
-    // }
+    switch (this.loanInfo["secure_question"]) {
+      case "Họ tên mẹ":
+        this.draw("X", x, y);
+        break;
+      case "Tên trường tiểu học đầu tiên":
+        this.draw("X", 110 , y);
+        break;
+      case "Tên vật nuôi":
+        this.draw("X", 248 , y);
+      break;
+      default:
+        break;
+    }
   }
 
   internetExchangeSignupPos() {
@@ -136,18 +127,16 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawInternetExchangeSignup() {
     let { x, y } = this.internetExchangeSignupPos();
-    this.draw("X", x, y);
-    this.draw("X", 220 , y);
-    // switch (this.loanInfo["internet_exchange_signup"]) {
-    //   case "YES":
-    //     this.draw("X", x, y);
-    //     break;
-    //   case "NO":
-    //     this.draw("X", 224 , y);
-    //     break;
-    //   default:
-    //     break;
-    // }
+    switch (this.loanInfo["internet_exchange_signup"]) {
+      case "YES":
+        this.draw("X", x, y);
+        break;
+      case "NO":
+        this.draw("X", 220 , y);
+        break;
+      default:
+        break;
+    }
   }
 
   insuranceCreditCardPos() {
@@ -159,18 +148,16 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawInsuranceCreditCard() {
     let { x, y } = this.insuranceCreditCardPos();
-    this.draw("X", x, y);
-    this.draw("X", 186 , y);
-    // switch (this.loanInfo["insurance_credit_card"]) {
-    //   case "YES":
-    //     this.draw("X", x, y);
-    //     break;
-    //   case "NO":
-    //     this.draw("X", 190 , y);
-    //     break;
-    //   default:
-    //     break;
-    // }
+    switch (this.loanInfo["insurance_credit_card"]) {
+      case "YES":
+        this.draw("X", x, y);
+        break;
+      case "NO":
+        this.draw("X", 186 , y);
+        break;
+      default:
+        break;
+    }
   }
 
   cardReleaseFeePos() {
@@ -182,18 +169,18 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawCardReleaseFee() {
     let { x, y } = this.cardReleaseFeePos();
-    this.draw("X", x, y);
-    this.draw("X", 187 , y);
-    // switch (this.loanInfo["card_release_fee"]) {
-    //   case "YES":
-    //     this.draw("X", x, y);
-    //     break;
-    //   case "NO":
-    //     this.draw("X", 190 , y);
-    //     break;
-    //   default:
-    //     break;
-    // }
+    
+    
+    switch (this.loanInfo["card_release_fee"]) {
+      case "YES":
+        this.draw("X", x, y);
+        break;
+      case "NO":
+        this.draw("X", 187 , y);
+        break;
+      default:
+        break;
+    }
   }
 
   anualFeePos() {
@@ -205,17 +192,15 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   drawAnualFee() {
     let { x, y } = this.anualFeePos();
-    this.draw("X", x, y);
-    this.draw("X", 181 , y);
-    // switch (this.loanInfo["anual_fee"]) {
-    //   case "YES":
-    //     this.draw("X", x, y);
-    //     break;
-    //   case "NO":
-    //     this.draw("X", 185 , y);
-    //     break;
-    //   default:
-    //     break;
-    // }
+    switch (this.loanInfo["anual_fee"]) {
+      case "YES":
+        this.draw("X", x, y);
+        break;
+      case "NO":
+        this.draw("X", 181 , y);
+        break;
+      default:
+        break;
+    }
   }
 }

@@ -17,8 +17,7 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
 
   drawRef1Name() {
     let { x, y } = this.ref1NamePos();
-    // this.draw(this.loanInfo["ref_1_name"], x, y);
-    this.draw("asdsa", x, y);
+    this.draw(this.loanInfo["ref_1_name"], x, y);
   }
 
   ref1TypePos() {
@@ -30,8 +29,8 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
 
   drawRef1Type() {
     let { x, y } = this.ref1TypePos();
-    // this.draw(this.loanInfo["ref_1_type"], x, y);
-    this.draw("asdas", x, y);
+    this.draw(this.loanInfo["ref_1_type"], x, y);
+    
   }
 
   ref1PhonePos() {
@@ -43,8 +42,8 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
 
   drawRef1Phone() {
     let { x, y } = this.ref1PhonePos();
-    // this.draw(this.loanInfo["ref_1_phone"], x, y);
-    this.draw("asdas", x, y);
+    this.draw(this.loanInfo["ref_1_phone"], x, y);
+   
   }
   
   ref2NamePos() {
@@ -56,8 +55,7 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
 
   drawRef2Name() {
     let { x, y } = this.ref2NamePos();
-    this.draw("asds", x, y);
-    // this.draw(this.loanInfo["ref_2_name"], x, y);
+    this.draw(this.loanInfo["ref_2_name"], x, y);
   }
 
   ref2TypePos() {
@@ -69,8 +67,8 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
 
   drawRef2Type() {
     let { x, y } = this.ref2TypePos();
-    // this.draw(this.loanInfo["ref_2_type"], x, y);
-    this.draw("asdsa", x, y);
+    this.draw(this.loanInfo["ref_2_type"], x, y);
+   
   }
 
   ref2PhonePos() {
@@ -82,7 +80,7 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
 
   drawRef2Phone() {
     let { x, y } = this.ref2PhonePos();
-    // this.draw(this.loanInfo["ref_2_phone"], x, y);
-    this.draw("10651165", x, y);
+    this.draw(this.loanInfo["ref_2_phone"], x, y);
+   
   }
 }

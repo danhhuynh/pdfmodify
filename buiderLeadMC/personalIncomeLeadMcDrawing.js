@@ -72,23 +72,20 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   drawjobPosition() {
     let { x, y } = this.jobPositionPos();
-    this.draw("X", x, y);
-    this.draw("X", 217 , y);
-    this.draw("X", 363 , y);
-    // switch (this.loanInfo["job_position"]) {
-    //   case "Cán bộ quản lý":
-    //     this.draw("X", x, y);
-    //     break;
-    //   case "Trưởng nhóm/Quản đốc":
-    //     this.draw("X", 221 , y);
-    //     break;
-    //   case "Nhân viên/Chuyên viên":
-    //     this.draw("X", 366 , y);
-    //     break;
+    switch (this.loanInfo["job_position"]) {
+      case "Cán bộ quản lý":
+        this.draw("X", x, y);
+        break;
+      case "Trưởng nhóm/Quản đốc":
+        this.draw("X", 217 , y);
+        break;
+      case "Nhân viên/Chuyên viên":
+        this.draw("X", 363 , y);
+        break;
        
-    //   default:
-    //     break;
-    // }
+      default:
+        break;
+    }
   }
 
   typeCompanyNamePos() {
@@ -100,8 +97,8 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   drawTypeCompanyName() {
     let { x, y } = this.typeCompanyNamePos();
-    // this.draw(this.loanInfo["company_name"], x, y);
-    this.draw("sdfsd", x, y);
+    this.draw(this.loanInfo["company_name"], x, y);
+   
   }
 
   companyAddressPos() {
@@ -113,8 +110,8 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   drawCompanyAddress() {
     let { x, y } = this.companyAddressPos();
-    // this.draw(this.loanInfo["type_company_address"], x, y);
-    this.draw("sdfsd", x, y);
+    this.draw(this.loanInfo["type_company_address"], x, y);
+  
   }
 
 
@@ -127,8 +124,8 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   drawCompanyPhone() {
     let { x, y } = this.companyPhonePos();
-    // this.draw(this.loanInfo["landline_company"], x, y);
-    this.draw("sdfsd", x, y);
+    this.draw(this.loanInfo["landline_company"], x, y);
+   
   }
 
   companyTaxPos() {
@@ -140,8 +137,8 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   drawCompanyTax() {
     let { x, y } = this.companyTaxPos();
-    //this.draw(this.loanInfo["tax_code"], x, y);
-    this.draw("sdfds", x, y);
+    this.draw(this.loanInfo["tax_code"], x, y);
+    
   }
 
   timeWorkingPos() {
@@ -153,10 +150,9 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   drawTimeWorking() {
     let { x, y } = this.timeWorkingPos();
-    // this.draw(this.leadInfo["years_working"] , x, y);
-    // this.draw(this.leadInfo["months_working"] , x + 40, y);
-    this.draw("09" , x, y);
-    this.draw("10" , x + 40, y);
+    this.draw(this.leadInfo["years_working"] , x, y);
+    this.draw(this.leadInfo["months_working"] , x + 40, y);
+    
   }
 
   mainIncomePos() {
@@ -168,8 +164,8 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   drawMainIncome() {
     let { x, y } = this.mainIncomePos();
-    // this.draw(this.loanInfo["main_income"], x, y);
-    this.draw("dfsd", x, y);
+    this.draw(this.loanInfo["main_income"], x, y);
+  
   }
 
   labourContractPos() {
@@ -181,26 +177,22 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   drawlabourContract() {
     let { x, y } = this.labourContractPos();
-    this.draw("X", x, y);
-    this.draw("X", 282 , y);
-    this.draw("X", x , y - 13);
-    this.draw("X", 283 , y - 13);
-    // switch (this.loanInfo["labour_contract"]) {
-    //   case "<1 năm (Thời vụ)":
-    //     this.draw("X", x, y);
-    //     break;
-    //   case "<1 năm (Học việc, Thử việc)":
-    //     this.draw("X", 286 , y);
-    //     break;
-    //   case "1-3 năm":
-    //     this.draw("X", x , y + 13);
-    //     break;
-    //   case "Không xác định thời hạn":
-    //     this.draw("X", 287 , y + 13);
-    //     break; 
-    //   default:
-    //     break;
-    // }
+    switch (this.loanInfo["labour_contract"]) {
+      case "<1 năm (Thời vụ)":
+        this.draw("X", x, y);
+        break;
+      case "<1 năm (Học việc, Thử việc)":
+        this.draw("X", 282 , y);
+        break;
+      case "1-3 năm":
+        this.draw("X", x , y - 13);
+        break;
+      case "Không xác định thời hạn":
+        this.draw("X", 283 , y - 13);
+        break; 
+      default:
+        break;
+    }
   }
 
   getSalaryFromPos() {
@@ -212,22 +204,19 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   drawgetSalaryFrom() {
     let { x, y } = this.getSalaryFromPos();
-    this.draw("X", x, y);
-    this.draw("X", 253 , y);
-    this.draw("X", 367 , y);
-    // switch (this.loanInfo["get_salary_from"]) {
-    //   case "Tiền mặt":
-    //     this.draw("X", x, y);
-    //     break;
-    //   case "Qua tải khoản MB":
-    //     this.draw("X", 256 , y);
-    //     break;
-    //   case "Qua tài khoản Ngân hàng khác":
-    //     this.draw("X", 370 , y);
-    //     break;
+    switch (this.loanInfo["get_salary_from"]) {
+      case "Tiền mặt":
+        this.draw("X", x, y);
+        break;
+      case "Qua tải khoản MB":
+        this.draw("X", 253 , y);
+        break;
+      case "Qua tài khoản Ngân hàng khác":
+        this.draw("X", 367 , y);
+        break;
      
-    //   default:
-    //     break;
-    // }
+      default:
+        break;
+    }
   }
 }
