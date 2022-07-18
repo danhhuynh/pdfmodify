@@ -1,5 +1,5 @@
 import Builder from "./Builder.js";
-import { city,getCityDistrictWard } from "../utils/redis_cache.js";
+import { city, getCityDistrictWard } from "../utils/redis_cache.js";
 export default class customerInfoLeadMcDrawing extends Builder {
   constructor(config, loanInfo) {
     const { page, font, fontSize, color } = config;
@@ -46,7 +46,6 @@ export default class customerInfoLeadMcDrawing extends Builder {
   drawDob() {
     let { x, y } = this.dateOfBirthPosition();
     this.draw(this.leadInfo["date_of_birth"], x, y);
-    
   }
 
   maritalStatusPos() {
@@ -58,10 +57,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   drawMaritalStatus() {
     let { x, y } = this.maritalStatusPos();
-    
-    
-    
-    
+
     switch (this.leadInfo["marital_status"]) {
       case "Độc thân":
         this.draw("X", x, y);
@@ -86,7 +82,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   educationStatusPos() {
     return {
       x: 124,
-      y:this.height - 162,
+      y: this.height - 162,
     };
   }
 
@@ -103,10 +99,10 @@ export default class customerInfoLeadMcDrawing extends Builder {
         this.draw("X", 276, y);
         break;
       case "Đại học":
-        this.draw("X", 356 , y);
+        this.draw("X", 356, y);
         break;
       case "Sau đại học":
-        this.draw("X", 429 , y);
+        this.draw("X", 429, y);
         break;
       default:
         break;
@@ -115,8 +111,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   cmndPosition() {
     return {
-      x: 189,
-      y:this.height - 175,
+      x: 190,
+      y: this.height - 175,
     };
   }
 
@@ -127,8 +123,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   phonePosition() {
     return {
-      x: 135,
-      y:this.height - 190,
+      x: 137,
+      y: this.height - 190,
     };
   }
 
@@ -139,21 +135,20 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   emailPosition() {
     return {
-      x: 360,
-      y:this.height - 190,
+      x: 362,
+      y: this.height - 190,
     };
   }
 
   drawEmail() {
     let { x, y } = this.emailPosition();
     this.draw(this.leadInfo["email"] || "", x, y);
-
   }
 
   currentAddressPosition() {
     return {
-      x: 185,
-      y:this.height - 204,
+      x: 187,
+      y: this.height - 204,
     };
   }
 
@@ -181,12 +176,12 @@ export default class customerInfoLeadMcDrawing extends Builder {
       });
     });
     global.promiseStore.push(mypromise);
-  }  
+  }
 
   residenceAddressPos() {
     return {
       x: 159,
-      y:this.height - 238,
+      y: this.height - 238,
     };
   }
 
@@ -233,8 +228,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
               val[1] +
               " " +
               val[0],
-              71,
-              this.height - 252
+            71,
+            this.height - 252
           );
           resolve("drawingResidenceAddress Done");
         });
@@ -246,14 +241,14 @@ export default class customerInfoLeadMcDrawing extends Builder {
   timeLivingPos() {
     return {
       x: 248,
-      y:this.height - 267,
+      y: this.height - 267,
     };
   }
 
   drawTimeLiving() {
     let { x, y } = this.timeLivingPos();
-    this.draw(this.leadInfo["year_living"] , x, y);
-    this.draw(this.leadInfo["month_living"] , x + 48, y);
+    this.draw(this.leadInfo["year_living"], x, y);
+    this.draw(this.leadInfo["month_living"], x + 48, y);
   }
 
   accommodationStatusPos() {
@@ -285,6 +280,4 @@ export default class customerInfoLeadMcDrawing extends Builder {
         break;
     }
   }
-
-
 }

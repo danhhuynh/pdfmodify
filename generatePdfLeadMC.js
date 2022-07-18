@@ -5,55 +5,26 @@ const require = createRequire(import.meta.url);
 var fs = require("fs");
 require("dotenv").config();
 
-import LeadMafc from "./models/leadMafc.js";
-import DocLeadMafc from "./models/documentMafc.js";
-import { systemFields } from "./constant/system_fields.js";
+import LeadMC from "./models/LeadMC.js";
+import DocumentMC from "./models/DocumentMc.js";
 
 var mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI);
-const getLeadMAFC = new Promise((resolve, reject) => {
-  LeadMafc.aggregate([
-    {
-      $match: {
-        status_render: STATUS["RENDER_ACCA"],
-        updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 2) },
-      },
-    },
-    { $addFields: { customer_obj_id: { $toObjectId: "$customer_id" } } },
-    {
-      $lookup: {
-        from: "Customer",
-        localField: "customer_obj_id",
-        foreignField: "_id",
-        as: "customer",
-        pipeline: [{ $project: systemFields }],
-      },
-    },
-    { $project: systemFields },
-  ]).exec((err, lead) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    resolve(lead);
-  });
-});
+
 try {
-  getLeadMAFC.then(
-    (leads) => {
-      if (!leads || leads.length === 0) {
+  LeadMC.findOne({
+    status_render: STATUS["RENDER_ACCA"],
+    updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 3) },
+  })
+    .populate("customer")
+    .exec((err, lead) => {
+      if (err) throw err;
+      if (!lead) {
         console.log("Empty Data");
         process.exit();
       }
-      leads.forEach((lead) => {
-        lead["customer"] = lead["customer"][0];
-        drawPdf(lead);
-      });
-    },
-    (err) => {
-      throw err;
-    }
-  );
+      drawPdf(lead);
+    });
 } catch (error) {
   console.log(error);
 }
@@ -61,8 +32,8 @@ try {
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 global.promiseStore = [];
 async function drawPdf(lead) {
-  let dir = process.env.STORAGE_PATH;
-  let template = process.env.TEMPLATE_PATH;
+  let dir = process.env.STORAGE_PATH_MC;
+  let template = process.env.MC_VAYVON_TEMPLATE_PATH;
   let PdfDrawingLead = new PdfDrawingLeadMC(lead);
   let file_name = "DN_" + lead["customer"]["cccd"] + ".pdf";
   let pathFile = dir + lead["_id"] + "/" + file_name;
@@ -77,6 +48,7 @@ async function drawPdf(lead) {
     if (!fs.existsSync(dir + lead["_id"])) {
       fs.mkdirSync(dir + lead["_id"], { recursive: true });
     }
+    console.log(pathFile);
     PdfDrawingLead.exportToDir(pathFile, updateLead, {
       version,
       file_name,
@@ -86,11 +58,11 @@ async function drawPdf(lead) {
 }
 
 function updateLead({ version, file_name, _id }) {
-  DocLeadMafc.updateOne(
-    { lead_id: _id, code: "DN", version: version },
+  DocumentMC.updateOne(
+    { lead_id: _id, code: "CustomerInformationSheet", version: version },
     { file_path: [file_name] },
     (err, writeOpResult) => {
-      LeadMafc.updateOne(
+      LeadMC.updateOne(
         { _id: _id },
         { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
         (err, writeOpResult) => {
