@@ -14,7 +14,6 @@ const generatePDF = async (
 
   const customFont = await result.embedFont(fontBytes);
   const pages = result.getPages();
-
   const infoFillOnPDF = await dataFillOnPDF;
 
   for (let index = 0; index < pages.length; index++) {

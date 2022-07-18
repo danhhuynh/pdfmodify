@@ -23,5 +23,8 @@ const getLeadMC = new Promise((resolve) => {
 
 export const listInfoCustomer = async () => {
   const list = await getLeadMC;
+
+  console.log(list, "list");
+
   return list;
 };

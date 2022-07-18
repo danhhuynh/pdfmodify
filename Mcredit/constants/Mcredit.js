@@ -128,10 +128,10 @@ const choO = {
 };
 
 const education_status = {
-  "Phổ thông": {
+  THCS: {
     text: "0",
-    x: 120,
-    y: 155,
+    x: 125,
+    y: 160,
   },
   "Trung cấp": {
     text: "0",
@@ -156,10 +156,39 @@ const education_status = {
   },
 };
 
+const marital_status = {
+  DT: {
+    text: "0",
+    x: 190,
+    y: 140,
+  },
+  "Lập gia đình": {
+    text: "0",
+    x: 270,
+    y: 143,
+  },
+  LT: {
+    text: "1",
+    x: 370,
+    y: 140,
+  },
+
+  LH: {
+    text: "2",
+    x: 430,
+    y: 140,
+  },
+  G: {
+    text: "3",
+    x: 490,
+    y: 140,
+  },
+};
+
 const dataFieldOnPDF = async () => {
-  const dataasdasdasdas = await listInfoCustomer();
-  const customer = dataasdasdasdas[0].customer;
-  const data = { ...dataasdasdasdas[0], ...customer };
+  const listInfoCustomer = await listInfoCustomer();
+  const customer = listInfoCustomer[0].customer;
+  const data = { ...listInfoCustomer[0], ...customer };
 
   const PAGE_1 = [
     {
@@ -188,36 +217,11 @@ const dataFieldOnPDF = async () => {
 
     //Line 4
 
-    {
-      text: "0",
-      x: 190,
-      y: 140,
-    },
-    {
-      text: "0",
-      x: 260,
-      y: 140,
-    },
-    {
-      text: "1",
-      x: 370,
-      y: 140,
-    },
-
-    {
-      text: "2",
-      x: 430,
-      y: 140,
-    },
-    {
-      text: "3",
-      x: 490,
-      y: 140,
-    },
+    marital_status["Lập gia đình"],
 
     // Line 5
 
-    // education_status["THCS"],
+    education_status["THCS"],
 
     // Line 6
     {
@@ -239,15 +243,15 @@ const dataFieldOnPDF = async () => {
     },
     //line 9
     {
-      text: "4567898765445678dfghhkjvbckhjlkhbvhkjasdashdjkhaskjdsadjlkasjd",
+      text: data["detail_current_address"],
       x: 170,
       y: 203,
     },
-    {
-      text: "4567898765445678dfghhkjvbckhjlkhbvhkjasdashdjkhaskjdsadjlkasjd",
-      x: 90,
-      y: 218,
-    },
+    // {
+    //   text: "4567898765445678dfghhkjvbckhjlkhbvhkjasdashdjkhaskjdsadjlkasjd",
+    //   x: 90,
+    //   y: 218,
+    // },
 
     //line 10
     {
@@ -261,7 +265,7 @@ const dataFieldOnPDF = async () => {
       y: 235,
     },
     {
-      text: "4567898765445678dfghhkjvbckhjlkhbvhkjasdashdjkhaskjdsadjlkasjd",
+      text: "2",
       x: 90,
       y: 250,
     },
@@ -370,7 +374,7 @@ const dataFieldOnPDF = async () => {
     },
     //Line 9
     {
-      text: "9",
+      text: "09",
       x: 450,
       y: 500,
     },
@@ -381,23 +385,28 @@ const dataFieldOnPDF = async () => {
       y: 530,
     },
     {
-      text: "9c",
+      text: "09",
       x: 180,
       y: 545,
     },
     {
-      text: "9ưqwe",
+      text: "09",
       x: 500,
       y: 545,
     },
     {
-      text: "3213",
-      x: 450,
+      text: "10",
+      x: 405,
+      y: 530,
+    },
+    {
+      text: "93",
+      x: 425,
       y: 530,
     },
     {
       text: "9123",
-      x: 440,
+      x: 450,
       y: 530,
     },
 
@@ -640,23 +649,21 @@ const dataFieldOnPDF = async () => {
     },
     //Note
     {
-      text: "1ghguhiasdasdaodasdlikgj",
+      text: "1",
       x: 40,
       y: 680,
     },
     {
-      text: "1ghguhiasdasdaodasdlikgj",
+      text: "2",
       x: 40,
-      y: 690,
+      y: 693,
     },
     {
-      text: "1ghguhiasdasdaodasdlikgj",
+      text: "3",
       x: 40,
       y: 705,
     },
   ];
-
-  console.log([PAGE_1, PAGE_2]);
 
   return [PAGE_1, PAGE_2];
 };
