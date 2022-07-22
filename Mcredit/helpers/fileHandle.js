@@ -8,7 +8,8 @@ export const handleWriteFile = (pathWithFileName, pdfBytes) =>
       console.error(err);
       return;
     }
-    console.log("File err");
+    console.log("Done");
+    process.exit();
   });
 
 export const loadFilePdf = async (patchFile) => {
