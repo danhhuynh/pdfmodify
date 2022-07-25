@@ -1,17 +1,23 @@
 import * as Sentry from "@sentry/node";
 import fs from "fs";
-import { rgb } from "pdf-lib";
 import { handleWriteFile, loadFilePdf } from "./fileHandle.js";
 import Section_1_UI from "../CoordinateUI/Section_1_UI.js";
 import Section_2_UI from "../CoordinateUI/Section_2_UI.js";
+import Section_3_UI from "../CoordinateUI/Section_3_UI.js";
+import {
+  genArrPoint_1 as Section_4_UI_1,
+  genArrPoint_2 as Section_4_UI_2,
+} from "../CoordinateUI/Section_4_UI.js";
+import Section_6_UI from "../CoordinateUI/Section_6_UI.js";
+import Section_7_UI from "../CoordinateUI/Section_7_UI.js";
+import Section_9_UI from "../CoordinateUI/Section_9_UI.js";
 import { getLeadRender } from "./mongooseConnect.js";
 
-const generatePDF = async (
-  inputPatchPDF,
-  outPutPatchPDF,
-  patchFont,
-  dataFillOnPDF
-) => {
+const TEMPLATE_PATH = "./file/Mcredit.pdf";
+const OUTPUT_PATH = process.env.STORAGE_PATH_MC;
+const patchFont = "../Be_Vietnam_Pro/BeVietnamPro-Regular.ttf";
+
+const generatePDF = async () => {
   let leadData = [];
   try {
     leadData = await getLeadRender();
@@ -28,59 +34,68 @@ const generatePDF = async (
   try {
     leadData = leadData[0];
     const customer = leadData.customer;
-    const data = { ...leadData, ...customer };
-    await mainProcess(
-      data,
-      inputPatchPDF,
-      outPutPatchPDF,
-      patchFont,
-      dataFillOnPDF
-    );
+    const data = { ...customer, ...leadData }; //id lead will override id of customer
+    await drawProcess(data);
   } catch (error) {
-    console.log(error);
+    console.log("logged", error);
     Sentry.captureException(error);
     return;
   }
 };
 
-const mainProcess = async (
-  data,
-  inputPatchPDF,
-  outPutPatchPDF,
-  patchFont,
-  dataFillOnPDF
-) => {
-  const result = await loadFilePdf(inputPatchPDF);
+const drawProcess = async (data) => {
+  const result = await loadFilePdf(TEMPLATE_PATH);
   const fontBytes = fs.readFileSync(patchFont);
 
   const customFont = await result.embedFont(fontBytes);
   const pages = result.getPages();
-  const infoFillOnPDF = await dataFillOnPDF;
-
+  //Page 1
   let currPage = pages[0];
-  let { height } = currPage.getSize();
+
   //Section 1
   const Section_1_Arr_Point = Section_1_UI(data);
-  for (let j = 0; j < Section_1_Arr_Point.length; j++) {
-    const element = Section_1_Arr_Point[j];
-    if (!element || !element.x || !element.y) {
-      continue;
-    }
-    const text = element.text || "";
-    const textSize = 9;
-
-    currPage.drawText(text || "", {
-      x: element.x,
-      y: Math.abs(element.y - height) + 1,
-      size: element.fontSize || textSize,
-      font: customFont,
-    });
-  }
-
+  drawFromArrPoint(Section_1_Arr_Point, currPage, customFont);
+  let { height } = currPage.getSize();
   //Section 2
   const Section_2_Arr_Point = Section_2_UI(data);
-  for (let j = 0; j < Section_2_Arr_Point.length; j++) {
-    const element = Section_2_Arr_Point[j];
+  drawFromArrPoint(Section_2_Arr_Point, currPage, customFont);
+
+  //Section 3
+  const Section_3_Arr_Point = Section_3_UI(data);
+  drawFromArrPoint(Section_3_Arr_Point, currPage, customFont);
+
+  //Section 4
+  let Section_4_Arr_Point = Section_4_UI_1(data);
+  drawFromArrPoint(Section_4_Arr_Point, currPage, customFont);
+  //Page 2
+  currPage = pages[1];
+  Section_4_Arr_Point = Section_4_UI_2(data);
+  drawFromArrPoint(Section_4_Arr_Point, currPage, customFont);
+
+  //Section 6
+  const Section_6_Arr_Point = Section_6_UI(data);
+  drawFromArrPoint(Section_6_Arr_Point, currPage, customFont);
+
+  //Section 7
+  const Section_7_Arr_Point = Section_7_UI(data);
+  drawFromArrPoint(Section_7_Arr_Point, currPage, customFont);
+
+  //Section 9
+  const Section_9_Arr_Point = Section_9_UI(data);
+  drawFromArrPoint(Section_9_Arr_Point, currPage, customFont);
+
+  const pdfBytes = await result.save();
+
+  let dir = OUTPUT_PATH + data["_id"];
+  let file_name = "/CustomerInformationSheet_" + data["cccd"] + ".pdf";
+
+  handleWriteFile(dir, file_name, pdfBytes);
+};
+
+function drawFromArrPoint(arrPoint, currPage, customFont) {
+  let { height } = currPage.getSize();
+  for (let j = 0; j < arrPoint.length; j++) {
+    const element = arrPoint[j];
     if (!element || !element.x || !element.y) {
       continue;
     }
@@ -94,25 +109,6 @@ const mainProcess = async (
       font: customFont,
     });
   }
-
-  for (let index = 0; index < pages.length; index++) {
-    const firstPage = pages[index];
-    const { height } = firstPage.getSize();
-    for (let j = 0; j < infoFillOnPDF[index].length; j++) {
-      const element = infoFillOnPDF[index][j];
-      const text = element.text;
-      const textSize = 10;
-
-      firstPage.drawText(text || "", {
-        x: element.x,
-        y: Math.abs(element.y - height) + 1,
-        size: textSize,
-        font: customFont,
-      });
-    }
-  }
-  const pdfBytes = await result.save();
-  handleWriteFile(outPutPatchPDF, pdfBytes);
-};
+}
 
 export default generatePDF;

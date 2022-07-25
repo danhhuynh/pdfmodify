@@ -6,7 +6,7 @@ export const education_status = {
 };
 export const marital_status = {
   "Độc thân": 190,
-  "Lập gia đình": 270,
+  "Lập gia đình": 269,
   "Ly thân": 259,
   "Li dị": 430,
   "Góa bụa": 491,
