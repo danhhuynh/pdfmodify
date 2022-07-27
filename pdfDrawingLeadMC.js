@@ -3,7 +3,7 @@ import fs from "fs";
 import fontkit from "@pdf-lib/fontkit";
 
 import customerInfoLeadMcDrawing from "./buiderLeadMC/customerInfoLeadMcDrawing.js";
-import loansInfoLeadMcDrawing from "./buiderLeadMC/loansInfoLeadMcDrawing.js"
+import loansInfoLeadMcDrawing from "./buiderLeadMC/loansInfoLeadMcDrawing.js";
 import personalIncomeLeadMcDrawing from "./buiderLeadMC/personalIncomeLeadMcDrawing.js";
 import familyInfoLeadMcDrawing from "./buiderLeadMC/familyInfoLeadMcDrawing.js";
 import refPersonInfoLeadMcDrawing from "./buiderLeadMC/refPersonInfoLeadMcDrawing.js";
@@ -74,13 +74,13 @@ export default class PdfDrawingLeadMC {
     customerInfoDrawing.drawCmnd();
   }
 
-loansInfoLeadMcDrawing() {
+  loansInfoLeadMcDrawing() {
     let loanInfoDrawing = new loansInfoLeadMcDrawing(
       this.config,
       this.leadInfoMation
     );
     loanInfoDrawing.drawLoanPurpose();
-    loanInfoDrawing.drawLoanAmount();
+    loanInfoDrawing.drawLoanPeriod();
     loanInfoDrawing.drawSpVay();
     loanInfoDrawing.drawInsuranceCreditCard();
     loanInfoDrawing.drawMoneyLoan();
@@ -111,9 +111,8 @@ loansInfoLeadMcDrawing() {
     personalIncomeDrawing.drawMainIncome();
     personalIncomeDrawing.drawlabourContract();
     personalIncomeDrawing.drawgetSalaryFrom();
-    
   }
-  familyInfoLeadMcDrawing(){
+  familyInfoLeadMcDrawing() {
     let familyInfoDrawing = new familyInfoLeadMcDrawing(
       this.config,
       this.leadInfoMation
@@ -131,7 +130,7 @@ loansInfoLeadMcDrawing() {
     familyInfoDrawing.drawSpouseAddress();
   }
 
-  refPersonInfoLeadMcDrawing(){
+  refPersonInfoLeadMcDrawing() {
     let refPersonInfoDrawing = new refPersonInfoLeadMcDrawing(
       this.config,
       this.leadInfoMation
@@ -144,7 +143,7 @@ loansInfoLeadMcDrawing() {
     refPersonInfoDrawing.drawRef2Phone();
   }
 
-  contractLeadMcDrawing(){
+  contractLeadMcDrawing() {
     let contractDrawing = new contractLeadMcDrawing(
       this.config,
       this.leadInfoMation
@@ -154,7 +153,7 @@ loansInfoLeadMcDrawing() {
     contractDrawing.drawDisburmentFormBankBranch();
   }
 
-  AgentInfoLeadMcDrawing(){
+  AgentInfoLeadMcDrawing() {
     let AgentInfoDrawing = new AgentInfoLeadMcDrawing(
       this.config,
       this.leadInfoMation
@@ -174,8 +173,7 @@ loansInfoLeadMcDrawing() {
     AgentInfoDrawing.drawInternetExchangeSignup();
     AgentInfoDrawing.drawInsuranceCreditCard();
     AgentInfoDrawing.drawCardReleaseFee();
-    AgentInfoDrawing.drawAnualFee()
-
+    AgentInfoDrawing.drawAnualFee();
   }
 
   async exportToDir(filePath, callBack, params) {

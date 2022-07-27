@@ -38,7 +38,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   dateOfBirthPosition() {
     return {
-      x: 120,
+      x: 122,
       y: this.height - 131,
     };
   }
@@ -62,7 +62,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
       case "Độc thân":
         this.draw("X", x, y);
         break;
-      case "Đã kết hôn":
+      case "Lập gia đình":
         this.draw("X", 265, y);
         break;
       case "Ly thân":
@@ -89,9 +89,6 @@ export default class customerInfoLeadMcDrawing extends Builder {
   drawEducationStatus() {
     let { x, y } = this.educationStatusPos();
     switch (this.leadInfo["education_status"]) {
-      case "Phổ thông":
-        this.draw("X", x, y);
-        break;
       case "Trung cấp":
         this.draw("X", 203, y);
         break;
@@ -105,6 +102,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
         this.draw("X", 429, y);
         break;
       default:
+        this.draw("X", x, y);
         break;
     }
   }
@@ -112,7 +110,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   cmndPosition() {
     return {
       x: 190,
-      y: this.height - 175,
+      y: this.height - 176,
     };
   }
 
@@ -124,7 +122,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   phonePosition() {
     return {
       x: 137,
-      y: this.height - 190,
+      y: this.height - 191,
     };
   }
 
@@ -136,7 +134,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   emailPosition() {
     return {
       x: 362,
-      y: this.height - 190,
+      y: this.height - 191,
     };
   }
 
@@ -147,13 +145,14 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   currentAddressPosition() {
     return {
-      x: 187,
+      x: 150,
       y: this.height - 204,
     };
   }
 
   drawCurrentAddress() {
     let { x, y } = this.currentAddressPosition();
+    this.draw(this.leadInfo["detail_current_address"], x, y);
     let mypromise = new Promise((resolve) => {
       getCityDistrictWard(
         this.leadInfo["current_city"],
@@ -161,17 +160,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
         this.leadInfo["current_ward"]
       ).then((val) => {
         console.log(val);
-        this.draw(
-          this.leadInfo["detail_current_address"] +
-            "  " +
-            val[2] +
-            " " +
-            val[1] +
-            " " +
-            val[0],
-          x,
-          y
-        );
+        this.draw(val[2] + " " + val[1] + " " + val[0], x - 100, y - 18);
         resolve("drawCurrentAddress Done");
       });
     });
@@ -181,7 +170,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   residenceAddressPos() {
     return {
       x: 159,
-      y: this.height - 238,
+      y: this.height - 239,
     };
   }
 
@@ -241,7 +230,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   timeLivingPos() {
     return {
       x: 248,
-      y: this.height - 267,
+      y: this.height - 268,
     };
   }
 

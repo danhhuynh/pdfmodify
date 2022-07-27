@@ -13,8 +13,8 @@ mongoose.connect(process.env.MONGODB_URI);
 
 try {
   LeadMC.findOne({
-    status_render: STATUS["RENDER_ACCA"],
-    updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 3) },
+    status_render: STATUS["RENDER_ACCA_MC_VAYVON"],
+    // updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 3) },
   })
     .populate("customer")
     .exec((err, lead) => {
@@ -35,7 +35,8 @@ async function drawPdf(lead) {
   let dir = process.env.STORAGE_PATH_MC;
   let template = process.env.MC_VAYVON_TEMPLATE_PATH;
   let PdfDrawingLead = new PdfDrawingLeadMC(lead);
-  let file_name = "DN_" + lead["customer"]["cccd"] + ".pdf";
+  let file_name =
+    "CustomerInformationSheet__" + lead["customer"]["cccd"] + ".pdf";
   let pathFile = dir + lead["_id"] + "/" + file_name;
   let version = lead["defer_info"] ? lead["defer_info"]["version"] : null;
 
@@ -48,7 +49,6 @@ async function drawPdf(lead) {
     if (!fs.existsSync(dir + lead["_id"])) {
       fs.mkdirSync(dir + lead["_id"], { recursive: true });
     }
-    console.log(pathFile);
     PdfDrawingLead.exportToDir(pathFile, updateLead, {
       version,
       file_name,
@@ -64,13 +64,12 @@ function updateLead({ version, file_name, _id }) {
     (err, writeOpResult) => {
       LeadMC.updateOne(
         { _id: _id },
-        { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
+        { status_render: STATUS["RENDER_ACCA_MC_VAYVON"] },
         (err, writeOpResult) => {
           if (err) {
             res.send(err);
             return;
           }
-          console.log(writeOpResult);
           console.log({ message: "Successfully Updated" });
           process.exit();
         }
