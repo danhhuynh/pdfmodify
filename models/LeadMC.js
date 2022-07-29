@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 mongoose.pluralize(null);
-import "./customer";
+import "./customer.js";
 
 var MySchema = new Schema(
   {
