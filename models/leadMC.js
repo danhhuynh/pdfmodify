@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
+var Schema = mongoose.Schema;
 mongoose.pluralize(null);
 import "./customer.js";
 
-const LeadMCSchema = new Schema(
+var MySchema = new Schema(
   {
     locked: Boolean,
     customer: { type: Schema.Types.ObjectId, ref: "Customer" },
@@ -14,4 +14,4 @@ const LeadMCSchema = new Schema(
   }
 );
 
-export default mongoose.model("LeadMC", LeadMCSchema);
+export default mongoose.model("LeadMC", MySchema);

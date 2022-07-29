@@ -5,28 +5,28 @@ export default function genArrPoint(data) {
     data["disburment_form"] === "Nhận tiền mặt tại đại lý chi hộ"
       ? {
           text: "X",
-          x: 203,
-          y: 375,
+          x: 195,
+          y: 31 + 375,
         }
       : {
           text: "X",
-          x: 203,
-          y: 390,
+          x: 195,
+          y: 31 + 390,
         },
     data["disburment_form"] === "Chuyển khoản vào số tài khoản sau" && {
       text: data["disburment_form_bank_acc"],
       x: 400,
-      y: 390,
+      y: 31 + 390,
     },
     data["disburment_form"] === "Chuyển khoản vào số tài khoản sau" && {
       text: data["disburment_form_bank"],
       x: 160,
-      y: 403,
+      y: 31 + 403,
     },
     data["disburment_form"] === "Chuyển khoản vào số tài khoản sau" && {
       text: data["disburment_form_bank_branch"],
       x: 405,
-      y: 403,
+      y: 31 + 403,
     },
   ];
 }

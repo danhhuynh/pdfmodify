@@ -10,10 +10,14 @@ import {
 } from "../CoordinateUI/Section_4_UI.js";
 import Section_6_UI from "../CoordinateUI/Section_6_UI.js";
 import Section_7_UI from "../CoordinateUI/Section_7_UI.js";
-import Section_9_UI from "../CoordinateUI/Section_9_UI.js";
+import {
+  genArrPoint as Section_9_UI,
+  genArrPoint2 as Section_9_UI_2,
+} from "../CoordinateUI/Section_9_UI.js";
 import { getLeadRender } from "./mongooseConnect.js";
+import { parsingAddress } from "./redisCache.js";
 
-const TEMPLATE_PATH = "./file/Mcredit.pdf";
+const TEMPLATE_PATH = "./file/template_card.pdf";
 const OUTPUT_PATH = process.env.STORAGE_PATH_MC;
 const patchFont = "../Be_Vietnam_Pro/BeVietnamPro-Regular.ttf";
 
@@ -35,6 +39,8 @@ const generatePDF = async () => {
     leadData = leadData[0];
     const customer = leadData.customer;
     const data = { ...customer, ...leadData }; //id lead will override id of customer
+    //Redis
+    await parsingAddress(data);
     await drawProcess(data);
   } catch (error) {
     console.log("logged", error);
@@ -84,10 +90,16 @@ const drawProcess = async (data) => {
   const Section_9_Arr_Point = Section_9_UI(data);
   drawFromArrPoint(Section_9_Arr_Point, currPage, customFont);
 
+  //Section 9_2
+  //Page 3
+  currPage = pages[2];
+  const Section_9_Arr_Point_2 = Section_9_UI_2(data);
+  drawFromArrPoint(Section_9_Arr_Point_2, currPage, customFont);
+
   const pdfBytes = await result.save();
 
-  let dir = OUTPUT_PATH + data["_id"];
-  let file_name = "/CustomerInformationSheet_" + data["cccd"] + ".pdf";
+  let dir = OUTPUT_PATH + data["_id"] + "/";
+  let file_name = "CustomerInformationSheet_" + data["cccd"] + ".pdf";
 
   handleWriteFile(dir, file_name, pdfBytes);
 };

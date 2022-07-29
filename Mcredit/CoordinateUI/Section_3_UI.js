@@ -17,21 +17,21 @@ export default function genArrPoint(data) {
     {
       text: "X",
       x: CHUCVU[data["job_position"]],
-      y: 600,
+      y: 622,
     },
 
     //Line 3
     {
       text: data["company_name"],
       x: 270,
-      y: 613,
+      y: 613 + 22,
     },
 
     //Line 4
     {
       text: data["company_address"],
       x: 190,
-      y: 628,
+      y: 628 + 22,
     },
     {
       text:
@@ -41,44 +41,44 @@ export default function genArrPoint(data) {
         " " +
         data["work_city"],
       x: 80,
-      y: 640,
+      y: 640 + 22,
     },
 
     //Line 5
     {
       text: data["landline_company"],
       x: 180,
-      y: 655,
+      y: 655 + 22,
     },
 
     //Line 6
     {
       text: data["tax_code"],
       x: 280,
-      y: 670,
+      y: 670 + 22,
     },
 
     //Line 7
     {
       text: data["years_working"],
-      x: 225,
-      y: 685,
+      x: 210,
+      y: 685 + 22,
     },
     {
       text: data["months_working"],
-      x: 260,
-      y: 685,
+      x: 250,
+      y: 685 + 22,
     },
     // Line 8
     {
       text: data["main_income"],
-      x: 500,
-      y: 685,
+      x: 490,
+      y: 685 + 22,
     },
     // Line 9
     { text: "X", ...labour_contract[data["labour_contract"]] },
     // Line 10
 
-    { text: "X", x: salary_payment_channel[data["get_salary_from"]], y: 730 },
+    { text: "X", x: salary_payment_channel[data["get_salary_from"]], y: 750 },
   ];
 }
