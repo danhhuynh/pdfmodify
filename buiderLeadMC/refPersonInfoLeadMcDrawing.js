@@ -10,8 +10,8 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
 
   ref1NamePos() {
     return {
-      x: 210,
-      y: this.height - 291,
+      x: 210 + 10,
+      y: this.height - 4 - 291,
     };
   }
 
@@ -22,8 +22,8 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
 
   ref1TypePos() {
     return {
-      x: 275,
-      y: this.height - 306,
+      x: 275 + 12,
+      y: this.height - 4 - 306,
     };
   }
 
@@ -35,7 +35,7 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
   ref1PhonePos() {
     return {
       x: 433,
-      y: this.height - 306,
+      y: this.height - 4 - 306,
     };
   }
 
@@ -46,8 +46,8 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
 
   ref2NamePos() {
     return {
-      x: 212,
-      y: this.height - 322,
+      x: 212 + 10,
+      y: this.height - 4 - 322,
     };
   }
 
@@ -58,8 +58,8 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
 
   ref2TypePos() {
     return {
-      x: 272,
-      y: this.height - 334,
+      x: 272 + 15,
+      y: this.height - 5 - 334,
     };
   }
 
@@ -71,7 +71,7 @@ export default class refPersonInfoLeadMcDrawing extends Builder {
   ref2PhonePos() {
     return {
       x: 433,
-      y: this.height - 333,
+      y: this.height - 5 - 333,
     };
   }
 

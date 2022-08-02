@@ -10,33 +10,37 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   loanPurposePos() {
     return {
-      x: 140,
-      y: this.height - 321,
+      x: 140 + 7,
+      y: this.height + 13 - 321,
     };
   }
 
   drawLoanPurpose() {
     let { x, y } = this.loanPurposePos();
-    this.draw("X", x, y);
 
     switch (this.loanInfo["loan_purpose"]) {
-      case "Mua hàng":
+      case "Sửa nhà":
         this.draw("X", x, y);
         break;
       case "Khám/Chữa bệnh":
         this.draw("X", x + 68, y);
         break;
       case "Đi du lịch":
-        this.draw("X", x + 68 + 108, y);
+        this.draw("X", x + 68 + 108 + 5, y);
         break;
       case "Mua sắm":
-        this.draw("X", x + 68 + 108 + 58, y);
+        this.draw("X", x + 68 + 108 + 58 + 11, y);
         break;
       case "Nộp học phí":
-        this.draw("X", 435, y);
+        this.draw("X", 435 + 19, y);
         break;
       case "Nhu cầu khác":
-        this.draw("X", x + 68 + 108 + 58 + 62 + 75, y);
+        this.draw("X", x + 68 + 108 + 58 + 62 + 75 + 17, y);
+        this.draw(
+          this.loanInfo["other_loan_purpose"],
+          x + 68 + 108 + 58 + 62 + 75,
+          y
+        );
         break;
       default:
         break;
@@ -45,7 +49,7 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   loanPeriodPos() {
     return {
-      x: 145,
+      x: 145 + 10,
       y: this.height - 334,
     };
   }
@@ -58,7 +62,7 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   spVayPos() {
     return {
-      x: 144,
+      x: 144 + 10,
       y: this.height - 350,
     };
   }
@@ -70,7 +74,7 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   insuranceCreditCardPos() {
     return {
-      x: 276,
+      x: 276 + 10,
       y: this.height - 366,
     };
   }
@@ -82,15 +86,15 @@ export default class loansInfoLeadMcDrawing extends Builder {
         this.draw("X", x, y);
         break;
       case "No":
-        this.draw("X", x + 34, y);
+        this.draw("X", x + 33 * 2, y);
         break;
     }
   }
 
   loanAmountPos() {
     return {
-      x: 283,
-      y: this.height - 382,
+      x: 283 + 30,
+      y: this.height - 379,
     };
   }
 
@@ -101,8 +105,8 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   insuranceCompanyPos() {
     return {
-      x: 147,
-      y: this.height - 413,
+      x: 147 + 10,
+      y: this.height - 413 - 7,
     };
   }
 
@@ -113,8 +117,8 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   insuranceFeeChargePos() {
     return {
-      x: 465,
-      y: this.height - 413,
+      x: 465 + 20,
+      y: this.height - 413 - 7,
     };
   }
 
@@ -125,8 +129,8 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   insurancePeriodChargePos() {
     return {
-      x: 165,
-      y: this.height - 431,
+      x: 165 + 3,
+      y: this.height - 431 - 7,
     };
   }
 
@@ -134,22 +138,22 @@ export default class loansInfoLeadMcDrawing extends Builder {
     let { x, y } = this.insurancePeriodChargePos();
     switch (this.loanInfo["insurance_period_charge"]) {
       case "Hàng tháng":
-        this.draw("X", x - 1, y);
+        this.draw("X", x, y);
         break;
       case "Hàng quý":
-        this.draw("X", x + 78, y);
+        this.draw("X", x + 74, y);
         break;
       case "06 tháng":
-        this.draw("X", x + 78 + 68, y);
+        this.draw("X", x + 78 + 64, y);
         break;
       case "Hàng năm":
-        this.draw("X", x + 78 + 68 + 61, y);
+        this.draw("X", x + 78 + 68 + 60, y);
         break;
       default:
         this.draw("X", x + 78 + 68 + 61 + 63, y);
         this.draw(
           this.loanInfo["insurance_period_charge"],
-          x + 78 + 68 + 61 + 63 + 50,
+          x + 78 + 68 + 61 + 63 + 50 + 20,
           y
         );
         break;
@@ -158,8 +162,8 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   utilityBillPos() {
     return {
-      x: 445,
-      y: this.height - 459,
+      x: 25 + 445,
+      y: this.height - 7 - 459,
     };
   }
 
@@ -170,8 +174,8 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   averageAccountBalancePos() {
     return {
-      x: 377,
-      y: this.height - 474,
+      x: 25 + 377,
+      y: this.height - 7 - 474,
     };
   }
 
@@ -182,8 +186,8 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   csmBikePos() {
     return {
-      x: 417,
-      y: this.height - 490,
+      x: 25 + 417,
+      y: this.height - 7 - 490,
     };
   }
 
@@ -194,8 +198,8 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   contractIdPos() {
     return {
-      x: 115,
-      y: this.height - 521,
+      x: 10 + 115,
+      y: this.height - 7 - 521,
     };
   }
 
@@ -206,8 +210,8 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   contractCreditDateEndPos() {
     return {
-      x: 400,
-      y: this.height - 521,
+      x: 7 + 400,
+      y: this.height - 7 - 521,
     };
   }
 
@@ -217,14 +221,14 @@ export default class loansInfoLeadMcDrawing extends Builder {
       ? this.loanInfo["contract_credit_date_end"].split("/")
       : "";
     arrDate && this.draw(arrDate[0], x, y);
-    arrDate && this.draw(arrDate[1], x + 25, y);
-    arrDate && this.draw(arrDate[2], x + 50, y);
+    arrDate && this.draw(arrDate[1], x + 20, y);
+    arrDate && this.draw(arrDate[2], x + 45, y);
   }
 
   contractCreditPeriodPassPos() {
     return {
-      x: 177,
-      y: this.height - 536,
+      x: 12 + 177,
+      y: this.height - 7 - 536,
     };
   }
 
@@ -235,8 +239,8 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   contractCreditAmountPeriodPos() {
     return {
-      x: 478,
-      y: this.height - 536,
+      x: 20 + 478,
+      y: this.height - 7 - 536,
     };
   }
 

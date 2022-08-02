@@ -1,5 +1,5 @@
 import Builder from "./Builder.js";
-import { tsaCode } from "../utils/redis_cache.js";
+import { getCityDistrictWard, tsaCode } from "../utils/redis_cache.js";
 export default class personalIncomeLeadMcDrawing extends Builder {
   constructor(config, loanInfo) {
     const { page, font, fontSize, color } = config;
@@ -10,7 +10,7 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   jobTitlePos() {
     return {
-      x: 141,
+      x: 141 + 4,
       y: this.height - 572,
     };
   }
@@ -23,31 +23,31 @@ export default class personalIncomeLeadMcDrawing extends Builder {
         this.draw("X", x, y);
         break;
       case "Nhân viên công ty":
-        this.draw("X", 208, y);
+        this.draw("X", 208 + 6, y);
         break;
       case "Nội trợ":
-        this.draw("X", 308, y);
+        this.draw("X", 308 + 11, y);
         break;
       case "Công chức nhà nước":
-        this.draw("X", 361, y);
+        this.draw("X", 361 + 12, y);
         break;
       case "Quân nhân":
-        this.draw("X", 476, y);
+        this.draw("X", 476 + 14, y);
         break;
       case "Kinh doanh tự do":
         this.draw("X", 70, y - 14);
         break;
       case "Hưu trí":
-        this.draw("X", 164, y - 14);
+        this.draw("X", 164 + 3, y - 14);
         break;
       case "Hộ kinh doanh cá thể":
-        this.draw("X", 218, y - 14);
+        this.draw("X", 218 + 2, y - 14);
         break;
       case "Học sinh/sinh viên":
-        this.draw("X", 335, y - 14);
+        this.draw("X", 335 + 6, y - 14);
         break;
       case "Phụ việc, giúp việc":
-        this.draw("X", 439, y - 14);
+        this.draw("X", 439 + 11, y - 14);
         break;
       default:
         break;
@@ -65,13 +65,13 @@ export default class personalIncomeLeadMcDrawing extends Builder {
     let { x, y } = this.jobPositionPos();
     switch (this.leadInfo["job_position"]) {
       case "Cán bộ quản lý":
-        this.draw("X", x, y);
+        this.draw("X", x + 2, y);
         break;
       case "Trưởng nhóm/Quản đốc":
-        this.draw("X", 218, y);
+        this.draw("X", 218 + 3, y);
         break;
       case "Nhân viên/Chuyên viên":
-        this.draw("X", 362, y);
+        this.draw("X", 362 + 8, y);
         break;
 
       default:
@@ -81,7 +81,7 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   typeCompanyNamePos() {
     return {
-      x: 245,
+      x: 245 + 10,
       y: this.height - 611,
     };
   }
@@ -93,14 +93,25 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   companyAddressPos() {
     return {
-      x: 172,
+      x: 172 + 10,
       y: this.height - 626,
     };
   }
 
   drawCompanyAddress() {
     let { x, y } = this.companyAddressPos();
-    this.draw(this.leadInfo["type_company_address"], x, y);
+    this.draw(this.leadInfo["company_address"], x, y);
+    let mypromise = new Promise((resolve) => {
+      getCityDistrictWard(
+        this.leadInfo["work_city"],
+        this.leadInfo["work_district"],
+        this.leadInfo["work_ward"]
+      ).then((val) => {
+        this.draw(val[2] + " " + val[1] + " " + val[0], x - 100, y - 13);
+        resolve("drawSourceIncome Done");
+      });
+    });
+    global.promiseStore.push(mypromise);
   }
 
   companyPhonePos() {
@@ -117,7 +128,7 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   companyTaxPos() {
     return {
-      x: 255,
+      x: 285,
       y: this.height - 669,
     };
   }
@@ -129,7 +140,7 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   timeWorkingPos() {
     return {
-      x: 210,
+      x: 210 + 15,
       y: this.height - 683,
     };
   }
@@ -142,7 +153,7 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   mainIncomePos() {
     return {
-      x: 485,
+      x: 495,
       y: this.height - 683,
     };
   }
@@ -155,7 +166,7 @@ export default class personalIncomeLeadMcDrawing extends Builder {
   labourContractPos() {
     return {
       x: 133,
-      y: this.height - 699,
+      y: this.height - 698,
     };
   }
 
@@ -163,16 +174,16 @@ export default class personalIncomeLeadMcDrawing extends Builder {
     let { x, y } = this.labourContractPos();
     switch (this.leadInfo["labour_contract"]) {
       case "<1 năm (Thời vụ)":
-        this.draw("X", x, y);
+        this.draw("X", x + 2, y);
         break;
       case "<1 năm (Học việc, Thử việc)":
-        this.draw("X", 282, y);
+        this.draw("X", 276, y);
         break;
       case "1-3 năm":
-        this.draw("X", x, y - 13);
+        this.draw("X", x - 10, y - 13);
         break;
       case "Không xác định thời hạn":
-        this.draw("X", 283, y - 13);
+        this.draw("X", 258, y - 13);
         break;
       default:
         break;
@@ -181,7 +192,7 @@ export default class personalIncomeLeadMcDrawing extends Builder {
 
   getSalaryFromPos() {
     return {
-      x: 183,
+      x: 186,
       y: this.height - 729,
     };
   }
@@ -192,11 +203,11 @@ export default class personalIncomeLeadMcDrawing extends Builder {
       case "Tiền mặt":
         this.draw("X", x, y);
         break;
-      case "Qua tải khoản MB":
-        this.draw("X", 253, y);
+      case "Qua tài khoản MB":
+        this.draw("X", 255, y);
         break;
       case "TK ngân hàng":
-        this.draw("X", 366, y);
+        this.draw("X", 369, y);
         break;
 
       default:

@@ -10,8 +10,8 @@ export default class contractLeadMcDrawing extends Builder {
 
   disburmentFormPos() {
     return {
-      x: 195,
-      y: this.height - 369,
+      x: 195 + 8,
+      y: this.height - 6 - 369,
     };
   }
 
@@ -22,12 +22,14 @@ export default class contractLeadMcDrawing extends Builder {
         this.draw("X", x, y);
         break;
       case "Chuyển khoản vào số tài khoản sau":
-        this.draw("X", x, this.height - 383);
+        this.draw("X", x, this.height - 6 - 383);
         this.draw(
           this.loanInfo["disburment_form_bank_acc"],
-          x + 180,
-          this.height - 383
+          x + 180 + 20,
+          this.height - 5 - 383
         );
+        this.drawdisburmentFormBank();
+        this.drawDisburmentFormBankBranch();
         break;
       default:
         break;
@@ -36,8 +38,8 @@ export default class contractLeadMcDrawing extends Builder {
 
   disburmentFormBankPos() {
     return {
-      x: 158,
-      y: this.height - 395,
+      x: 160,
+      y: this.height - 6 - 395,
     };
   }
 
@@ -48,8 +50,8 @@ export default class contractLeadMcDrawing extends Builder {
 
   disburmentFormBankBranchPos() {
     return {
-      x: 403,
-      y: this.height - 395,
+      x: 405,
+      y: this.height - 6 - 395,
     };
   }
 

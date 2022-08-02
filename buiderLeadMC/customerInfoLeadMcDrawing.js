@@ -10,8 +10,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
   // move 1 row + 28
   namePosition() {
     return {
-      x: 120,
-      y: this.height - 115,
+      x: +10 + 120,
+      y: this.height + 6 - 115,
     };
   }
 
@@ -23,23 +23,23 @@ export default class customerInfoLeadMcDrawing extends Builder {
   genderPosition() {
     return {
       x: 391,
-      y: this.height - 132,
+      y: this.height + 6 - 132,
     };
   }
 
   drawGender() {
     let { x, y } = this.genderPosition();
     if (this.leadInfo["gender"] == "Male") {
-      this.draw("X", x, y);
+      this.draw("X", 4 + x, y);
     } else {
-      this.draw("X", 449, y);
+      this.draw("X", 4 + 449, y);
     }
   }
 
   dateOfBirthPosition() {
     return {
-      x: 122,
-      y: this.height - 131,
+      x: +10 + 122,
+      y: this.height + 6 - 131,
     };
   }
 
@@ -51,7 +51,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   maritalStatusPos() {
     return {
       x: 186,
-      y: this.height - 147,
+      y: this.height + 6 - 147,
     };
   }
 
@@ -60,19 +60,19 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
     switch (this.leadInfo["marital_status"]) {
       case "Độc thân":
-        this.draw("X", x, y);
+        this.draw("X", 4 + x, y);
         break;
       case "Lập gia đình":
-        this.draw("X", 265, y);
+        this.draw("X", 4 + 265, y);
         break;
       case "Ly thân":
-        this.draw("X", 356, y);
+        this.draw("X", 4 + 356, y);
         break;
       case "Li hôn":
-        this.draw("X", 428, y);
+        this.draw("X", 4 + 428, y);
         break;
       case "Góa":
-        this.draw("X", 491, y);
+        this.draw("X", 4 + 491, y);
         break;
       default:
         break;
@@ -82,7 +82,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   educationStatusPos() {
     return {
       x: 124,
-      y: this.height - 162,
+      y: this.height + 5 - 162,
     };
   }
 
@@ -90,27 +90,27 @@ export default class customerInfoLeadMcDrawing extends Builder {
     let { x, y } = this.educationStatusPos();
     switch (this.leadInfo["education_status"]) {
       case "Trung cấp":
-        this.draw("X", 203, y);
+        this.draw("X", 4 + 203, y);
         break;
       case "Cao đẳng":
-        this.draw("X", 276, y);
+        this.draw("X", 4 + 276, y);
         break;
       case "Đại học":
-        this.draw("X", 356, y);
+        this.draw("X", 4 + 356, y);
         break;
       case "Sau đại học":
-        this.draw("X", 429, y);
+        this.draw("X", 4 + 429, y);
         break;
       default:
-        this.draw("X", x, y);
+        this.draw("X", 4 + x, y);
         break;
     }
   }
 
   cmndPosition() {
     return {
-      x: 190,
-      y: this.height - 176,
+      x: +10 + 190,
+      y: this.height + 6 - 176,
     };
   }
 
@@ -121,8 +121,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   phonePosition() {
     return {
-      x: 137,
-      y: this.height - 191,
+      x: +10 + 137,
+      y: this.height + 6 - 191,
     };
   }
 
@@ -133,8 +133,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   emailPosition() {
     return {
-      x: 362,
-      y: this.height - 191,
+      x: +10 + 362,
+      y: this.height + 6 - 191,
     };
   }
 
@@ -145,8 +145,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   currentAddressPosition() {
     return {
-      x: 150,
-      y: this.height - 204,
+      x: +20 + 150,
+      y: this.height + 4 - 204,
     };
   }
 
@@ -159,8 +159,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
         this.leadInfo["current_district"],
         this.leadInfo["current_ward"]
       ).then((val) => {
-        console.log(val);
-        this.draw(val[2] + " " + val[1] + " " + val[0], x - 100, y - 18);
+        this.draw(val[2] + " " + val[1] + " " + val[0], x - 80, y - 16);
         resolve("drawCurrentAddress Done");
       });
     });
@@ -169,8 +168,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   residenceAddressPos() {
     return {
-      x: 159,
-      y: this.height - 239,
+      x: +10 + 159,
+      y: this.height + 6 - 239,
     };
   }
 
@@ -180,7 +179,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
       this.leadInfo["type_of_residence_address"] ==
       "Giống với địa chỉ nơi ở hiện tại"
     ) {
-      this.draw("X", x, y);
+      this.draw("X", x - 5, y);
       let mypromise = new Promise((resolve) => {
         getCityDistrictWard(
           this.leadInfo["current_city"],
@@ -195,14 +194,14 @@ export default class customerInfoLeadMcDrawing extends Builder {
               " " +
               val[0],
             71,
-            this.height - 251
+            this.height + 6 - 251
           );
           resolve("drawingResidenceAddress Done");
         });
       });
       global.promiseStore.push(mypromise);
     } else {
-      this.draw("X", x + 146, y);
+      this.draw("X", x + 144, y);
       let mypromise = new Promise((resolve) => {
         getCityDistrictWard(
           this.leadInfo["residence_city"],
@@ -218,7 +217,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
               " " +
               val[0],
             71,
-            this.height - 252
+            this.height + 6 - 252
           );
           resolve("drawingResidenceAddress Done");
         });
@@ -229,8 +228,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   timeLivingPos() {
     return {
-      x: 248,
-      y: this.height - 268,
+      x: +12 + 248,
+      y: this.height + 6 - 268,
     };
   }
 
@@ -242,8 +241,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
   accommodationStatusPos() {
     return {
-      x: 162,
-      y: this.height - 285,
+      x: 165,
+      y: this.height + 6 - 285,
     };
   }
 
@@ -254,16 +253,16 @@ export default class customerInfoLeadMcDrawing extends Builder {
         this.draw("X", x, y);
         break;
       case "Thuê":
-        this.draw("X", 230, y);
+        this.draw("X", 230 - 7, y);
         break;
-      case "Ở nhờ":
-        this.draw("X", 278, y);
+      case "Nhà người thân":
+        this.draw("X", 278 - 7, y);
         break;
       case "Sống với bố mẹ":
-        this.draw("X", 335, y);
+        this.draw("X", 335 - 11, y);
         break;
       case "Tại đơn vị đóng quân":
-        this.draw("X", 433, y);
+        this.draw("X", 433 - 10, y);
         break;
       default:
         break;

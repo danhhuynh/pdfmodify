@@ -10,8 +10,8 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   saleNamePos() {
     return {
-      x: 119,
-      y: this.height - 602,
+      x: 119 + 5,
+      y: this.height - 602 + 55,
     };
   }
 
@@ -22,8 +22,8 @@ export default class AgentInfoLeadMcDrawing extends Builder {
 
   saleCodePos() {
     return {
-      x: 138,
-      y: this.height - 618,
+      x: 138 + 5,
+      y: this.height - 618 + 55,
     };
   }
 
@@ -35,7 +35,7 @@ export default class AgentInfoLeadMcDrawing extends Builder {
   salePhonePos() {
     return {
       x: 392,
-      y: this.height - 618,
+      y: this.height - 618 + 55,
     };
   }
 
@@ -44,34 +44,34 @@ export default class AgentInfoLeadMcDrawing extends Builder {
     this.draw(this.loanInfo["salephone"], x, y);
   }
 
-  lineOfCreditPos() {
+  notePos() {
     return {
-      x: 196,
-      y: this.height - 736,
+      x: 50,
+      y: this.height - 736 + 57,
     };
   }
 
-  drawLineOfCredit() {
-    let { x, y } = this.lineOfCreditPos();
-    this.draw(this.loanInfo["line_of_credit"], x, y);
+  drawNote() {
+    let { x, y } = this.notePos();
+    this.draw(this.leadInfo["detail_note"], x, y);
   }
 
-  lineOfCreditByWordPos() {
-    return {
-      x: 351,
-      y: this.height - 736,
-    };
-  }
+  // lineOfCreditByWordPos() {
+  //   return {
+  //     x: 351,
+  //     y: this.height - 736 + 55,
+  //   };
+  // }
 
-  drawlineOfCreditByWord() {
-    let { x, y } = this.lineOfCreditByWordPos();
-    this.draw(this.loanInfo["line_of_credit_by_word"], x, y);
-  }
+  // drawlineOfCreditByWord() {
+  //   let { x, y } = this.lineOfCreditByWordPos();
+  //   this.draw(this.loanInfo["line_of_credit_by_word"], x, y);
+  // }
 
   // creditReceiveMethodPos() {
   //   return {
   //     x: 50,
-  //     y: this.height - 762,
+  //     y: this.height - 762+55,
   //   };
   // }
 
@@ -95,7 +95,7 @@ export default class AgentInfoLeadMcDrawing extends Builder {
   // secureQuestionPos() {
   //   return {
   //     x: 48,
-  //     y: this.height - 58,
+  //     y: this.height - 58+55,
   //   };
   // }
 
@@ -119,7 +119,7 @@ export default class AgentInfoLeadMcDrawing extends Builder {
   // internetExchangeSignupPos() {
   //   return {
   //     x: 186,
-  //     y: this.height - 84,
+  //     y: this.height - 84+55,
   //   };
   // }
 
@@ -140,7 +140,7 @@ export default class AgentInfoLeadMcDrawing extends Builder {
   // insuranceCreditCardPos() {
   //   return {
   //     x: 149,
-  //     y: this.height - 110,
+  //     y: this.height - 110+55,
   //   };
   // }
 
@@ -161,7 +161,7 @@ export default class AgentInfoLeadMcDrawing extends Builder {
   // cardReleaseFeePos() {
   //   return {
   //     x: 143,
-  //     y: this.height - 124,
+  //     y: this.height - 124+55,
   //   };
   // }
 
@@ -183,7 +183,7 @@ export default class AgentInfoLeadMcDrawing extends Builder {
   // anualFeePos() {
   //   return {
   //     x: 142,
-  //     y: this.height - 138,
+  //     y: this.height - 138+55,
   //   };
   // }
 

@@ -149,8 +149,6 @@ export default class PdfDrawingLeadMC {
       this.leadInfoMation
     );
     contractDrawing.drawDisburmentForm();
-    contractDrawing.drawdisburmentFormBank();
-    contractDrawing.drawDisburmentFormBankBranch();
   }
 
   AgentInfoLeadMcDrawing() {
@@ -161,19 +159,18 @@ export default class PdfDrawingLeadMC {
     AgentInfoDrawing.drawSaleName();
     AgentInfoDrawing.drawSaleCode();
     AgentInfoDrawing.drawSalePhone();
-    AgentInfoDrawing.drawLineOfCredit();
-    AgentInfoDrawing.drawlineOfCreditByWord();
-    AgentInfoDrawing.drawCreditReceiveMethod();
-    this.jumpPage_2();
-    AgentInfoDrawing = new AgentInfoLeadMcDrawing(
-      this.config,
-      this.leadInfoMation
-    );
-    AgentInfoDrawing.drawSecureQuestion();
-    AgentInfoDrawing.drawInternetExchangeSignup();
-    AgentInfoDrawing.drawInsuranceCreditCard();
-    AgentInfoDrawing.drawCardReleaseFee();
-    AgentInfoDrawing.drawAnualFee();
+    AgentInfoDrawing.drawNote();
+    // AgentInfoDrawing.drawCreditReceiveMethod();
+    // this.jumpPage_2();
+    // AgentInfoDrawing = new AgentInfoLeadMcDrawing(
+    //   this.config,
+    //   this.leadInfoMation
+    // );
+    // AgentInfoDrawing.drawSecureQuestion();
+    // AgentInfoDrawing.drawInternetExchangeSignup();
+    // AgentInfoDrawing.drawInsuranceCreditCard();
+    // AgentInfoDrawing.drawCardReleaseFee();
+    // AgentInfoDrawing.drawAnualFee();
   }
 
   async exportToDir(filePath, callBack, params) {

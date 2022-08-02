@@ -22,18 +22,18 @@ export default class familyInfoLeadMcDrawing extends Builder {
         this.draw("X", x, y);
         break;
       case "Bố/mẹ (Nếu là sinh viên)":
-        this.draw("X", 215, y);
+        this.draw("X", 223, y);
         break;
       default:
-        this.draw("X", 347, y);
-        this.draw(this.leadInfo["relationship_with_borrower"], 420, y);
+        this.draw("X", 362, y);
+        this.draw(this.leadInfo["relationship_with_borrower"], 441, y);
         break;
     }
   }
 
   spouseNamePos() {
     return {
-      x: 175,
+      x: 178,
       y: this.height - 58,
     };
   }
@@ -57,7 +57,7 @@ export default class familyInfoLeadMcDrawing extends Builder {
 
   spouseCmndPos() {
     return {
-      x: 441,
+      x: 465,
       y: this.height - 71,
     };
   }
@@ -69,7 +69,7 @@ export default class familyInfoLeadMcDrawing extends Builder {
 
   spousePhonePos() {
     return {
-      x: 175,
+      x: 177,
       y: this.height - 87,
     };
   }
@@ -81,7 +81,7 @@ export default class familyInfoLeadMcDrawing extends Builder {
 
   spouseAddressPos() {
     return {
-      x: 144,
+      x: 150,
       y: this.height - 103,
     };
   }
@@ -94,7 +94,7 @@ export default class familyInfoLeadMcDrawing extends Builder {
         this.draw("X", x, y);
         break;
       default:
-        this.draw("X", 326, y);
+        this.draw("X", 338, y);
         this.draw(this.leadInfo["spouse_address"], x - 60, y - 14);
         break;
     }
