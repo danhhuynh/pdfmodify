@@ -8,6 +8,7 @@ import { STATUS } from "./config/constant.js";
 import { systemFields } from "./constant/system_fields.js";
 import LeadMafc from "./models/leadMafc.js";
 import DocLeadMafc from "./models/documentMafc.js";
+import * as common from "./utils/common.js";
 
 mongoose.connect(process.env.MONGODB_URI);
 const getLeadMAFC = new Promise((resolve, reject) => {
@@ -63,7 +64,7 @@ getLeadMAFC.then(
     console.log(lead);
     let documents = lead["documents"];
     let lead_id = lead["_id"].toString();
-    let path = process.env.STORAGE_PATH + lead_id;
+    let path = process.env.STORAGE_PATH;
     let writeStream = "";
     //documents of lead
     documents.forEach((ele) => {
@@ -73,7 +74,15 @@ getLeadMAFC.then(
         }
       }
       let file_out =
-        path + "/" + ele["code"] + "_" + lead["_id"].toString() + ".pdf";
+        path +
+        common.currMonthYearString() +
+        "/" +
+        lead_id +
+        "/" +
+        ele["code"] +
+        "_" +
+        lead["_id"].toString() +
+        ".pdf";
       const doc = new PDFDocument({
         margin: 5,
       });

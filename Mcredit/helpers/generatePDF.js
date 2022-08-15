@@ -98,7 +98,13 @@ const drawProcess = async (data) => {
 
   const pdfBytes = await result.save();
 
-  let dir = OUTPUT_PATH + data["_id"] + "/";
+  let dir = OUTPUT_PATH;
+  //Folder by month
+  dir +=
+    new Date().getMonth().toString() +
+    "-" +
+    new Date().getUTCFullYear().toString();
+  dir += +data["_id"] + "/";
   let file_name = "CustomerInformationSheet_" + data["cccd"] + ".pdf";
 
   handleWriteFile(dir, file_name, pdfBytes);

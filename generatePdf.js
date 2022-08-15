@@ -5,6 +5,8 @@ const require = createRequire(import.meta.url);
 var fs = require("fs");
 require("dotenv").config();
 
+import * as common from "./utils/common.js";
+
 import LeadMafc from "./models/leadMafc.js";
 import DocLeadMafc from "./models/documentMafc.js";
 import { systemFields } from "./constant/system_fields.js";
@@ -65,19 +67,18 @@ async function drawPdf(lead) {
   let template = process.env.TEMPLATE_PATH;
   let pdfDrawing = new PdfDrawing(lead);
   let file_name = "DN_" + lead["customer"]["cccd"] + ".pdf";
-  let pathFile = dir + lead["_id"] + "/" + file_name;
+  let pathFile = dir + common.currMonthYearString() + "/" + lead["_id"] + "/";
   let version = lead["defer_info"] ? lead["defer_info"]["version"] : null;
 
   await pdfDrawing.init(template);
   pdfDrawing.startDraw();
   await delay(1000);
-  console.log(global.promiseStore);
   Promise.all(global.promiseStore).then((values) => {
-    console.log(values);
-    if (!fs.existsSync(dir + lead["_id"])) {
-      fs.mkdirSync(dir + lead["_id"], { recursive: true });
+    console.log(fs.existsSync(pathFile));
+    if (!fs.existsSync(pathFile)) {
+      fs.mkdirSync(pathFile, { recursive: true });
     }
-    pdfDrawing.exportToDir(pathFile, updateLead, {
+    pdfDrawing.exportToDir(pathFile + file_name, updateLead, {
       version,
       file_name,
       _id: lead["_id"],
@@ -88,7 +89,7 @@ async function drawPdf(lead) {
 function updateLead({ version, file_name, _id }) {
   DocLeadMafc.updateOne(
     { lead_id: _id, code: "DN", version: version },
-    { file_path: [file_name] },
+    { file_path: [common.currMonthYearString() + "/" + _id + "/" + file_name] },
     (err, writeOpResult) => {
       LeadMafc.updateOne(
         { _id: _id },
