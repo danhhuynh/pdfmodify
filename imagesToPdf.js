@@ -86,14 +86,16 @@ getLeadMAFC.then(
       const doc = new PDFDocument({
         margin: 5,
       });
-      console.log(file_out);
+      
       writeStream = fs.createWriteStream(file_out);
       doc.pipe(writeStream);
       ele["file_path"].forEach((file) => {
-        let filePath = path + "/" + file;
-        if (!fs.existsSync(filePath)) {
+        let filePath = path + file;
+        const {size: file1Size} = fs.statSync(filePath);
+        if (!fs.existsSync(filePath) || file1Size === 0) {
           return;
         }
+        
         doc.image(filePath, {
           fit: [600, 600],
           align: "center",
