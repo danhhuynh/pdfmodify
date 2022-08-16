@@ -90,7 +90,7 @@ getLeadMAFC.then(
       writeStream = fs.createWriteStream(file_out);
       doc.pipe(writeStream);
       ele["file_path"].forEach((file) => {
-        let filePath = path + file;
+        let filePath = file.includes(lead_id) ?  path + file : path + lead_id + "/" + file;
         const {size: file1Size} = fs.statSync(filePath);
         if (!fs.existsSync(filePath) || file1Size === 0) {
           return;
