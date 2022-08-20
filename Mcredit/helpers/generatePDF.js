@@ -14,8 +14,14 @@ import {
   genArrPoint as Section_9_UI,
   genArrPoint2 as Section_9_UI_2,
 } from "../CoordinateUI/Section_9_UI.js";
-import { getLeadRender } from "./mongooseConnect.js";
+import {
+  getLeadRender,
+  updateDocumentPath,
+  updateLead,
+} from "./mongooseConnect.js";
 import { parsingAddress } from "./redisCache.js";
+import { currMonthYearString } from "../../utils/common.js";
+import { STATUS } from "../../config/constant.js";
 
 const TEMPLATE_PATH = "./file/template_card.pdf";
 const OUTPUT_PATH = process.env.STORAGE_PATH_MC;
@@ -100,14 +106,27 @@ const drawProcess = async (data) => {
 
   let dir = OUTPUT_PATH;
   //Folder by month
-  dir +=
-    new Date().getMonth().toString() +
-    "-" +
-    new Date().getUTCFullYear().toString();
-  dir += +data["_id"] + "/";
+  let stored_path = currMonthYearString() + "/" + data["_id"] + "/";
   let file_name = "CustomerInformationSheet_" + data["cccd"] + ".pdf";
 
-  handleWriteFile(dir, file_name, pdfBytes);
+  try {
+    await handleWriteFile(dir + stored_path, file_name, pdfBytes);
+
+    let result = await updateDocumentPath(
+      data["_id"],
+      data["check_list_version"],
+      stored_path + file_name
+    );
+    await updateLead(
+      { _id: data["_id"] },
+      { status_render: STATUS.RENDER_ACCA_MC_CARD_COMPLETE }
+    );
+    console.log({ message: "Successfully Render" }, result);
+    process.exit();
+  } catch (error) {
+    console.log(err);
+    Sentry.captureException(error);
+  }
 };
 
 function drawFromArrPoint(arrPoint, currPage, customFont) {

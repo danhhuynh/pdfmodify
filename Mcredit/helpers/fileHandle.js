@@ -4,12 +4,11 @@ import { PDFDocument } from "pdf-lib";
 
 export const handleWriteFile = (dir, file_name, pdfBytes) => {
   checkDirAndCreate(dir);
-  fs.writeFile(dir + file_name, pdfBytes, (err) => {
-    if (err) {
-      throw err;
-    }
-    console.log("Done");
-    process.exit();
+  return new Promise(function (resolve, reject) {
+    fs.writeFile(dir + file_name, pdfBytes, (err) => {
+      if (err) reject(err);
+      else resolve("Done");
+    });
   });
 };
 

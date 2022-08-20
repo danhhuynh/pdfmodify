@@ -15,7 +15,7 @@ var MySchema = new Schema(
     file_path: [String],
     updated_by: String,
     file_type: String,
-    version: String,
+    version: Number,
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

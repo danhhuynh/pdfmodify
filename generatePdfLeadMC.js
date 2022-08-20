@@ -4,12 +4,20 @@ import { STATUS } from "./config/constant.js";
 const require = createRequire(import.meta.url);
 var fs = require("fs");
 require("dotenv").config();
+import * as Sentry from "@sentry/node";
 
 import LeadMC from "./models/LeadMC.js";
 import DocumentMC from "./models/DocumentMc.js";
+import { currMonthYearString } from "./utils/common.js";
 
 var mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI);
+
+Sentry.init({
+  environment: process.env.NODE_ENV,
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+});
 
 try {
   LeadMC.findOne({
@@ -27,6 +35,7 @@ try {
     });
 } catch (error) {
   console.log(error);
+  Sentry.captureException(error);
 }
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -35,9 +44,13 @@ async function drawPdf(lead) {
   let dir = process.env.STORAGE_PATH_MC;
   let template = process.env.MC_VAYVON_TEMPLATE_PATH;
   let PdfDrawingLead = new PdfDrawingLeadMC(lead);
+
+  //Folder by month
   let file_name =
     "CustomerInformationSheet__" + lead["customer"]["cccd"] + ".pdf";
-  let pathFile = dir + lead["_id"] + "/" + file_name;
+  let pathFile =
+    dir + currMonthYearString() + "/" + lead["_id"] + "/" + file_name;
+  let stored_path = currMonthYearString() + "/" + lead["_id"] + "/" + file_name;
   let version = lead["defer_info"] ? lead["defer_info"]["version"] : null;
 
   await PdfDrawingLead.init(template);
@@ -51,23 +64,24 @@ async function drawPdf(lead) {
     }
     PdfDrawingLead.exportToDir(pathFile, updateLead, {
       version,
-      file_name,
+      stored_path,
       _id: lead["_id"],
     });
   });
 }
 
-function updateLead({ version, file_name, _id }) {
+function updateLead({ version, stored_path, _id }) {
   DocumentMC.updateOne(
     { lead_id: _id, code: "CustomerInformationSheet", version: version },
-    { file_path: [file_name] },
+    { file_path: [stored_path] },
     (err, writeOpResult) => {
       LeadMC.updateOne(
         { _id: _id },
-        { status_render: STATUS["RENDER_ACCA_MC_VAYVON"] },
+        { status_render: STATUS["RENDER_ACCA_MC_VAYVON_COMPLETE"] },
         (err, writeOpResult) => {
           if (err) {
-            res.send(err);
+            console.log(err);
+            Sentry.captureException(error);
             return;
           }
           console.log({ message: "Successfully Updated" });
