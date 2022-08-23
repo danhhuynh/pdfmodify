@@ -190,7 +190,7 @@ export default class PdfDrawingLeadMC {
     fs.writeFile(filePath, pdfBytes, (err) => {
       if (err) {
         console.error(err);
-        Sentry.captureException(error);
+        Sentry.captureException(err);
         return;
       }
       console.log("File Created");
