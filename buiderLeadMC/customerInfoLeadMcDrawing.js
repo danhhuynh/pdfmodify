@@ -32,7 +32,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
     if (this.leadInfo["gender"] == "Male") {
       this.draw("X", 4 + x, y);
     } else {
-      this.draw("X", 4 + 449, y);
+      this.draw("X", 4 + 442, y);
     }
   }
 
@@ -51,7 +51,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   maritalStatusPos() {
     return {
       x: 186,
-      y: this.height + 6 - 147,
+      y: this.height + 6 - 148,
     };
   }
 
@@ -60,19 +60,19 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
     switch (this.leadInfo["marital_status"]) {
       case "Độc thân":
-        this.draw("X", 4 + x, y);
+        this.draw("X", 2 + x, y);
         break;
       case "Lập gia đình":
-        this.draw("X", 4 + 265, y);
+        this.draw("X", 4 + 263, y);
         break;
       case "Ly thân":
         this.draw("X", 4 + 356, y);
         break;
-      case "Li hôn":
-        this.draw("X", 4 + 428, y);
+      case "Li dị":
+        this.draw("X", 4 + 426, y);
         break;
       case "Góa":
-        this.draw("X", 4 + 491, y);
+        this.draw("X", 4 + 489, y);
         break;
       default:
         break;
