@@ -81,7 +81,7 @@ export default class loansInfoLeadMcDrawing extends Builder {
 
   drawInsuranceCreditCard() {
     let { x, y } = this.insuranceCreditCardPos();
-    switch (this.loanInfo["insurance_credit_card"]) {
+    switch (this.loanInfo["insurance_signup"]) {
       case "Yes":
         this.draw("X", x, y);
         break;
@@ -130,7 +130,7 @@ export default class loansInfoLeadMcDrawing extends Builder {
   insurancePeriodChargePos() {
     return {
       x: 165 + 3,
-      y: this.height - 431 - 7,
+      y: this.height - 431 - 6,
     };
   }
 
@@ -141,7 +141,7 @@ export default class loansInfoLeadMcDrawing extends Builder {
         this.draw("X", x, y);
         break;
       case "Hàng quý":
-        this.draw("X", x + 74, y);
+        this.draw("X", x + 79, y);
         break;
       case "06 tháng":
         this.draw("X", x + 78 + 64, y);
