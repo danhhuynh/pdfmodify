@@ -23,9 +23,9 @@ import { parsingAddress } from "./redisCache.js";
 import { currMonthYearString } from "../../utils/common.js";
 import { STATUS } from "../../config/constant.js";
 
-const TEMPLATE_PATH = "./file/template_card.pdf";
+const TEMPLATE_PATH = process.env.CARD_TYPE_PATH + "Mcredit/file/template_card.pdf";
 const OUTPUT_PATH = process.env.STORAGE_PATH_MC;
-const patchFont = "../Be_Vietnam_Pro/BeVietnamPro-Regular.ttf";
+const patchFont = process.env.CARD_TYPE_PATH + "Be_Vietnam_Pro/BeVietnamPro-Regular.ttf";
 
 const generatePDF = async () => {
   let leadData = [];
