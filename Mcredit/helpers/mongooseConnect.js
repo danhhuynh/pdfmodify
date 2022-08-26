@@ -1,7 +1,7 @@
 import { createRequire } from "module";
 import { STATUS } from "../../config/constant.js";
 import DocumentMc from "../../models/DocumentMc.js";
-import LeadMC from "../../models/leadMC.js";
+import LeadMC from "../../models/LeadMC.js";
 const require = createRequire(import.meta.url);
 var mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI);
