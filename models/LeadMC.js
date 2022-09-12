@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 mongoose.pluralize(null);
-import "./customer";
+import "./customer.js";
 
 var MySchema = new Schema(
   {
     locked: Boolean,
+    status_render: String,
     customer: { type: Schema.Types.ObjectId, ref: "Customer" },
   },
   {

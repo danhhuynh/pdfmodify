@@ -13,7 +13,6 @@ export async function getValKeyRedis(key) {
   client.on("error", (err) => console.log("Redis Client Error", err));
 
   await client.connect();
-  console.log(key);
   const value = await client.get(key);
   client.quit();
   if (value === null) {
@@ -103,7 +102,6 @@ export async function setKeyValRedis(key, value) {
   client.on("error", (err) => console.log("Redis Client Error", err));
 
   await client.connect();
-  console.log(key, value);
   let result = await client.set(key, value, function (err, reply) {
     return reply;
   });

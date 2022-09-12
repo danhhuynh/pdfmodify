@@ -117,7 +117,7 @@ export default class PdfDrawing {
     const pdfBytes = await this.pdfDoc.save();
     fs.writeFile(filePath, pdfBytes, (err) => {
       if (err) {
-        console.error(err);
+        console.error("Error Catch", err);
         return;
       }
       console.log("File Created");
