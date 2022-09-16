@@ -22,7 +22,7 @@ Sentry.init({
 try {
   LeadMC.findOne({
     status_render: STATUS["RENDER_ACCA_MC_VAYVON"],
-    // updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 3) },
+    updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 3) },
   })
     .populate("customer")
     .exec((err, lead) => {
