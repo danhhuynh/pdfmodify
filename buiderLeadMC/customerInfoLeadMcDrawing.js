@@ -63,7 +63,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
         this.draw("X", 2 + x, y);
         break;
       case "Lập gia đình":
-        this.draw("X", 4 + 263, y);
+        this.draw("X", 6 + 263, y);
         break;
       case "Ly thân":
         this.draw("X", 4 + 356, y);
