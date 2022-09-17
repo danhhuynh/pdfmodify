@@ -14,8 +14,8 @@ export async function getValKeyRedis(key) {
 
   await client.connect();
   const value = await client.get(key);
-  client.quit();
-  if (value === null) {
+  await client.quit(); 
+  if (value === null) { 
     if (key.includes(process.env.WARD_PREFIX)) {
       let val_of_key = key.split("::")[1];
       let ward_name = await wardModel.find({ zipcode: val_of_key });
@@ -105,6 +105,6 @@ export async function setKeyValRedis(key, value) {
   let result = await client.set(key, value, function (err, reply) {
     return reply;
   });
-  client.quit();
+  await client.quit();
   return result;
 }
