@@ -22,7 +22,7 @@ Sentry.init({
 try {
   LeadMC.findOne({
     status_render: STATUS["RENDER_ACCA_MC_VAYVON"],
-    updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 3) },
+    // updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 3) },
   })
     .populate("customer")
     .exec((err, lead) => {
@@ -59,8 +59,9 @@ async function drawPdf(lead) {
   console.log(global.promiseStore);
   Promise.all(global.promiseStore).then((values) => {
     console.log(values);
-    if (!fs.existsSync(dir + lead["_id"])) {
-      fs.mkdirSync(dir + lead["_id"], { recursive: true });
+    if (!fs.existsSync( dir + currMonthYearString() + "/" + lead["_id"])) {
+      fs.mkdirSync(dir + currMonthYearString() + "/" + lead["_id"], { recursive: true });
+      console.log('create dir')
     }
     PdfDrawingLead.exportToDir(pathFile, updateLead, {
       version,
