@@ -14,7 +14,7 @@ export async function getValKeyRedis(key) {
 
   await client.connect();
   const value = await client.get(key);
-  await client.quit(); 
+  await client.disconnect(); 
   if (value === null) { 
     if (key.includes(process.env.WARD_PREFIX)) {
       let val_of_key = key.split("::")[1];
@@ -105,6 +105,6 @@ export async function setKeyValRedis(key, value) {
   let result = await client.set(key, value, function (err, reply) {
     return reply;
   });
-  await client.quit();
+  await client.disconnect();
   return result;
 }
