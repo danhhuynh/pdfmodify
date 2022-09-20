@@ -22,7 +22,7 @@ Sentry.init({
 try {
   LeadMC.findOne({
     status_render: STATUS["RENDER_ACCA_MC_VAYVON"],
-     updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 5) },
+    updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 5) },
   })
     .populate("customer")
     .exec((err, lead) => {
@@ -51,7 +51,7 @@ async function drawPdf(lead) {
   let pathFile =
     dir + currMonthYearString() + "/" + lead["_id"] + "/" + file_name;
   let stored_path = currMonthYearString() + "/" + lead["_id"] + "/" + file_name;
-  let version = lead["defer_info"] ? lead["defer_info"]["version"] : null;
+  let version = lead["check_list_version"];
 
   await PdfDrawingLead.init(template);
   PdfDrawingLead.startDraw();
