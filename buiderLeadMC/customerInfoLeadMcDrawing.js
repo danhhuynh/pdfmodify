@@ -30,7 +30,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
   drawGender() {
     let { x, y } = this.genderPosition();
     if (this.leadInfo["gender"] == "Male") {
-      this.draw("X", 4 + x, y);
+      this.draw("X", x, y);
     } else {
       this.draw("X", 4 + 442, y);
     }
@@ -60,7 +60,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
 
     switch (this.leadInfo["marital_status"]) {
       case "Độc thân":
-        this.draw("X", 2 + x, y);
+        this.draw("X", 4 + x, y);
         break;
       case "Lập gia đình":
         this.draw("X", 6 + 263, y);
@@ -155,9 +155,9 @@ export default class customerInfoLeadMcDrawing extends Builder {
     this.draw(this.leadInfo["detail_current_address"], x, y);
     let mypromise = new Promise((resolve) => {
       getCityDistrictWard(
-        this.leadInfo["current_city"],
-        this.leadInfo["current_district"],
-        this.leadInfo["current_ward"]
+        this.leadInfo["residence_city"],
+          this.leadInfo["residence_district"],
+          this.leadInfo["residence_ward"]
       ).then((val) => {
         this.draw(val[2] + " " + val[1] + " " + val[0], x - 80, y - 16);
         resolve("drawCurrentAddress Done");
@@ -182,9 +182,9 @@ export default class customerInfoLeadMcDrawing extends Builder {
       this.draw("X", x - 5, y);
       let mypromise = new Promise((resolve) => {
         getCityDistrictWard(
-          this.leadInfo["current_city"],
-          this.leadInfo["current_district"],
-          this.leadInfo["current_ward"]
+            this.leadInfo["residence_city"],
+          this.leadInfo["residence_district"],
+          this.leadInfo["residence_ward"]
         ).then((val) => {
           this.draw(
             this.leadInfo["detail_current_address"] +
@@ -204,9 +204,9 @@ export default class customerInfoLeadMcDrawing extends Builder {
       this.draw("X", x + 144, y);
       let mypromise = new Promise((resolve) => {
         getCityDistrictWard(
-          this.leadInfo["residence_city"],
-          this.leadInfo["residence_district"],
-          this.leadInfo["residence_ward"]
+             this.leadInfo["current_city"],
+          this.leadInfo["current_district"],
+          this.leadInfo["current_ward"]
         ).then((val) => {
           this.draw(
             this.leadInfo["detail_residence_address"] +
