@@ -7,7 +7,7 @@ var mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI);
 
 export const getLeadRender = () =>
-  LeadMC.find({ status_render: STATUS.RENDER_ACCA_MC_CARD, updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 3) } })
+  LeadMC.find({ status_render: STATUS.RENDER_ACCA_MC_CARD, updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 5) } })
     .populate("customer")
     .lean();
 
