@@ -149,11 +149,26 @@ export default class customerInfoLeadMcDrawing extends Builder {
       y: this.height + 4 - 204,
     };
   }
-
+  // thuong tru
   drawCurrentAddress() {
     let { x, y } = this.currentAddressPosition();
-    this.draw(this.leadInfo["detail_current_address"], x, y);
+    
     let mypromise = new Promise((resolve) => {
+      if (
+      this.leadInfo["type_of_residence_address"] ==
+      "Giống với địa chỉ nơi ở hiện tại"
+    ) {
+        this.draw(this.leadInfo["detail_current_address"], x, y);
+        getCityDistrictWard(
+        this.leadInfo["current_city"],
+          this.leadInfo["current_district"],
+          this.leadInfo["current_ward"]
+      ).then((val) => {
+        this.draw(val[2] + " " + val[1] + " " + val[0], x - 80, y - 16);
+        resolve("drawCurrentAddress Done");
+      });
+    }else{
+      this.draw(this.leadInfo["detail_residence_address"], x, y);
       getCityDistrictWard(
         this.leadInfo["residence_city"],
           this.leadInfo["residence_district"],
@@ -162,6 +177,8 @@ export default class customerInfoLeadMcDrawing extends Builder {
         this.draw(val[2] + " " + val[1] + " " + val[0], x - 80, y - 16);
         resolve("drawCurrentAddress Done");
       });
+    }
+      
     });
     global.promiseStore.push(mypromise);
   }
@@ -182,9 +199,9 @@ export default class customerInfoLeadMcDrawing extends Builder {
       this.draw("X", x - 5, y);
       let mypromise = new Promise((resolve) => {
         getCityDistrictWard(
-            this.leadInfo["residence_city"],
-          this.leadInfo["residence_district"],
-          this.leadInfo["residence_ward"]
+               this.leadInfo["current_city"],
+          this.leadInfo["current_district"],
+          this.leadInfo["current_ward"]
         ).then((val) => {
           this.draw(
             this.leadInfo["detail_current_address"] +
@@ -209,7 +226,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
           this.leadInfo["current_ward"]
         ).then((val) => {
           this.draw(
-            this.leadInfo["detail_residence_address"] +
+            this.leadInfo["detail_current_address"] +
               " " +
               val[2] +
               " " +
