@@ -20,7 +20,7 @@ export default function genArrPoint(data) {
     },
     // Line 3
     {
-      text: data["product"],
+      text: "CARD " + data["product"],
       x: 150,
       y: y + 350,
     },
@@ -108,17 +108,23 @@ export default function genArrPoint(data) {
       y: y - 9 + 545,
     },
     {
-      text: data["contract_credit_date_end"] && data["contract_credit_date_end"].split("/")[0],
+      text:
+        data["contract_credit_date_end"] &&
+        data["contract_credit_date_end"].split("/")[0],
       x: 405,
       y: y - 9 + 530,
     },
     {
-      text: data["contract_credit_date_end"] && data["contract_credit_date_end"].split("/")[1],
+      text:
+        data["contract_credit_date_end"] &&
+        data["contract_credit_date_end"].split("/")[1],
       x: 425,
       y: y - 9 + 530,
     },
     {
-      text: data["contract_credit_date_end"] && data["contract_credit_date_end"].split("/")[2],
+      text:
+        data["contract_credit_date_end"] &&
+        data["contract_credit_date_end"].split("/")[2],
       x: 450,
       y: y - 9 + 530,
     },
