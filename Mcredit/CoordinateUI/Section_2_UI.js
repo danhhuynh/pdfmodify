@@ -20,7 +20,7 @@ export default function genArrPoint(data) {
     },
     // Line 3
     {
-      text: "CARD " + data["product"],
+      text: "CASH CARD - " + data["product"],
       x: 150,
       y: y + 350,
     },
