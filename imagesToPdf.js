@@ -96,11 +96,15 @@ getLeadMAFC.then(
           return;
         }
         
-        doc.image(filePath, {
+        try{
+   doc.image(filePath, {
           fit: [600, 600],
           align: "center",
           valign: "center",
         });
+        }catch(err){
+          console.log(err)
+        }
         if (file !== ele["file_path"][ele["file_path"].length - 1]) {
           doc.addPage();
         }
