@@ -91,10 +91,14 @@ getLeadMAFC.then(
       ele["file_path"].forEach((file) => {
         let filePath = file.includes(lead_id) ?  path + file : path + lead_id + "/" + file;
        
-        if (!fs.existsSync(filePath) || file1Size === 0) {
+        if (!fs.existsSync(filePath)) {
           return;
         }
-         const {size: file1Size} = fs.statSync(filePath);
+          const {size: file1Size} = fs.statSync(filePath);
+        if(file1Size === 0){
+          return;
+        }
+
         console.log(filePath, file1Size)
         try{
    doc.image(filePath, {
