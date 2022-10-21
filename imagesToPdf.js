@@ -61,7 +61,6 @@ getLeadMAFC.then(
     }
     let lead = leads[0];
     let promiseStore = [];
-    console.log(lead);
     let documents = lead["documents"];
     let lead_id = lead["_id"].toString();
     let path = process.env.STORAGE_PATH;
@@ -86,16 +85,17 @@ getLeadMAFC.then(
       const doc = new PDFDocument({
         margin: 5,
       });
-      
+    
       writeStream = fs.createWriteStream(file_out);
       doc.pipe(writeStream);
       ele["file_path"].forEach((file) => {
         let filePath = file.includes(lead_id) ?  path + file : path + lead_id + "/" + file;
-        const {size: file1Size} = fs.statSync(filePath);
+       
         if (!fs.existsSync(filePath) || file1Size === 0) {
           return;
         }
-        
+         const {size: file1Size} = fs.statSync(filePath);
+        console.log(filePath, file1Size)
         try{
    doc.image(filePath, {
           fit: [600, 600],
@@ -105,6 +105,8 @@ getLeadMAFC.then(
         }catch(err){
           console.log(err)
         }
+     
+        console.log("DONE")
         if (file !== ele["file_path"][ele["file_path"].length - 1]) {
           doc.addPage();
         }
