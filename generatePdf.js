@@ -18,7 +18,7 @@ const getLeadMAFC = new Promise((resolve, reject) => {
     {
       $match: {
         status_render: STATUS["RENDER_ACCA"],
-        updated_at: { $lte: new Date(Date.now() - 1000 * 60 * 2) },
+        updated_at: { $lte: new Date(Date.now() - 1000 * 60) },
       },
     },
     { $addFields: { customer_obj_id: { $toObjectId: "$customer_id" } } },
@@ -47,10 +47,9 @@ try {
         console.log("Empty Data");
         process.exit();
       }
-      leads.forEach((lead) => {
-        lead["customer"] = lead["customer"][0];
-        drawPdf(lead);
-      });
+      let lead = leads[0];
+      lead["customer"] = lead["customer"][0];
+      drawPdf(lead);
     },
     (err) => {
       throw err;
