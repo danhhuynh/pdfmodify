@@ -13,55 +13,63 @@ import { systemFields } from "./constant/system_fields.js";
 
 var mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI);
-const getLeadMAFC = new Promise((resolve, reject) => {
-  LeadMafc.aggregate([
-    {
-      $match: {
-        status_render: STATUS["RENDER_ACCA"],
-        updated_at: { $lte: new Date(Date.now() - 1000 * 60) },
+const getLeadMAFC = async function () {
+  return new Promise((resolve, reject) => {
+    LeadMafc.aggregate([
+      {
+        $match: {
+          status_render: STATUS["RENDER_ACCA"],
+          updated_at: { $lte: new Date(Date.now() - 1000 * 20) },
+        },
       },
-    },
-    { $addFields: { customer_obj_id: { $toObjectId: "$customer_id" } } },
-    {
-      $lookup: {
-        from: "Customer",
-        localField: "customer_obj_id",
-        foreignField: "_id",
-        as: "customer",
-        pipeline: [{ $project: systemFields }],
+      { $addFields: { customer_obj_id: { $toObjectId: "$customer_id" } } },
+      {
+        $lookup: {
+          from: "Customer",
+          localField: "customer_obj_id",
+          foreignField: "_id",
+          as: "customer",
+          pipeline: [{ $project: systemFields }],
+        },
       },
-    },
-    { $project: systemFields },
-  ]).exec((err, lead) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    resolve(lead);
-  });
-});
-try {
-  getLeadMAFC.then(
-    (leads) => {
-      if (!leads || leads.length === 0) {
-        console.log("Empty Data");
-        process.exit();
+      { $project: systemFields },
+    ]).exec((err, lead) => {
+      if (err) {
+        console.log(err);
+        return;
       }
-      let lead = leads[0];
-      lead["customer"] = lead["customer"][0];
-      drawPdf(lead);
-    },
-    (err) => {
-      throw err;
-    }
-  );
-} catch (error) {
-  console.log(error);
+      console.log(lead);
+      resolve(lead);
+    });
+  });
+};
+
+function start() {
+  try {
+    getLeadMAFC().then(
+      (leads) => {
+        if (!leads || leads.length === 0) {
+          console.log("Empty Data");
+          retry();
+          return;
+        }
+        let lead = leads[0];
+        lead["customer"] = lead["customer"][0] || lead["customer"];
+        drawPdf(lead);
+      },
+      (err) => {
+        throw err;
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-global.promiseStore = [];
+
 async function drawPdf(lead) {
+  global.promiseStore = [];
   let dir = process.env.STORAGE_PATH;
   let template = process.env.TEMPLATE_PATH;
   let pdfDrawing = new PdfDrawing(lead);
@@ -95,14 +103,23 @@ function updateLead({ version, file_name, _id }) {
         { status_render: STATUS["RENDER_ACCA_COMPLETE"] },
         (err, writeOpResult) => {
           if (err) {
-            res.send(err);
+            console.log(err);
             return;
           }
           console.log(writeOpResult);
           console.log({ message: "Successfully Updated" });
-          process.exit();
+          retry();
         }
       );
     }
   );
 }
+
+function retry() {
+  setTimeout(() => {
+    console.log("Retry!!!");
+    start();
+  }, 1000);
+}
+
+start();
