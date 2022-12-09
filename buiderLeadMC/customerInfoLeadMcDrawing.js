@@ -72,7 +72,7 @@ export default class customerInfoLeadMcDrawing extends Builder {
         this.draw("X", 4 + 426, y);
         break;
       case "Góa bụa":
-        this.draw("X", 4 + 489, y);
+        this.draw("X", 2 + 489, y);
         break;
       default:
         break;
