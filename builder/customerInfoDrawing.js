@@ -119,6 +119,10 @@ export default class CustomerInfoDrawing extends Builder {
 
   drawMaritalStatus() {
     let { x, y } = this.maritalStatusPos();
+    console.log(this.leadInfo["marital_status"])
+    if(!this.leadInfo["marital_status"]){
+      return;
+    }
     switch (this.leadInfo["marital_status"]) {
       case "Độc thân":
         this.draw("X", x, y);
@@ -134,6 +138,8 @@ export default class CustomerInfoDrawing extends Builder {
         break;
 
       default:
+        this.draw("X", x + 94 * 4, y);
+        this.draw(this.leadInfo["marital_status"], x + 106 * 4, y)
         break;
     }
   }
